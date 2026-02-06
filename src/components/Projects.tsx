@@ -1,12 +1,30 @@
 import { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ExternalLink, Github, Shield, Globe, Smartphone } from 'lucide-react';
+import { ExternalLink, Github, Shield, Globe, Smartphone, FileText } from 'lucide-react';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+
+interface Project {
+  title: string;
+  category: string;
+  description: string;
+  technologies: string[];
+  icon: any;
+  color: string;
+  demoLink?: string;
+  pdfPath?: string;
+}
 
 const Projects = () => {
   const [activeFilter, setActiveFilter] = useState('all');
 
-  const projects = [
+  const projects: Project[] = [
     {
       title: 'SANIOS',
       category: 'web',
@@ -14,7 +32,8 @@ const Projects = () => {
       technologies: ['PHP', 'HTML/CSS', 'JavaScript', 'SQL'],
       icon: Globe,
       color: 'primary',
-      demoLink: 'https://ambu17.com/nouveausanios', // Placeholder demo link
+      demoLink: 'https://ambu17.com/nouveausanios/index.php',
+      pdfPath: '/Présentationsanios.pdf',
     },
     {
       title: 'HONEY PAWN',
@@ -150,9 +169,32 @@ const Projects = () => {
                       >
                         <a href={project.demoLink} target="_blank" rel="noopener noreferrer">
                           <ExternalLink className="w-4 h-4 mr-2 group-hover:scale-110 transition-transform" />
-                          
+                          Site en ligne
                         </a>
                       </Button>
+                    )}
+                    {project.pdfPath && (
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            className="flex-1 border-primary/30 hover:border-primary hover:bg-primary/10 group"
+                          >
+                            <FileText className="w-4 h-4 mr-2 group-hover:scale-110 transition-transform" />
+                            Présentation
+                          </Button>
+                        </DialogTrigger>
+                        <DialogContent className="max-w-7xl w-[95vw] h-[95vh] p-0 gap-0 overflow-hidden bg-background border-primary/30">
+                          <div className="w-full h-full">
+                            <iframe
+                              src={`${import.meta.env.BASE_URL}${project.pdfPath?.startsWith('/') ? project.pdfPath.slice(1) : project.pdfPath}`}
+                              className="w-full h-full border-none"
+                              title={`${project.title} Presentation`}
+                            />
+                          </div>
+                        </DialogContent>
+                      </Dialog>
                     )}
                   </div>
                 </div>

@@ -1,6 +1,6 @@
 # Portfolio Cybersécurité
 
-Ce projet est mon **portfolio de cybersécurité**, réalisé avec React, TypeScript, Vite, TailwindCSS et shadcn-ui. Il présente mes compétences, projets, expériences ainsi que mes réalisations dans le domaine de la cyber.
+Ce projet est mon **portfolio de cybersécurité**, réalisé avec React, TypeScript, Vite, TailwindCSS et shadcn-ui. Il présente mes compétences, projets, expériences ainsi que mes réalisations dans le domaine de la cyber et web.
 
 ## 🚀 Installation & Démarrage
 

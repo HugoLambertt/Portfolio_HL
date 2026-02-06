@@ -15,7 +15,7 @@ const Footer = () => {
 
           {/* Copyright */}
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <span>© 2025 Hugo Lambert</span>
+            <span>© 2026 Hugo Lambert</span>
             <span className="flex items-center gap-1">
              
             </span>
