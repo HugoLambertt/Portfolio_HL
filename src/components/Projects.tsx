@@ -9,13 +9,24 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 
+interface Project {
+  title: string;
+  category: string;
+  description: string;
+  technologies: string[];
+  icon: any;
+  color: string;
+  demoLink?: string;
+  presentationLink?: string;
+}
+
 const Projects = () => {
   const [activeFilter, setActiveFilter] = useState('all');
   const [selectedPdf, setSelectedPdf] = useState<{ url: string; title: string } | null>(null);
 
-  const projects = [
+  const projects: Project[] = [
     {
-      title: 'SANIOS',
+      title: 'SANIOStest',
       category: 'web',
       description: 'Application web pour la gestion gestion des ambulances (invenaire et désinfection), avec 4 profils utilisateurs ( Régulation, Ambulancier, Mécanicien et Administrateur)',
       technologies: ['PHP', 'HTML/CSS', 'JavaScript', 'SQL', 'API', 'Android'],
