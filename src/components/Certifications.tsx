@@ -4,24 +4,38 @@ const Certifications = () => {
   const certifications = [
     {
       name: 'CNIL',
-      title: 'Protection des Données',
+      title: 'Atelier RGPD',
       icon: Shield,
       color: 'from-blue-500 to-cyan-500',
-      description: 'Sensibilisation RGPD'
+      description: ''
     },
     {
-      name: 'ANSSI',
-      title: 'Cybersécurité',
+      name: 'SecNumAcademy ANSSI',
+      title: 'Bonnes pratiques de sécurité',
       icon: Lock,
       color: 'from-purple-500 to-pink-500',
-      description: 'Bonnes pratiques de sécurité'
+      description: 'Obtenue le 28 Décembre 2025'
     },
     {
-      name: 'HackTheBox',
-      title: 'Pentesting',
+      name: 'CJCA',
+      title: 'Hack The Box',
       icon: FileCheck,
       color: 'from-green-500 to-emerald-500',
-      description: 'Certification en préparation'
+      description: 'Certification en cours'
+    },
+        {
+      name: 'CDSA',
+      title: 'Hack The Box',
+      icon: FileCheck,
+      color: 'from-green-500 to-emerald-500',
+      description: 'Certification en cours'
+    },
+            {
+      name: 'CPTS',
+      title: 'Hack The Box',
+      icon: FileCheck,
+      color: 'from-green-500 to-emerald-500',
+      description: 'Certification en cours'
     },
 
   ];
@@ -36,11 +50,11 @@ const Certifications = () => {
         {/* Section Header */}
         <div className="text-center mb-16 animate-fade-up">
           <h2 className="text-3xl md:text-5xl font-display font-bold mb-4 glow-blue">
-            Certifications & Formations
+            Certifications
           </h2>
           <div className="w-24 h-1 bg-gradient-cyber mx-auto rounded-full shadow-neon-blue mb-6" />
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Certifications et parcours de formation en cybersécurité
+            Certifications en cybersécurité
           </p>
         </div>
 

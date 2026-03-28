@@ -1,26 +1,34 @@
 import { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ExternalLink, Github, Shield, Globe, Smartphone } from 'lucide-react';
+import { ExternalLink, Github, Shield, Globe, Smartphone, FileText, X } from 'lucide-react';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 const Projects = () => {
   const [activeFilter, setActiveFilter] = useState('all');
+  const [selectedPdf, setSelectedPdf] = useState<{ url: string; title: string } | null>(null);
 
   const projects = [
     {
       title: 'SANIOS',
       category: 'web',
       description: 'Application web pour la gestion gestion des ambulances (invenaire et désinfection), avec 4 profils utilisateurs ( Régulation, Ambulancier, Mécanicien et Administrateur)',
-      technologies: ['PHP', 'HTML/CSS', 'JavaScript', 'SQL'],
+      technologies: ['PHP', 'HTML/CSS', 'JavaScript', 'SQL', 'API', 'Android'],
       icon: Globe,
       color: 'primary',
       demoLink: 'https://ambu17.com/nouveausanios', // Placeholder demo link
+      presentationLink: './Présentationsanios.pdf',
     },
     {
       title: 'HONEY PAWN',
       category: 'cyber',
       description: 'Honeypawn est un laboratoire de cybersécurité simulant un système d’information complet avec serveurs, réseau sécurisé, SIEM, IDS/IPS et honeypots. Il permet de tester des attaques et d’évaluer l’efficacité des défenses dans un environnement réaliste.',
-      technologies: ['Python', 'Nmap', 'HTML/CSS', 'REACT','JS','Docker'],
+      technologies: ['Cybersécurité', 'Infrastructure'],
       icon: Shield,
       color: 'secondary',
       
@@ -42,15 +50,16 @@ const Projects = () => {
       color: 'primary',
       
     },
-    /*{
-      title: 'Lab OSINT Automation',
+    {
+      title: 'CTF ORION - NOM DE CODE : BELLATRIX',
       category: 'cyber',
-      description: 'Suite d\'outils automatisés pour la collecte d\'informations OSINT (Maltego, Sherlock, TheHarvester).',
-      technologies: ['Python', 'Maltego', 'APIs'],
+      description: 'Enquête immersive de 3 jours visant à démanteler une milice séparatiste et localiser la pilote "Lynx" retenue en otage. Un défi mêlant analyse de l\'information, cyber-renseignement et investigation de terrain numérique.',
+      technologies: ['Campagnes de désinformation', 'Investigations numériques', 'Recherches en sources ouvertes'],
       icon: Shield,
       color: 'secondary',
+      presentationLink: './CTFBELLATRIX.pdf',
     },
-    {
+    /*{
       title: 'Portfolio Cyberpunk 3D',
       category: 'web',
       description: 'Ce portfolio immersif avec animations 3D, effets néon et mini-jeux de cybersécurité.',
@@ -150,8 +159,19 @@ const Projects = () => {
                       >
                         <a href={project.demoLink} target="_blank" rel="noopener noreferrer">
                           <ExternalLink className="w-4 h-4 mr-2 group-hover:scale-110 transition-transform" />
-                          
+                          Visiter
                         </a>
+                      </Button>
+                    )}
+                    {project.presentationLink && (
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="flex-1 border-primary/30 hover:border-primary hover:bg-primary/10 group"
+                        onClick={() => setSelectedPdf({ url: project.presentationLink!, title: project.title })}
+                      >
+                        <FileText className="w-4 h-4 mr-2 group-hover:scale-110 transition-transform" />
+                        Présentation
                       </Button>
                     )}
                   </div>
@@ -161,6 +181,21 @@ const Projects = () => {
           </div>
         </div>
       </div>
+
+      {/* PDF Viewer Modal */}
+      <Dialog open={!!selectedPdf} onOpenChange={(open) => !open && setSelectedPdf(null)}>
+        <DialogContent className="max-w-[95vw] w-[95vw] h-[95vh] p-0 overflow-hidden bg-card/95 backdrop-blur-md border-primary/50 shadow-neon-blue">
+          <div className="w-full h-full px-4 md:px-12 lg:px-24 py-12 flex items-center justify-center">
+            {selectedPdf && (
+              <iframe
+                src={`${selectedPdf.url}#toolbar=0&navpanes=0&scrollbar=1`}
+                className="w-full h-full border border-primary/20 rounded shadow-2xl bg-white"
+                title={selectedPdf.title}
+              />
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
     </section>
   );
 };

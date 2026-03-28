@@ -15,7 +15,7 @@ const Footer = () => {
 
           {/* Copyright */}
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <span>© 2025 Hugo Lambert</span>
+            <span>© 2026 Hugo Lambert</span>
             <span className="flex items-center gap-1">
              
             </span>
@@ -23,7 +23,6 @@ const Footer = () => {
 
           {/* Tech Stack */}
           <div className="text-xs text-muted-foreground">
-            <span className="font-mono">Construit avec React, TypeScript et Tailwind</span>
           </div>
         </div>
       </div>
