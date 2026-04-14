@@ -54,7 +54,7 @@ const Certifications = () => {
           </h2>
           <div className="w-24 h-1 bg-gradient-cyber mx-auto rounded-full shadow-neon-blue mb-6" />
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Certifications en cybersécurité
+            
           </p>
         </div>
 

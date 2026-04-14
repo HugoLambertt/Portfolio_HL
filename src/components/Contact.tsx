@@ -3,7 +3,7 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Mail, Phone, MapPin, Github, Linkedin, Send } from 'lucide-react';
+import { Mail, Phone, MapPin, Github, Linkedin, Send, Shield } from 'lucide-react';
 import { toast } from 'sonner';
 import emailjs from '@emailjs/browser';
 
@@ -42,30 +42,6 @@ const Contact = () => {
       });
   };
 
-  const contactInfo = [
-    {
-      icon: Mail,
-      label: 'Email',
-      value: 'hugo.lambert23@sfr.fr',
-      href: 'mailto:hugo.lambert23@sfr.fr',
-      color: 'primary',
-    },
-    {
-      icon: Phone,
-      label: 'Téléphone',
-      value: '06 17 51 72 02',
-      href: 'tel:+33617517202',
-      color: 'secondary',
-    },
-    {
-      icon: MapPin,
-      label: 'Localisation',
-      value: 'La Rochelle, 17000',
-      href: '#',
-      color: 'accent',
-    },
-  ];
-
   const socialLinks = [
     {
       icon: Github,
@@ -78,6 +54,12 @@ const Contact = () => {
       href: 'https://www.linkedin.com/in/hugoo-lambert',
       color: 'secondary',
       label: 'Linkedin',
+    },
+    {
+      icon: Shield,
+      href: 'https://profile.hackthebox.com/profile/019c86c8-7c5c-7307-8cbc-55bfc2836639',
+      color: 'accent',
+      label: 'Hack The Box',
     },
   ];
 
@@ -98,113 +80,94 @@ const Contact = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* Contact Info */}
-            <div className="space-y-6">
-              {/* Contact Cards */}
-              {contactInfo.map((info, index) => (
-                <Card
-                  key={index}
-                  className="p-6 bg-card/50 backdrop-blur-sm border-primary/30 hover:border-primary/50 transition-all duration-300 hover-float animate-fade-up"
-                  style={{ animationDelay: `${index * 0.1}s` }}
-                >
-                  <a
-                    href={info.href}
-                    className="flex items-center gap-4 group"
-                  >
-                    <div className={`p-4 bg-${info.color}/10 rounded-lg group-hover:scale-110 transition-transform duration-300`}>
-                      <info.icon className={`w-6 h-6 text-${info.color}`} />
-                    </div>
-                    <div>
-                      <p className="text-sm text-muted-foreground mb-1">{info.label}</p>
-                      <p className="font-semibold group-hover:text-primary transition-colors">
-                        {info.value}
-                      </p>
-                    </div>
-                  </a>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Social Links */}
+            <div className="lg:col-span-1 space-y-6">
+              <div className="animate-fade-up h-full">
+                <Card className="p-8 bg-card/50 backdrop-blur-sm border-primary/30 h-full flex flex-col justify-center">
+                  <h3 className="text-2xl font-display font-bold mb-8 text-center glow-blue">Mes Réseaux</h3>
+                  <div className="grid grid-cols-1 gap-4">
+                    {socialLinks.map((social, index) => (
+                      <a
+                        key={index}
+                        href={social.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={`p-4 bg-card/50 backdrop-blur-sm border border-${social.color}/30 hover:border-${social.color}/50 rounded-xl transition-all duration-300 hover-float group flex items-center gap-4`}
+                      >
+                        <div className={`p-3 bg-${social.color}/10 rounded-lg group-hover:scale-110 transition-transform`}>
+                          <social.icon className={`w-6 h-6 text-${social.color}`} />
+                        </div>
+                        <span className="text-lg font-medium group-hover:text-primary transition-colors">{social.label}</span>
+                      </a>
+                    ))}
+                  </div>
                 </Card>
-              ))}
-
-              {/* Social Links */}
-              <div className="animate-fade-up" style={{ animationDelay: '0.3s' }}>
-                <h3 className="text-xl font-display font-bold mb-4">Réseaux sociaux</h3>
-                <div className="flex gap-4">
-                  {socialLinks.map((social, index) => (
-                    <a
-                      key={index}
-                      href={social.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={`flex-1 p-4 bg-card/50 backdrop-blur-sm border border-${social.color}/30 hover:border-${social.color}/50 rounded-lg transition-all duration-300 hover-float group`}
-                    >
-                      <div className="flex flex-col items-center gap-2">
-                        <social.icon className={`w-6 h-6 text-${social.color} group-hover:scale-110 transition-transform`} />
-                        <span className="text-sm font-medium">{social.label}</span>
-                      </div>
-                    </a>
-                  ))}
-                </div>
               </div>
             </div>
 
             {/* Contact Form */}
-            <Card className="p-8 bg-card/50 backdrop-blur-sm border-primary/30 animate-fade-up" style={{ animationDelay: '0.4s' }}>
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div>
-                  <label className="block text-sm font-medium mb-2">Nom complet</label>
-                  <Input
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    placeholder="Votre nom"
-                    required
-                    className="bg-background/50 border-primary/30 focus:border-primary"
-                  />
-                </div>
+            <div className="lg:col-span-2">
+              <Card className="p-8 bg-card/50 backdrop-blur-sm border-primary/30 animate-fade-up" style={{ animationDelay: '0.2s' }}>
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <label className="block text-sm font-medium mb-2">Nom complet</label>
+                      <Input
+                        value={formData.name}
+                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                        placeholder="Votre nom"
+                        required
+                        className="bg-background/50 border-primary/30 focus:border-primary h-12"
+                      />
+                    </div>
 
-                <div>
-                  <label className="block text-sm font-medium mb-2">Email</label>
-                  <Input
-                    type="email"
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    placeholder="votre@email.com"
-                    required
-                    className="bg-background/50 border-primary/30 focus:border-primary"
-                  />
-                </div>
+                    <div>
+                      <label className="block text-sm font-medium mb-2">Email</label>
+                      <Input
+                        type="email"
+                        value={formData.email}
+                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        placeholder="votre@email.com"
+                        required
+                        className="bg-background/50 border-primary/30 focus:border-primary h-12"
+                      />
+                    </div>
+                  </div>
 
-                <div>
-                  <label className="block text-sm font-medium mb-2">Sujet</label>
-                  <Input
-                    value={formData.subject}
-                    onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                    placeholder="Sujet du message"
-                    required
-                    className="bg-background/50 border-primary/30 focus:border-primary"
-                  />
-                </div>
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Sujet</label>
+                    <Input
+                      value={formData.subject}
+                      onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                      placeholder="Sujet du message"
+                      required
+                      className="bg-background/50 border-primary/30 focus:border-primary h-12"
+                    />
+                  </div>
 
-                <div>
-                  <label className="block text-sm font-medium mb-2">Message</label>
-                  <Textarea
-                    value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    placeholder="Votre message..."
-                    rows={5}
-                    required
-                    className="bg-background/50 border-primary/30 focus:border-primary resize-none"
-                  />
-                </div>
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Message</label>
+                    <Textarea
+                      value={formData.message}
+                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                      placeholder="Votre message..."
+                      rows={5}
+                      required
+                      className="bg-background/50 border-primary/30 focus:border-primary resize-none"
+                    />
+                  </div>
 
-                <Button
-                  type="submit"
-                  className="w-full bg-primary hover:bg-primary-glow text-primary-foreground shadow-neon-blue font-semibold text-lg py-6 group"
-                >
-                  <Send className="w-5 h-5 mr-2 group-hover:translate-x-1 transition-transform" />
-                  Envoyer le message
-                </Button>
-              </form>
-            </Card>
+                  <Button
+                    type="submit"
+                    className="w-full bg-primary hover:bg-primary-glow text-primary-foreground shadow-neon-blue font-semibold text-lg py-6 group"
+                  >
+                    <Send className="w-5 h-5 mr-2 group-hover:translate-x-1 transition-transform" />
+                    Envoyer le message
+                  </Button>
+                </form>
+              </Card>
+            </div>
           </div>
         </div>
       </div>

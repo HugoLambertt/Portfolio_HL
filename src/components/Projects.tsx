@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ExternalLink, Github, Shield, Globe, Smartphone, FileText, X } from 'lucide-react';
+import { ExternalLink, Github, Shield, Globe, Smartphone, FileText, X, Award } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -18,6 +18,7 @@ interface Project {
   color: string;
   demoLink?: string;
   presentationLink?: string;
+  certificateLink?: string;
 }
 
 const Projects = () => {
@@ -32,7 +33,7 @@ const Projects = () => {
       technologies: ['PHP', 'HTML/CSS', 'JavaScript', 'SQL', 'API', 'Android'],
       icon: Globe,
       color: 'primary',
-      demoLink: 'https://ambu17.com/nouveausanios', // Placeholder demo link
+      demoLink: 'https://ambu17.com/nouveausanios', 
       presentationLink: './Présentationsanios.pdf',
     },
     {
@@ -69,6 +70,7 @@ const Projects = () => {
       icon: Shield,
       color: 'secondary',
       presentationLink: './CTFBELLATRIX.pdf',
+      certificateLink: './ctf_bellatrix.pdf',
     },
     {
       title: 'Challenge 48h forensic de M. Philippe JARLOV',
@@ -184,6 +186,17 @@ const Projects = () => {
                       >
                         <FileText className="w-4 h-4 mr-2 group-hover:scale-110 transition-transform" />
                         Présentation
+                      </Button>
+                    )}
+                    {project.certificateLink && (
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="flex-1 border-amber-500/30 hover:border-amber-500 hover:bg-amber-500/10 group"
+                        onClick={() => setSelectedPdf({ url: project.certificateLink!, title: `Diplôme - ${project.title}` })}
+                      >
+                        <Award className="w-4 h-4 mr-2 group-hover:scale-110 transition-transform text-amber-500" />
+                        Diplôme
                       </Button>
                     )}
                   </div>
