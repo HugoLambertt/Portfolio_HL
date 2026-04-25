@@ -9,6 +9,7 @@ const Skills = () => {
       { name: 'Wireshark', description: 'Analyseur de paquets réseau pour inspecter le trafic.', icon: Network },
       { name: 'Aircrack-ng', description: 'Suite d\'outils pour l\'audit et le test de sécurité Wi-Fi.', icon: Terminal },
       { name: 'Hydra', description: 'Outil de craquage de mots de passe par force brute.', icon: Target },
+      { name: 'Responder', description: 'outil de poisoning (empoisonnement) de réseau', icon: Target },
     ],
     development: [
       { name: 'HTML / CSS', description: 'Langages de base pour la conception web front-end.', icon: Globe },
