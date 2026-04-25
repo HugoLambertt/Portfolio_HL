@@ -37,8 +37,8 @@ const About = () => {
     {
       year: '2026 - 2028',
       type: 'education',
-      title: '(A venir) Mastère Expert Cybersécurité',
-      institution: 'Ynov Campus Bordeaux',
+      title: '(A venir) Mastère Manager Infrastructure et Cybersécurité des SI en double diplôme avec le DESS Cyber ',
+      institution: 'Cesi école d\'ingénieurs',
       description: 'Formation en alternance - Titre Expert en cybersécurité de niveau 7',
     },
     {
