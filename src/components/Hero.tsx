@@ -10,7 +10,7 @@ const Hero = () => {
   const [scanComplete, setScanComplete] = useState(false);
   const [logs, setLogs] = useState<string[]>([]);
   const [typedText, setTypedText] = useState('');
-  const fullText = '> Initializing cyber defense systems...';
+  const fullText = '> Initializing penetration testing environment...';
   const [cursorVisible, setCursorVisible] = useState(true);
   const logsContainerRef = useRef<HTMLDivElement>(null);
   
@@ -175,7 +175,7 @@ const Hero = () => {
 
               <div className="space-y-4 mb-8">
                 <p className="text-lg md:text-xl leading-relaxed">
-                  Votre mission : <span className="text-primary font-semibold">Découvrir la faille sur le réseau pour accéder à un fichier confidentiel.</span>
+                  Votre mission : <span className="text-primary font-semibold">Identifier une vulnérabilité et exploiter l’accès à une ressource protégée.</span>
                 </p>
               </div>
 
@@ -227,7 +227,7 @@ const Hero = () => {
                 <span className="text-sm font-mono text-primary font-semibold">SCAN IN PROGRESS</span>
               </div>
               <h2 className="text-3xl md:text-4xl font-display font-bold glow-blue mb-2">
-                Security Operations Center
+                Red Team Operations
               </h2>
               <p className="text-muted-foreground font-mono text-sm">Network Analysis Protocol v3.2</p>
             </div>
@@ -250,7 +250,7 @@ const Hero = () => {
             <div className="bg-black/80 backdrop-blur-sm border border-primary/30 rounded-lg p-6 font-mono text-sm h-[400px] overflow-hidden relative shadow-neon-blue">
               <div className="flex items-center gap-2 mb-4 pb-3 border-b border-primary/20">
                 <Terminal className="w-4 h-4 text-primary" />
-                <span className="text-primary">root@soc-terminal:~$</span>
+                <span className="text-primary">root@kali:~$</span>
               </div>
               <div ref={logsContainerRef} className="space-y-1 overflow-y-auto h-[320px] scrollbar-thin scrollbar-thumb-primary/30">
                 {logs.map((log, index) => (
