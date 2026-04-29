@@ -37,9 +37,9 @@ const About = () => {
     {
       year: '2026 - 2028',
       type: 'education',
-      title: '(A venir) Mastère Expert en Cybersécurité',
-      institution: 'Ynov Campus Bordeaux',
-      description: 'Formation en alternance - Titre Expert en cybersécurité de niveau 7',
+      title: '(A venir) Master Cybersécurité',
+      institution: 'Selon l\'entreprise',
+      description: 'Formation en alternance - Titre RNCP niveau 7',
     },
     {
       year: '2025 - 2026',
