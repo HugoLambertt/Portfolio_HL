@@ -83,10 +83,6 @@ const Certifications = () => {
 
   return (
     <section id="certifications" className="py-20 relative overflow-hidden">
-      {/* Background Effects */}
-      <div className="absolute inset-0 cyber-grid opacity-10" />
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-background/95 to-background" />
-      
       <div className="container mx-auto px-4 relative z-10">
         {/* Section Header */}
         <div className="text-center mb-16 animate-fade-up">

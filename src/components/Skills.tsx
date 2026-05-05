@@ -28,12 +28,6 @@ const Skills = () => {
 
   return (
     <section id="skills" className="py-20 relative overflow-hidden">
-      {/* Animated Background */}
-      <div className="absolute inset-0 z-0">
-        <div className="cyber-grid absolute inset-0 opacity-10" />
-        <div className="absolute inset-0 bg-gradient-to-b from-background via-primary/5 to-background" />
-      </div>
-
       {/* Content */}
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-6xl mx-auto">

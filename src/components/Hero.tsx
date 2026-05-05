@@ -1,11 +1,14 @@
-import { useEffect, useState, useRef, useMemo } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Shield, Terminal, Activity, AlertTriangle, FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import heroBg from '@/assets/hero-bg.jpg';
 import avatar from '@/assets/avatar.jpg';
-import gsap from 'gsap';
 
-const Hero = () => {
+interface HeroProps {
+  mousePos: { x: number; y: number };
+}
+
+const Hero = ({ mousePos }: HeroProps) => {
   const [missionStarted, setMissionStarted] = useState(false);
   const [scanProgress, setScanProgress] = useState(0);
   const [scanComplete, setScanComplete] = useState(false);
@@ -14,124 +17,6 @@ const Hero = () => {
   const fullText = '> Initializing penetration testing environment...';
   const [cursorVisible, setCursorVisible] = useState(true);
   const logsContainerRef = useRef<HTMLDivElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-
-  // GSAP Particle System
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    let animationFrameId: number;
-    let particles: Particle[] = [];
-    const particleCount = 60;
-    const mouse = { x: 0, y: 0 };
-
-    class Particle {
-      x: number;
-      y: number;
-      size: number;
-      baseX: number;
-      baseY: number;
-      vx: number;
-      vy: number;
-      opacity: number;
-
-      constructor() {
-        this.x = Math.random() * canvas!.width;
-        this.y = Math.random() * canvas!.height;
-        this.size = Math.random() * 2 + 1;
-        this.baseX = this.x;
-        this.baseY = this.y;
-        this.vx = (Math.random() - 0.5) * 0.5;
-        this.vy = (Math.random() - 0.5) * 0.5;
-        this.opacity = Math.random() * 0.5 + 0.2;
-      }
-
-      update() {
-        // Continuous movement
-        this.x += this.vx;
-        this.y += this.vy;
-
-        // Mouse interaction (parallax)
-        const dx = mouse.x - canvas!.width / 2;
-        const dy = mouse.y - canvas!.height / 2;
-        const moveX = (dx * this.size) / 50;
-        const moveY = (dy * this.size) / 50;
-
-        // Draw
-        ctx!.beginPath();
-        ctx!.arc(this.x + moveX, this.y + moveY, this.size, 0, Math.PI * 2);
-        ctx!.fillStyle = `rgba(0, 242, 254, ${this.opacity})`;
-        ctx!.fill();
-
-        // Screen wrap
-        if (this.x < 0) this.x = canvas!.width;
-        if (this.x > canvas!.width) this.x = 0;
-        if (this.y < 0) this.y = canvas!.height;
-        if (this.y > canvas!.height) this.y = 0;
-      }
-    }
-
-    const init = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-      particles = [];
-      for (let i = 0; i < particleCount; i++) {
-        particles.push(new Particle());
-      }
-    };
-
-    const animate = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      particles.forEach(p => p.update());
-      
-      // Draw lines between close particles
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x;
-          const dy = particles[i].y - particles[j].y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
-          if (distance < 150) {
-            ctx.beginPath();
-            ctx.strokeStyle = `rgba(0, 242, 254, ${0.1 * (1 - distance / 150)})`;
-            ctx.lineWidth = 0.5;
-            ctx.moveTo(particles[i].x, particles[i].y);
-            ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.stroke();
-          }
-        }
-      }
-      
-      animationFrameId = requestAnimationFrame(animate);
-    };
-
-    const handleMouseMove = (e: MouseEvent) => {
-      mouse.x = e.clientX;
-      mouse.y = e.clientY;
-      setMousePos({
-        x: (e.clientX / window.innerWidth - 0.5) * 20,
-        y: (e.clientY / window.innerHeight - 0.5) * 20,
-      });
-    };
-
-    const handleResize = () => {
-      init();
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('resize', handleResize);
-    init();
-    animate();
-
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('resize', handleResize);
-      cancelAnimationFrame(animationFrameId);
-    };
-  }, []);
 
   const scanLogs = [
     '> Initializing network scan...',
@@ -223,46 +108,10 @@ const Hero = () => {
     setMissionStarted(true);
   };
 
-  const scrollToAbout = () => {
-    document.querySelector('#about')?.scrollIntoView({ behavior: 'smooth' });
-  };
-
   return (
     <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* BACKGROUND LAYER - PERSISTENT */}
+      {/* local scanning effect - PERSISTENT during scan */}
       <div className="absolute inset-0 z-0">
-        <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-1000"
-          style={{ 
-            backgroundImage: `url(${heroBg})`,
-            opacity: missionStarted && !scanComplete ? 0.05 : missionStarted && scanComplete ? 0.3 : 0.2,
-            transform: `translate(${mousePos.x * 0.5}px, ${mousePos.y * 0.5}px)`,
-          }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-background via-background/50 to-background" />
-        
-        {/* GSAP Particle Canvas */}
-        <canvas 
-          ref={canvasRef}
-          className="absolute inset-0 w-full h-full pointer-events-none"
-        />
-
-        {/* Mouse Follow Glow */}
-        <div 
-          className="absolute inset-0 pointer-events-none transition-opacity duration-1000"
-          style={{
-            background: `radial-gradient(600px circle at ${50 + mousePos.x * 2}% ${50 + mousePos.y * 2}%, hsl(199 89% 48% / 0.15), transparent 80%)`,
-          }}
-        />
-
-        <div 
-          className={`cyber-grid absolute inset-0 transition-opacity duration-1000 ${missionStarted && !scanComplete ? 'opacity-30 animate-pulse' : 'opacity-20'}`}
-          style={{
-            transform: `translate(${mousePos.x}px, ${mousePos.y}px)`,
-          }}
-        />
-
-        {/* Scanning Effect - Only visible during scan */}
         <div className={`absolute inset-0 overflow-hidden pointer-events-none transition-opacity duration-500 ${missionStarted && !scanComplete ? 'opacity-100' : 'opacity-0'}`}>
           <div className="absolute w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent opacity-50 animate-scan" />
         </div>

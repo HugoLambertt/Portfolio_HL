@@ -76,7 +76,6 @@ const contact = [
 
   return (
     <section id="about" className="py-20 relative overflow-hidden">
-      <div className="absolute inset-0 cyber-grid opacity-5" />
       
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-6xl mx-auto">
