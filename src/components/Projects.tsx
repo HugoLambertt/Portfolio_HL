@@ -65,11 +65,11 @@ const Projects = () => {
     },
     {
       title: 'Challenge 48h forensic de M. Philippe JARLOV',
-      category: 'web',
+      category: 'cyber',
       description: 'Le challenge 48h est un CTF de type forensic immersif où les étudiants participent à une enquête numérique réaliste pendant deux jours. Ils doivent analyser des preuves comme des machines virtuelles et des données de téléphones pour résoudre une affaire d’espionnage, en se mettant dans la peau d’un analyste forensique. L’événement est encadré par Philippe JARLOV, expert reconnu en criminalistique numérique.',
       technologies: ['Autopsy', 'TrueCrypt', 'OpenStego','CelleBrite'],
       icon: Shield,
-      color: 'primary',
+      color: 'secondary',
       presentationLink: './Challenge_48h_Forensic.pdf',
     },
   ];
