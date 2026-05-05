@@ -1,8 +1,9 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useMemo } from 'react';
 import { Shield, Terminal, Activity, AlertTriangle, FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import heroBg from '@/assets/hero-bg.jpg';
 import avatar from '@/assets/avatar.jpg';
+import gsap from 'gsap';
 
 const Hero = () => {
   const [missionStarted, setMissionStarted] = useState(false);
@@ -13,7 +14,125 @@ const Hero = () => {
   const fullText = '> Initializing penetration testing environment...';
   const [cursorVisible, setCursorVisible] = useState(true);
   const logsContainerRef = useRef<HTMLDivElement>(null);
-  
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+
+  // GSAP Particle System
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    let animationFrameId: number;
+    let particles: Particle[] = [];
+    const particleCount = 60;
+    const mouse = { x: 0, y: 0 };
+
+    class Particle {
+      x: number;
+      y: number;
+      size: number;
+      baseX: number;
+      baseY: number;
+      vx: number;
+      vy: number;
+      opacity: number;
+
+      constructor() {
+        this.x = Math.random() * canvas!.width;
+        this.y = Math.random() * canvas!.height;
+        this.size = Math.random() * 2 + 1;
+        this.baseX = this.x;
+        this.baseY = this.y;
+        this.vx = (Math.random() - 0.5) * 0.5;
+        this.vy = (Math.random() - 0.5) * 0.5;
+        this.opacity = Math.random() * 0.5 + 0.2;
+      }
+
+      update() {
+        // Continuous movement
+        this.x += this.vx;
+        this.y += this.vy;
+
+        // Mouse interaction (parallax)
+        const dx = mouse.x - canvas!.width / 2;
+        const dy = mouse.y - canvas!.height / 2;
+        const moveX = (dx * this.size) / 50;
+        const moveY = (dy * this.size) / 50;
+
+        // Draw
+        ctx!.beginPath();
+        ctx!.arc(this.x + moveX, this.y + moveY, this.size, 0, Math.PI * 2);
+        ctx!.fillStyle = `rgba(0, 242, 254, ${this.opacity})`;
+        ctx!.fill();
+
+        // Screen wrap
+        if (this.x < 0) this.x = canvas!.width;
+        if (this.x > canvas!.width) this.x = 0;
+        if (this.y < 0) this.y = canvas!.height;
+        if (this.y > canvas!.height) this.y = 0;
+      }
+    }
+
+    const init = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      particles = [];
+      for (let i = 0; i < particleCount; i++) {
+        particles.push(new Particle());
+      }
+    };
+
+    const animate = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => p.update());
+      
+      // Draw lines between close particles
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+          if (distance < 150) {
+            ctx.beginPath();
+            ctx.strokeStyle = `rgba(0, 242, 254, ${0.1 * (1 - distance / 150)})`;
+            ctx.lineWidth = 0.5;
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.stroke();
+          }
+        }
+      }
+      
+      animationFrameId = requestAnimationFrame(animate);
+    };
+
+    const handleMouseMove = (e: MouseEvent) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+      setMousePos({
+        x: (e.clientX / window.innerWidth - 0.5) * 20,
+        y: (e.clientY / window.innerHeight - 0.5) * 20,
+      });
+    };
+
+    const handleResize = () => {
+      init();
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('resize', handleResize);
+    init();
+    animate();
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('resize', handleResize);
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, []);
+
   const scanLogs = [
     '> Initializing network scan...',
     '> Detecting active hosts: 192.168.1.0/24',
@@ -108,40 +227,52 @@ const Hero = () => {
     document.querySelector('#about')?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  if (!missionStarted) {
-    // Initial mission briefing screen
-    return (
-      <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        {/* Animated Background */}
-        <div className="absolute inset-0 z-0">
-          <div 
-            className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20"
-            style={{ backgroundImage: `url(${heroBg})` }}
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-background via-background/50 to-background" />
-          <div className="cyber-grid absolute inset-0 opacity-20" />
-        </div>
+  return (
+    <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* BACKGROUND LAYER - PERSISTENT */}
+      <div className="absolute inset-0 z-0">
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-1000"
+          style={{ 
+            backgroundImage: `url(${heroBg})`,
+            opacity: missionStarted && !scanComplete ? 0.05 : missionStarted && scanComplete ? 0.3 : 0.2,
+            transform: `translate(${mousePos.x * 0.5}px, ${mousePos.y * 0.5}px)`,
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-background via-background/50 to-background" />
+        
+        {/* GSAP Particle Canvas */}
+        <canvas 
+          ref={canvasRef}
+          className="absolute inset-0 w-full h-full pointer-events-none"
+        />
 
-        {/* Floating Particles */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          {[...Array(30)].map((_, i) => (
-            <div
-              key={i}
-              className="absolute w-1 h-1 bg-primary rounded-full animate-float opacity-60"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 3}s`,
-                animationDuration: `${3 + Math.random() * 4}s`,
-              }}
-            />
-          ))}
-        </div>
+        {/* Mouse Follow Glow */}
+        <div 
+          className="absolute inset-0 pointer-events-none transition-opacity duration-1000"
+          style={{
+            background: `radial-gradient(600px circle at ${50 + mousePos.x * 2}% ${50 + mousePos.y * 2}%, hsl(199 89% 48% / 0.15), transparent 80%)`,
+          }}
+        />
 
-        {/* Mission Briefing */}
-        <div className="container mx-auto px-4 z-10 relative">
+        <div 
+          className={`cyber-grid absolute inset-0 transition-opacity duration-1000 ${missionStarted && !scanComplete ? 'opacity-30 animate-pulse' : 'opacity-20'}`}
+          style={{
+            transform: `translate(${mousePos.x}px, ${mousePos.y}px)`,
+          }}
+        />
+
+        {/* Scanning Effect - Only visible during scan */}
+        <div className={`absolute inset-0 overflow-hidden pointer-events-none transition-opacity duration-500 ${missionStarted && !scanComplete ? 'opacity-100' : 'opacity-0'}`}>
+          <div className="absolute w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent opacity-50 animate-scan" />
+        </div>
+      </div>
+
+      {/* CONTENT LAYER */}
+      <div className="container mx-auto px-4 z-10 relative">
+        {!missionStarted ? (
+          /* Mission Briefing */
           <div className="max-w-4xl mx-auto">
-            {/* Alert Badge */}
             <div className="flex justify-center mb-8 animate-fade-in">
               <div className="inline-flex items-center gap-3 px-6 py-3 bg-red-500/10 border border-red-500/30 rounded-full">
                 <AlertTriangle className="w-5 h-5 text-red-500 animate-pulse" />
@@ -149,7 +280,6 @@ const Hero = () => {
               </div>
             </div>
 
-            {/* Mission Title */}
             <div className="text-center mb-12 animate-fade-up">
               <h1 className="text-3xl md:text-5xl lg:text-6xl font-display font-bold mb-6">
                 <span className="glow-blue">Bienvenue</span>
@@ -157,7 +287,6 @@ const Hero = () => {
               <div className="w-32 h-1 bg-gradient-cyber mx-auto rounded-full shadow-neon-blue mb-8" />
             </div>
 
-            {/* Mission Card */}
             <div className="bg-card/50 backdrop-blur-sm border border-primary/30 rounded-2xl p-8 md:p-12 shadow-card animate-fade-up mb-8" style={{ animationDelay: '0.2s' }}>
               <div className="flex items-start gap-4 mb-6">
                 <div className="p-3 bg-primary/10 rounded-lg">
@@ -189,7 +318,6 @@ const Hero = () => {
               </Button>
             </div>
 
-            {/* Typing Animation */}
             <div className="text-center animate-fade-up" style={{ animationDelay: '0.3s' }}>
               <p className="text-primary font-mono text-sm md:text-base">
                 {typedText}
@@ -197,30 +325,9 @@ const Hero = () => {
               </p>
             </div>
           </div>
-        </div>
-      </section>
-    );
-  }
-
-  if (!scanComplete) {
-    // SOC Dashboard scanning screen
-    return (
-      <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background">
-        {/* Animated Background */}
-        <div className="absolute inset-0 z-0">
-          <div className="cyber-grid absolute inset-0 opacity-30 animate-pulse" />
-          <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-background to-background" />
-        </div>
-
-        {/* Scanning Effect */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent opacity-50 animate-scan" />
-        </div>
-
-        {/* SOC Dashboard */}
-        <div className="container mx-auto px-4 z-10 relative">
+        ) : !scanComplete ? (
+          /* SOC Dashboard scanning screen */
           <div className="max-w-6xl mx-auto">
-            {/* Header */}
             <div className="text-center mb-8">
               <div className="inline-flex items-center gap-3 px-6 py-3 bg-primary/10 border border-primary/30 rounded-full mb-4">
                 <Activity className="w-5 h-5 text-primary animate-pulse" />
@@ -232,7 +339,6 @@ const Hero = () => {
               <p className="text-muted-foreground font-mono text-sm">Network Analysis Protocol v3.2</p>
             </div>
 
-            {/* Progress Bar */}
             <div className="mb-8 bg-card/50 backdrop-blur-sm border border-primary/30 rounded-lg p-6">
               <div className="flex items-center justify-between mb-3">
                 <span className="text-sm font-mono text-primary">Scan Progress</span>
@@ -246,7 +352,6 @@ const Hero = () => {
               </div>
             </div>
 
-            {/* Terminal Logs */}
             <div className="bg-black/80 backdrop-blur-sm border border-primary/30 rounded-lg p-6 font-mono text-sm h-[400px] overflow-hidden relative shadow-neon-blue">
               <div className="flex items-center gap-2 mb-4 pb-3 border-b border-primary/20">
                 <Terminal className="w-4 h-4 text-primary" />
@@ -266,7 +371,6 @@ const Hero = () => {
               </div>
             </div>
 
-            {/* Stats Grid */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
               {[
                 { label: 'Hosts Scanned', value: '256', icon: Activity },
@@ -285,86 +389,71 @@ const Hero = () => {
               ))}
             </div>
           </div>
-        </div>
-      </section>
-    );
-  }
-
-  // Mission complete - Profile revealed
-  return (
-    <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Animated Background */}
-      <div className="absolute inset-0 z-0">
-        <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-30"
-          style={{ backgroundImage: `url(${heroBg})` }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-background via-background/50 to-background" />
-        <div className="cyber-grid absolute inset-0 opacity-20" />
-      </div>
-
-      {/* Success Banner */}
-      <div className="absolute top-[132px] left-1/2 -translate-x-1/2 z-20 animate-fade-in">
-        <div className="inline-flex items-center gap-3 px-6 py-3 bg-green-500/10 border border-green-500/30 rounded-full">
-          <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-          <span className="text-sm font-mono text-green-500 font-semibold">MISSION RÉUSSITE - CV TROUVÉ</span>
-        </div>
-      </div>
-
-      {/* Content */}
-      <div className="container mx-auto px-4 z-10 relative pt-20">
-        <div className="max-w-5xl mx-auto text-center">
-          {/* Avatar */}
-          <div className="mb-8 animate-fade-up">
-            <div className="relative inline-block">
-              <div className="absolute inset-0 bg-gradient-cyber rounded-full blur-2xl opacity-50 animate-glow-pulse" />
-              <img
-                src={avatar}
-                alt="Hugo Lambert"
-                className="relative w-40 h-40 md:w-48 md:h-48 rounded-full border-4 border-primary shadow-neon-blue mx-auto object-cover"
-              />
-              <div className="absolute -bottom-2 -right-2 w-12 h-12 bg-green-500 rounded-full flex items-center justify-center border-4 border-background shadow-lg">
-                <Shield className="w-6 h-6 text-white" />
+        ) : (
+          /* Mission complete - Profile revealed */
+          <div className="max-w-5xl mx-auto text-center pt-20">
+            {/* Success Banner */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 mb-8 animate-fade-in">
+              <div className="inline-flex items-center gap-3 px-6 py-3 bg-green-500/10 border border-green-500/30 rounded-full">
+                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                <span className="text-sm font-mono text-green-500 font-semibold">MISSION RÉUSSITE - CV TROUVÉ</span>
               </div>
             </div>
-          </div>
 
-          {/* Title */}
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-display font-bold mb-8 animate-fade-up">
-            <span className="glow-blue">Hugo LAMBERT</span>
-          </h1>
+            {/* Avatar */}
+            <div className="mb-8 animate-fade-up">
+              <div className="relative inline-block">
+                <div className="absolute inset-0 bg-gradient-cyber rounded-full blur-2xl opacity-50 animate-glow-pulse" />
+                <img
+                  src={avatar}
+                  alt="Hugo Lambert"
+                  className="relative w-40 h-40 md:w-48 md:h-48 rounded-full border-4 border-primary shadow-neon-blue mx-auto object-cover"
+                />
+                <div className="absolute -bottom-2 -right-2 w-12 h-12 bg-green-500 rounded-full flex items-center justify-center border-4 border-background shadow-lg">
+                  <Shield className="w-6 h-6 text-white" />
+                </div>
+              </div>
+            </div>
 
-          {/* Status */}
-          <div className="mb-12 animate-fade-up" style={{ animationDelay: '0.1s' }}>
-            <p className="text-xl md:text-2xl lg:text-3xl text-muted-foreground">
-              Étudiant en <span className="text-primary font-semibold">Cybersécurité</span>
-            </p>
-          </div>
+            {/* Title */}
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-display font-bold mb-8 animate-fade-up">
+              <span className="glow-blue">Hugo LAMBERT</span>
+            </h1>
 
-          {/* CTA Button */}
-          <div className="flex items-center justify-center animate-fade-up" style={{ animationDelay: '0.2s' }}>
-            <Button
-              size="lg"
-              className="bg-black/80 border-2 border-primary hover:bg-primary/20 text-primary shadow-neon-blue font-mono font-bold px-12 py-8 text-xl group relative overflow-hidden"
-              onClick={() => {
-                const pdfUrl = `${import.meta.env.BASE_URL}cv/CV_Hugo_LAMBERT.pdf`;
-                window.open(pdfUrl, '_blank');
-              }}
-            >
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/20 to-transparent animate-scan" />
-              <Terminal className="w-6 h-6 mr-3 group-hover:animate-pulse relative z-10" />
-              <span className="relative z-10">&gt; TELECHARGER_CV.pdf</span>
-            </Button>
+            {/* Status */}
+            <div className="mb-12 animate-fade-up" style={{ animationDelay: '0.1s' }}>
+              <p className="text-xl md:text-2xl lg:text-3xl text-muted-foreground">
+                Étudiant en <span className="text-primary font-semibold">Cybersécurité</span>
+              </p>
+            </div>
+
+            {/* CTA Button */}
+            <div className="flex items-center justify-center animate-fade-up" style={{ animationDelay: '0.2s' }}>
+              <Button
+                size="lg"
+                className="bg-black/80 border-2 border-primary hover:bg-primary/20 text-primary shadow-neon-blue font-mono font-bold px-12 py-8 text-xl group relative overflow-hidden"
+                onClick={() => {
+                  const pdfUrl = `${import.meta.env.BASE_URL}cv/CV_Hugo_LAMBERT.pdf`;
+                  window.open(pdfUrl, '_blank');
+                }}
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/20 to-transparent animate-scan" />
+                <Terminal className="w-6 h-6 mr-3 group-hover:animate-pulse relative z-10" />
+                <span className="relative z-10">&gt; TELECHARGER_CV.pdf</span>
+              </Button>
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
-      {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-        <div className="w-6 h-10 border-2 border-primary rounded-full flex items-start justify-center p-2">
-          <div className="w-1 h-3 bg-primary rounded-full animate-pulse" />
+      {/* Scroll Indicator - Only at the end */}
+      {missionStarted && scanComplete && (
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+          <div className="w-6 h-10 border-2 border-primary rounded-full flex items-start justify-center p-2">
+            <div className="w-1 h-3 bg-primary rounded-full animate-pulse" />
+          </div>
         </div>
-      </div>
+      )}
     </section>
   );
 };
