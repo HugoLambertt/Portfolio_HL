@@ -19,6 +19,7 @@ interface Project {
   demoLink?: string;
   presentationLink?: string;
   certificateLink?: string;
+  githubLink?: string;
 }
 
 const Projects = () => {
@@ -29,21 +30,11 @@ const Projects = () => {
     {
       title: 'SANIOS',
       category: 'web',
-      description: 'Application web pour la gestion gestion des ambulances (invenaire et désinfection), avec 4 profils utilisateurs ( Régulation, Ambulancier, Mécanicien et Administrateur)',
+      description: 'Application web de gestion et de visualisation de la désinfection, de l\'hygiène et de l\'inventaire des véhicules ambulanciers, intégrant un système de profils utilisateurs (Régulation, Ambulancier, Mécanicien, Administrateur) et un scan de QR codes',
       technologies: ['PHP', 'HTML/CSS', 'JavaScript', 'SQL', 'API', 'Android'],
       icon: Globe,
-      color: 'primary',
-      demoLink: 'https://ambu17.com/nouveausanios', 
+      color: 'primary', 
       presentationLink: './Présentationsanios.pdf',
-    },
-    {
-      title: 'HONEY PAWN',
-      category: 'cyber',
-      description: 'Honeypawn est un laboratoire de cybersécurité simulant un système d’information complet avec serveurs, réseau sécurisé, SIEM, IDS/IPS et honeypots. Il permet de tester des attaques et d’évaluer l’efficacité des défenses dans un environnement réaliste.',
-      technologies: ['Cybersécurité', 'Infrastructure'],
-      icon: Shield,
-      color: 'secondary',
-      
     },
     /*{
       title: 'Application Mobile de Sécurité',
@@ -56,11 +47,11 @@ const Projects = () => {
     {
       title: 'TOURNAMENT GAMES',
       category: 'web',
-      description: 'Projet de BTS SIO qui avait pour but de faire une application web et mobile pour organiser des tournois de jeux vidéos entre école.',
+      description: 'Projet de fin d\'études BTS SIO : conception et développement d\'une application web et mobile permettant l\'organisation de tournois de jeux vidéo inter-écoles. Le projet repose principalement sur une architecture CRUD pour la gestion des données (tournois, équipes, joueurs, matchs). La plateforme web, développée avec CodeIgniter 4 et Bootstrap, communique via une API REST avec une application mobile Android développée en Kotlin.',
       technologies: ['PHP', 'HTML/CSS','CodeIgniter4', 'Bootstrap', 'Kotlin', 'API'],
       icon: Globe,
       color: 'primary',
-      
+      githubLink: 'https://github.com/HugoLambertt/Tournament-Games.git',
     },
     {
       title: 'CTF ORION - NOM DE CODE : BELLATRIX',
@@ -163,7 +154,20 @@ const Projects = () => {
                   </div>
 
                   {/* Actions */}
-                  <div className="flex gap-2 justify-center">
+                  <div className="flex gap-2 justify-center flex-wrap">
+                    {project.githubLink && (
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="flex-1 border-primary/30 hover:border-primary hover:bg-primary/10 group"
+                        asChild
+                      >
+                        <a href={project.githubLink} target="_blank" rel="noopener noreferrer">
+                          <Github className="w-4 h-4 mr-2 group-hover:scale-110 transition-transform" />
+                          Code
+                        </a>
+                      </Button>
+                    )}
                     {project.demoLink && (
                       <Button
                         size="sm"

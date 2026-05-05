@@ -59,7 +59,7 @@ const Contact = () => {
       icon: Shield,
       href: 'https://profile.hackthebox.com/profile/019c86c8-7c5c-7307-8cbc-55bfc2836639',
       color: 'accent',
-      label: 'Classé Top 53 / Ynov Campus sur la plateforme Hack The Box',
+      label: 'Hack The Box (Classement en 53ème position parmis les campus Ynov)',
     },
   ];
 
