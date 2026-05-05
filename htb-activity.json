@@ -1,0 +1,140 @@
+{
+  "activities": [
+    {
+      "name": "Funnel",
+      "type": "machine",
+      "action": "root",
+      "difficulty": null,
+      "category": null,
+      "date": "2026-04-25T11:24:57.000000Z",
+      "avatar": "https://labs.hackthebox.com/avatars/fdaacd3ce33321271e6265b27aa5a291_thumb.png"
+    },
+    {
+      "name": "Responder",
+      "type": "machine",
+      "action": "root",
+      "difficulty": null,
+      "category": null,
+      "date": "2026-04-25T10:34:18.000000Z",
+      "avatar": "https://labs.hackthebox.com/avatars/0348ed41851064f497d155c2a6af359a_thumb.png"
+    },
+    {
+      "name": "Tactics",
+      "type": "machine",
+      "action": "root",
+      "difficulty": null,
+      "category": null,
+      "date": "2026-04-23T09:26:08.000000Z",
+      "avatar": "https://labs.hackthebox.com/avatars/e7b1ffda86078c06ca783ba89288cd02_thumb.png"
+    },
+    {
+      "name": "Three",
+      "type": "machine",
+      "action": "root",
+      "difficulty": null,
+      "category": null,
+      "date": "2026-04-23T08:04:00.000000Z",
+      "avatar": "https://labs.hackthebox.com/avatars/49fa1274ca631fd870e9feca35b7d7c2_thumb.png"
+    },
+    {
+      "name": "Redeemer",
+      "type": "machine",
+      "action": "root",
+      "difficulty": null,
+      "category": null,
+      "date": "2026-04-23T07:36:23.000000Z",
+      "avatar": "https://labs.hackthebox.com/avatars/cdf77651ab0a4eca65acd5cf388b4c66_thumb.png"
+    },
+    {
+      "name": "Markup",
+      "type": "machine",
+      "action": "root",
+      "difficulty": null,
+      "category": null,
+      "date": "2026-04-20T20:53:24.000000Z",
+      "avatar": "https://labs.hackthebox.com/avatars/619fa91801ba0956c435db03ab267118_thumb.png"
+    },
+    {
+      "name": "Markup",
+      "type": "machine",
+      "action": "user",
+      "difficulty": null,
+      "category": null,
+      "date": "2026-04-20T20:42:48.000000Z",
+      "avatar": "https://labs.hackthebox.com/avatars/619fa91801ba0956c435db03ab267118_thumb.png"
+    },
+    {
+      "name": "Included",
+      "type": "machine",
+      "action": "root",
+      "difficulty": null,
+      "category": null,
+      "date": "2026-04-20T11:35:02.000000Z",
+      "avatar": "https://labs.hackthebox.com/avatars/4cc4df6c442b3d58d84d26131bee76b2_thumb.png"
+    },
+    {
+      "name": "Included",
+      "type": "machine",
+      "action": "user",
+      "difficulty": null,
+      "category": null,
+      "date": "2026-04-20T11:24:05.000000Z",
+      "avatar": "https://labs.hackthebox.com/avatars/4cc4df6c442b3d58d84d26131bee76b2_thumb.png"
+    },
+    {
+      "name": "Vaccine",
+      "type": "machine",
+      "action": "root",
+      "difficulty": null,
+      "category": null,
+      "date": "2026-04-19T20:43:17.000000Z",
+      "avatar": "https://labs.hackthebox.com/avatars/4abda8d32b5c71e6905244988879c575_thumb.png"
+    },
+    {
+      "name": "Vaccine",
+      "type": "machine",
+      "action": "user",
+      "difficulty": null,
+      "category": null,
+      "date": "2026-04-19T20:29:51.000000Z",
+      "avatar": "https://labs.hackthebox.com/avatars/4abda8d32b5c71e6905244988879c575_thumb.png"
+    },
+    {
+      "name": "Oopsie",
+      "type": "machine",
+      "action": "root",
+      "difficulty": null,
+      "category": null,
+      "date": "2026-04-18T14:21:52.000000Z",
+      "avatar": "https://labs.hackthebox.com/avatars/c5843e27067b877dfba7a82e4209a279_thumb.png"
+    },
+    {
+      "name": "Oopsie",
+      "type": "machine",
+      "action": "user",
+      "difficulty": null,
+      "category": null,
+      "date": "2026-04-18T14:15:23.000000Z",
+      "avatar": "https://labs.hackthebox.com/avatars/c5843e27067b877dfba7a82e4209a279_thumb.png"
+    },
+    {
+      "name": "Archetype",
+      "type": "machine",
+      "action": "root",
+      "difficulty": null,
+      "category": null,
+      "date": "2026-04-18T13:34:58.000000Z",
+      "avatar": "https://labs.hackthebox.com/avatars/b39473da3f36b9b5718d6c76eb573a10_thumb.png"
+    },
+    {
+      "name": "Archetype",
+      "type": "machine",
+      "action": "user",
+      "difficulty": null,
+      "category": null,
+      "date": "2026-04-18T13:27:50.000000Z",
+      "avatar": "https://labs.hackthebox.com/avatars/b39473da3f36b9b5718d6c76eb573a10_thumb.png"
+    }
+  ],
+  "updated_at": "2026-05-05T23:04:34.730Z"
+}
