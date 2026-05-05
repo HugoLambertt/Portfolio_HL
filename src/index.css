@@ -187,12 +187,7 @@
   }
 }
 
-@layer base {
-  * {
-    @apply border-border;
-  }
-
-  body {
-    @apply bg-background text-foreground;
-  }
+/* GLOBAL CURSOR HIDE - MUST BE AT BOTTOM */
+html, body, #root, * {
+  cursor: none !important;
 }
