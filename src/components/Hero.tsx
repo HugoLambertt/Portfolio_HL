@@ -17,6 +17,7 @@ const Hero = ({ mousePos }: HeroProps) => {
   const [cursorVisible, setCursorVisible] = useState(true);
   const logsContainerRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLDivElement>(null);
+  const hudRef = useRef<HTMLDivElement>(null);
   
   const scanLogs = [
     '> Initializing network scan...',
@@ -163,8 +164,7 @@ const Hero = ({ mousePos }: HeroProps) => {
 
       {/* CONTENT LAYER */}
       <div className="container mx-auto px-4 z-10 relative">
-        {phase === 'briefing' ? (
-          /* Mission Briefing */
+        {phase === 'briefing' && (
           <div className="max-w-4xl mx-auto briefing-card">
             <div className="flex justify-center mb-8 animate-fade-in">
               <div className="inline-flex items-center gap-3 px-6 py-3 bg-red-500/10 border border-red-500/30 rounded-full shadow-neon-blue">
@@ -210,7 +210,7 @@ const Hero = ({ mousePos }: HeroProps) => {
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
                 <Activity className="w-6 h-6 mr-3 group-hover:animate-spin" />
-                NEPASCLIQUER.exe
+                INITIALIZE BRUTEFORCE.exe
               </Button>
             </div>
 
@@ -221,8 +221,9 @@ const Hero = ({ mousePos }: HeroProps) => {
               </p>
             </div>
           </div>
-        ) : phase === 'scanning' ? (
-          /* SOC Dashboard scanning screen */
+        )}
+
+        {phase === 'scanning' && (
           <div className="max-w-6xl mx-auto scan-dashboard">
             {/* HUD Status Header */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
@@ -304,8 +305,9 @@ const Hero = ({ mousePos }: HeroProps) => {
               </div>
             </div>
           </div>
-        ) : (
-          /* Mission complete - Profile revealed */
+        )}
+
+        {phase === 'complete' && (
           <div className="max-w-5xl mx-auto text-center pt-10 reveal-card">
             {/* Final Reveal Header */}
             <div className="inline-flex items-center gap-3 px-8 py-4 bg-green-500/10 border border-green-500/30 rounded-full mb-12 animate-fade-in shadow-neon-purple">
@@ -363,6 +365,15 @@ const Hero = ({ mousePos }: HeroProps) => {
           </div>
         )}
       </div>
+
+      {/* Scroll Indicator */}
+      {phase === 'complete' && (
+        <div className="absolute bottom-12 left-1/2 -translate-x-1/2 animate-bounce">
+          <div className="w-8 h-12 border-2 border-primary rounded-full flex items-start justify-center p-2">
+            <div className="w-1.5 h-4 bg-primary rounded-full animate-pulse" />
+          </div>
+        </div>
+      )}
     </section>
   );
 };

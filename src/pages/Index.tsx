@@ -8,7 +8,6 @@ import Projects from '@/components/Projects';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
 import heroBg from '@/assets/hero-bg.jpg';
-import CustomCursor from '@/components/CustomCursor';
 
 const Index = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -160,7 +159,6 @@ const Index = () => {
         <Contact />
         <Footer />
       </div>
-      <CustomCursor />
     </div>
   );
 };
