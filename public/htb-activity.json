@@ -1,4 +1,5 @@
 {
+  "stats": null,
   "activities": [
     { "name": "CCTV",        "type": "machine",  "action": "Owned Root", "difficulty": null,     "category": null, "date": "2026-03-13T20:32:00.000000Z", "avatar": "https://htb-mp-prod-public-storage.s3.eu-central-1.amazonaws.com/avatars/9867e8b14b7602881160973ebb50b2c4.png" },
     { "name": "Lupin",       "type": "sherlock", "action": "Solved",     "difficulty": "Medium", "category": null, "date": "2026-02-23T15:27:00.000000Z", "avatar": "https://htb-mp-prod-public-storage.s3.eu-central-1.amazonaws.com/challenges/c3e0c62ee91db8dc7382bde7419bb573.png" },

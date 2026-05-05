@@ -21,54 +21,96 @@ jobs:
           node-version: '20'
           cache: 'npm'
 
-      - name: Fetch HTB activity
+      - name: Fetch HTB data
         env:
           HTB_TOKEN: ${{ secrets.HTB_TOKEN }}
           HTB_USER_ID: ${{ secrets.HTB_USER_ID }}
         run: |
-          HTTP_STATUS=$(curl -s -o /tmp/htb-raw.json -w "%{http_code}" \
+          ACTIVITY_STATUS=$(curl -s -o /tmp/htb-activity.json -w "%{http_code}" \
             -H "Authorization: Bearer ${HTB_TOKEN}" \
             -H "User-Agent: Portfolio" \
             -H "Accept: application/json" \
             "https://labs.hackthebox.com/api/v4/profile/activity/${HTB_USER_ID}")
+          echo "Activity API: $ACTIVITY_STATUS"
 
-          echo "HTB API status: $HTTP_STATUS"
+          PROFILE_STATUS=$(curl -s -o /tmp/htb-profile.json -w "%{http_code}" \
+            -H "Authorization: Bearer ${HTB_TOKEN}" \
+            -H "User-Agent: Portfolio" \
+            -H "Accept: application/json" \
+            "https://labs.hackthebox.com/api/v4/profile/${HTB_USER_ID}")
+          echo "Profile API: $PROFILE_STATUS"
 
-          if [ "$HTTP_STATUS" != "200" ]; then
-            echo "⚠️ HTB API returned $HTTP_STATUS — existing data will be kept"
-            rm -f /tmp/htb-raw.json
+          if [ "$ACTIVITY_STATUS" != "200" ]; then
+            echo "⚠️ Activity API returned $ACTIVITY_STATUS — existing data will be kept"
+            rm -f /tmp/htb-activity.json /tmp/htb-profile.json
           else
             echo "✅ HTB data fetched successfully"
           fi
 
       - name: Process & save activity data
         run: |
-          if [ ! -f /tmp/htb-raw.json ]; then
+          if [ ! -f /tmp/htb-activity.json ]; then
             echo "Skipping — no fresh data from HTB"
             exit 0
           fi
 
           node -e "
           const fs = require('fs');
-          const raw = JSON.parse(fs.readFileSync('/tmp/htb-raw.json', 'utf8'));
 
-          const activities = (raw.profile?.activity || []).map(item => ({
-            name:       item.name,
-            type:       item.object_type,
-            action:     item.type,
-            difficulty: item.difficulty   ?? null,
-            category:   item.challenge_category ?? null,
-            date:       item.date,
-            avatar:     item.machine_avatar
-              ? (item.machine_avatar.startsWith('http')
-                  ? item.machine_avatar
-                  : 'https://labs.hackthebox.com' + item.machine_avatar)
-              : null,
-          }));
+          // --- Activity ---
+          const rawActivity = JSON.parse(fs.readFileSync('/tmp/htb-activity.json', 'utf8'));
+          const ACTION_RANK = { 'Owned Root': 3, 'Solved': 2, 'Owned User': 1 };
 
-          const result = { activities, updated_at: new Date().toISOString() };
+          const best = new Map();
+          for (const item of (rawActivity.profile?.activity || [])) {
+            const key = item.object_type + ':' + item.name;
+            const rank = ACTION_RANK[item.type] ?? 0;
+            if (!best.has(key) || rank > best.get(key).rank) {
+              best.set(key, { rank, item });
+            }
+          }
+
+          const activities = [...best.values()]
+            .sort((a, b) => new Date(b.item.date) - new Date(a.item.date))
+            .map(({ item }) => ({
+              name:       item.name,
+              type:       item.object_type,
+              action:     item.type,
+              difficulty: item.difficulty ?? null,
+              category:   item.challenge_category ?? null,
+              date:       item.date,
+              points:     item.points ?? 0,
+              avatar:     item.machine_avatar
+                ? (item.machine_avatar.startsWith('http')
+                    ? item.machine_avatar
+                    : 'https://labs.hackthebox.com' + item.machine_avatar)
+                : null,
+            }));
+
+          // --- Profile stats ---
+          let stats = null;
+          if (fs.existsSync('/tmp/htb-profile.json')) {
+            const rawProfile = JSON.parse(fs.readFileSync('/tmp/htb-profile.json', 'utf8'));
+            const p = rawProfile.profile ?? {};
+            stats = {
+              name:             p.name             ?? null,
+              rank:             p.ranking          ?? null,
+              rank_text:        p.rank             ?? null,
+              points:           p.points           ?? 0,
+              root_owns:        p.root_owns        ?? 0,
+              user_owns:        p.user_owns        ?? 0,
+              challenge_owns:   p.challenge_owns   ?? 0,
+              sherlock_owns:    p.sheriff_owns     ?? p.sherlock_owns ?? 0,
+              respects:         p.respects         ?? 0,
+              avatar:           p.avatar
+                ? (p.avatar.startsWith('http') ? p.avatar : 'https://labs.hackthebox.com' + p.avatar)
+                : null,
+            };
+          }
+
+          const result = { stats, activities, updated_at: new Date().toISOString() };
           fs.writeFileSync('public/htb-activity.json', JSON.stringify(result, null, 2));
-          console.log('Saved', activities.length, 'activities');
+          console.log('Saved', activities.length, 'activities | stats:', !!stats);
           "
 
       - name: Install dependencies
