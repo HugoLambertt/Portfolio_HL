@@ -68,6 +68,11 @@
   body {
     @apply bg-background text-foreground font-sans;
     font-family: 'Inter', sans-serif;
+    cursor: none;
+  }
+
+  a, button, [role="button"], input, select, textarea {
+    cursor: none !important;
   }
 
   h1, h2, h3, h4, h5, h6 {
