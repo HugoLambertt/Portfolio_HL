@@ -17,8 +17,7 @@ const Navigation = () => {
     { label: 'Accueil', href: '#hero' },
     { label: 'À propos', href: '#about' },
     { label: 'Projets', href: '#projects' },
-    { label: 'Certifications', href: '#certifications' },
-    { label: 'Compétences', href: '#skills' },
+    { label: 'Hacker Activity', href: '#skills' },
     { label: 'Contact', href: '#contact' },
   ];
 

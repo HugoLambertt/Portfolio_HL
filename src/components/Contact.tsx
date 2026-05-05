@@ -59,7 +59,7 @@ const Contact = () => {
       icon: Shield,
       href: 'https://profile.hackthebox.com/profile/019c86c8-7c5c-7307-8cbc-55bfc2836639',
       color: 'accent',
-      label: 'Hack The Box (Classement en 53ème position parmis les campus Ynov)',
+      label: 'Profil HackTheBox',
     },
   ];
 
@@ -73,9 +73,7 @@ const Contact = () => {
               <span className="glow-blue">Me</span> <span className="glow-purple">Contacter</span>
             </h2>
             <div className="w-20 h-1 bg-gradient-cyber mx-auto rounded-full shadow-neon-blue mb-4" />
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Une question ? Un projet ? N'hésitez pas à me contacter !
-            </p>
+
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

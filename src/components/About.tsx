@@ -90,11 +90,19 @@ const contact = [
           {/* Profile Description */}
           <Card className="p-8 md:p-10 mb-16 bg-card/50 backdrop-blur-sm border-primary/30 shadow-card hover:border-primary/50 transition-all duration-300 animate-fade-up">
             <p className="text-lg leading-relaxed text-muted-foreground">
-              Extrêmement motivé à développer constamment mes compétences et à évoluer professionnellement, je suis{' '}
-              <span className="text-primary font-semibold">sérieux, apprends rapidement</span> et m'adapte aisément aux nouveaux défis.
-              Passionné par l'informatique et les nouvelles technologies, je m'intéresse particulièrement à leurs avancées, notamment dans le domaine de la{' '}
-              <span className="text-secondary font-semibold">cybersécurité</span>, un secteur en pleine évolution qui représente pour moi un véritable{' '}
-              <span className="text-accent font-semibold">enjeu technique et stratégique</span>.
+              Passionné de{' '}
+              <span className="text-secondary font-semibold">cybersécurité</span> et de{' '}
+              <span className="text-primary font-semibold">développement</span>, je transforme ma curiosité en pratique au quotidien.
+              Je m'entraîne régulièrement sur{' '}
+              <span className="text-accent font-semibold">Hack The Box</span> et{' '}
+              <span className="text-accent font-semibold">Root-Me</span>, et je participe activement à des{' '}
+              <span className="text-secondary font-semibold">CTF (Capture The Flag)</span> dès que l'occasion se présente — autant pour le défi technique que pour le plaisir de comprendre comment les systèmes fonctionnent (et comment les casser).
+            </p>
+            <p className="text-lg leading-relaxed text-muted-foreground mt-4">
+              Côté développement, j'aime concevoir des{' '}
+              <span className="text-primary font-semibold">projets concrets</span>, de l'idée au déploiement, et explorer constamment de nouveaux langages et frameworks.{' '}
+              <span className="text-primary font-semibold">Sérieux, rapide à apprendre</span> et toujours en quête de nouveaux défis, je vois la cybersécurité comme un véritable{' '}
+              <span className="text-accent font-semibold">enjeu technique et stratégique</span> — et c'est là que je veux construire ma carrière.
             </p>
           </Card>
 

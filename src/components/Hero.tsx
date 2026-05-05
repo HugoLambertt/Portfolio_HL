@@ -210,7 +210,7 @@ const Hero = ({ mousePos }: HeroProps) => {
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
                 <Activity className="w-6 h-6 mr-3 group-hover:animate-spin" />
-                INITIALIZE BRUTEFORCE.exe
+                CLIQUEZ_ICI.exe
               </Button>
             </div>
 
@@ -351,7 +351,7 @@ const Hero = ({ mousePos }: HeroProps) => {
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/20 to-transparent animate-scan" />
                 <Terminal className="w-8 h-8 mr-4" />
-                ACCESS_DOSSIER.pdf
+                CV_HUGO_LAMBERT.pdf
               </Button>
               <Button
                 size="lg"
