@@ -1,0 +1,86 @@
+name: Update HTB Activity & Deploy
+
+on:
+  schedule:
+    - cron: '0 6 * * *'   # Tous les jours à 6h UTC
+  workflow_dispatch:       # Déclenchement manuel depuis GitHub Actions
+
+jobs:
+  update-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Fetch HTB activity
+        env:
+          HTB_TOKEN: ${{ secrets.HTB_TOKEN }}
+          HTB_USER_ID: ${{ secrets.HTB_USER_ID }}
+        run: |
+          HTTP_STATUS=$(curl -s -o /tmp/htb-raw.json -w "%{http_code}" \
+            -H "Authorization: Bearer ${HTB_TOKEN}" \
+            -H "User-Agent: Portfolio" \
+            -H "Accept: application/json" \
+            "https://labs.hackthebox.com/api/v4/profile/activity/${HTB_USER_ID}")
+
+          echo "HTB API status: $HTTP_STATUS"
+
+          if [ "$HTTP_STATUS" != "200" ]; then
+            echo "⚠️ HTB API returned $HTTP_STATUS — existing data will be kept"
+            rm -f /tmp/htb-raw.json
+          else
+            echo "✅ HTB data fetched successfully"
+          fi
+
+      - name: Process & save activity data
+        run: |
+          if [ ! -f /tmp/htb-raw.json ]; then
+            echo "Skipping — no fresh data from HTB"
+            exit 0
+          fi
+
+          node -e "
+          const fs = require('fs');
+          const raw = JSON.parse(fs.readFileSync('/tmp/htb-raw.json', 'utf8'));
+
+          const activities = (raw.profile?.activity || []).map(item => ({
+            name:       item.name,
+            type:       item.object_type,
+            action:     item.type,
+            difficulty: item.difficulty   ?? null,
+            category:   item.challenge_category ?? null,
+            date:       item.date,
+            avatar:     item.machine_avatar
+              ? (item.machine_avatar.startsWith('http')
+                  ? item.machine_avatar
+                  : 'https://labs.hackthebox.com' + item.machine_avatar)
+              : null,
+          }));
+
+          const result = { activities, updated_at: new Date().toISOString() };
+          fs.writeFileSync('public/htb-activity.json', JSON.stringify(result, null, 2));
+          console.log('Saved', activities.length, 'activities');
+          "
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
