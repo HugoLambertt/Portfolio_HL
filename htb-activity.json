@@ -13,12 +13,42 @@
   },
   "activities": [
     {
-      "name": "Arctic",
+      "name": "Sequel",
       "type": "machine",
-      "action": "user",
+      "action": "root",
       "difficulty": null,
       "category": null,
-      "date": "2026-05-06T11:10:30.000000Z",
+      "date": "2026-05-06T14:15:41.000000Z",
+      "points": 0,
+      "avatar": "https://labs.hackthebox.com/avatars/b783687f4acd9b12249440c9a8105e46_thumb.png"
+    },
+    {
+      "name": "Appointment",
+      "type": "machine",
+      "action": "root",
+      "difficulty": null,
+      "category": null,
+      "date": "2026-05-06T13:57:42.000000Z",
+      "points": 0,
+      "avatar": "https://labs.hackthebox.com/avatars/a9ddcda8d2f6eb388c6717de2caff896_thumb.png"
+    },
+    {
+      "name": "Synced",
+      "type": "machine",
+      "action": "root",
+      "difficulty": null,
+      "category": null,
+      "date": "2026-05-06T12:28:41.000000Z",
+      "points": 0,
+      "avatar": "https://labs.hackthebox.com/avatars/64c963e673f572edd2c7d7c3de4f5048_thumb.png"
+    },
+    {
+      "name": "Arctic",
+      "type": "machine",
+      "action": "root",
+      "difficulty": null,
+      "category": null,
+      "date": "2026-05-06T11:55:31.000000Z",
       "points": 0,
       "avatar": "https://labs.hackthebox.com/avatars/0d6275efbd5e48fcdc96e61b9724ae5e_thumb.png"
     },
@@ -123,5 +153,5 @@
       "avatar": "https://labs.hackthebox.com/avatars/b39473da3f36b9b5718d6c76eb573a10_thumb.png"
     }
   ],
-  "updated_at": "2026-05-06T11:43:13.457Z"
+  "updated_at": "2026-05-06T15:37:24.460Z"
 }
