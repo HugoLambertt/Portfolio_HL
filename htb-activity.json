@@ -5,13 +5,23 @@
     "rank_text": "Noob",
     "points": 0,
     "root_owns": 0,
-    "user_owns": 0,
+    "user_owns": 1,
     "challenge_owns": 0,
     "sherlock_owns": 0,
     "respects": 0,
     "avatar": null
   },
   "activities": [
+    {
+      "name": "Arctic",
+      "type": "machine",
+      "action": "user",
+      "difficulty": null,
+      "category": null,
+      "date": "2026-05-06T11:10:30.000000Z",
+      "points": 0,
+      "avatar": "https://labs.hackthebox.com/avatars/0d6275efbd5e48fcdc96e61b9724ae5e_thumb.png"
+    },
     {
       "name": "Funnel",
       "type": "machine",
@@ -113,5 +123,5 @@
       "avatar": "https://labs.hackthebox.com/avatars/b39473da3f36b9b5718d6c76eb573a10_thumb.png"
     }
   ],
-  "updated_at": "2026-05-06T08:38:55.334Z"
+  "updated_at": "2026-05-06T11:43:13.457Z"
 }
