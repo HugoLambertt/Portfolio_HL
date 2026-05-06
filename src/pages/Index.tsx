@@ -3,6 +3,7 @@ import Navigation from '@/components/Navigation';
 import Hero from '@/components/Hero';
 import About from '@/components/About';
 import HTBActivity from '@/components/HTBActivity';
+import Certifications from '@/components/Certifications';
 import Projects from '@/components/Projects';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
@@ -152,8 +153,9 @@ const Index = () => {
         <Navigation />
         <Hero mousePos={mousePos} />
         <About />
-        <Projects />
         <HTBActivity />
+        <Certifications />
+        <Projects />
         <Contact />
         <Footer />
       </div>
