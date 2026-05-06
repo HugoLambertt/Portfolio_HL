@@ -336,7 +336,7 @@ const Hero = ({ mousePos }: HeroProps) => {
 
             <div className="mb-16">
               <p className="text-2xl md:text-4xl text-muted-foreground font-light">
-                Spécialiste en <span className="text-primary font-bold tracking-tight">Cybersécurité</span>
+                Etudiant en <span className="text-primary font-bold tracking-tight">Cybersécurité</span>
               </p>
             </div>
 
