@@ -290,9 +290,6 @@ const HTBActivity = () => {
               )}
 
               <div className="mt-8 text-center">
-                <p className="text-[10px] text-muted-foreground uppercase tracking-[0.3em]">
-                  System synchronized with HackTheBox API • Last Update: {lastUpdateLabel}
-                </p>
               </div>
             </div>
           )}

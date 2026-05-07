@@ -169,13 +169,13 @@ const Hero = ({ mousePos }: HeroProps) => {
             <div className="flex justify-center mb-8 animate-fade-in">
               <div className="inline-flex items-center gap-3 px-6 py-3 bg-red-500/10 border border-red-500/30 rounded-full shadow-neon-blue">
                 <AlertTriangle className="w-5 h-5 text-red-500 animate-pulse" />
-                <span className="text-sm font-mono text-red-500 font-semibold tracking-widest">CRITICAL MISSION</span>
+                <span className="text-sm font-mono text-red-500 font-semibold tracking-widest">MISSION CRITIQUE</span>
               </div>
             </div>
 
             <div className="text-center mb-12">
               <h1 className="text-5xl md:text-7xl font-display font-bold mb-6 tracking-tighter">
-                <span className="glow-blue">ACCESS</span> <span className="glow-purple">DENIED</span>
+                <span className="glow-blue">ACCÈS</span> <span className="glow-purple">REFUSÉ</span>
               </h1>
               <div className="w-48 h-1 bg-gradient-cyber mx-auto rounded-full shadow-neon-blue mb-8" />
             </div>
@@ -192,14 +192,14 @@ const Hero = ({ mousePos }: HeroProps) => {
                     Security Protocol
                   </h2>
                   <p className="text-sm text-muted-foreground font-mono uppercase tracking-widest opacity-70">
-                    System Restricted | Encryption Active
+                    Protocole de Sécurité Système Restreint | Chiffrement Actif
                   </p>
                 </div>
               </div>
 
               <div className="space-y-6 mb-10 relative z-10">
                 <p className="text-xl md:text-2xl leading-relaxed font-light">
-                  Target secured. <span className="text-primary font-bold italic underline decoration-primary/30">Hugo LAMBERT</span> profile is currently encrypted. Bypass the security layer to reveal the asset.
+                  Cible sécurisée. <span className="text-primary font-bold italic underline decoration-primary/30">Hugo LAMBERT</span> est actuellement chiffré. Contournez la couche de sécurité pour révéler l'asset.
                 </p>
               </div>
 
@@ -312,7 +312,7 @@ const Hero = ({ mousePos }: HeroProps) => {
             {/* Final Reveal Header */}
             <div className="inline-flex items-center gap-3 px-8 py-4 bg-green-500/10 border border-green-500/30 rounded-full mb-12 animate-fade-in shadow-neon-purple">
               <Unlock className="w-6 h-6 text-green-500" />
-              <span className="text-lg font-mono text-green-500 font-bold tracking-widest">DECRYPTION SUCCESSFUL</span>
+              <span className="text-lg font-mono text-green-500 font-bold tracking-widest">ACCÈS AUTORISÉ</span>
             </div>
 
             {/* Avatar & Info */}
@@ -336,7 +336,7 @@ const Hero = ({ mousePos }: HeroProps) => {
 
             <div className="mb-16">
               <p className="text-2xl md:text-4xl text-muted-foreground font-light">
-                Etudiant en <span className="text-primary font-bold tracking-tight">Cybersécurité</span>
+                Étudiant en <span className="text-primary font-bold tracking-tight">Cybersécurité</span>
               </p>
             </div>
 
