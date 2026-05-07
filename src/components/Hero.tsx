@@ -189,7 +189,7 @@ const Hero = ({ mousePos }: HeroProps) => {
                 </div>
                 <div className="flex-1">
                   <h2 className="text-3xl font-display font-bold mb-2 glow-blue tracking-tight">
-                    Security Protocol
+                    Protocole de sécurité
                   </h2>
                   <p className="text-sm text-muted-foreground font-mono uppercase tracking-widest opacity-70">
                     Protocole de Sécurité Système Restreint | Chiffrement Actif
