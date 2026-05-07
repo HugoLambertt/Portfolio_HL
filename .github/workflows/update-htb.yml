@@ -161,7 +161,7 @@ jobs:
             // --- Activity (machines + sherlocks) ---
             const rawActivity = JSON.parse(fs.readFileSync('/tmp/htb-activity.json', 'utf8'));
 
-            // Normalise les actions (ancienne API : "Owned Root", nouvelle : "root")
+            // Normalise les actions (ancienne API : Owned Root, nouvelle : root)
             const ACTION_LABEL = {
               'root':       'Owned Root',
               'user':       'Owned User',
