@@ -13,9 +13,29 @@
   },
   "activities": [
     {
+      "name": "Meow",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": null,
+      "category": null,
+      "date": "2026-05-07T11:45:40.000000Z",
+      "points": 0,
+      "avatar": "https://labs.hackthebox.com/avatars/61b5837dfdfe1fb1ca3750cf2712da44_thumb.png"
+    },
+    {
+      "name": "Spookifier",
+      "type": "challenge",
+      "action": "challenge",
+      "difficulty": null,
+      "category": "Web",
+      "date": "2026-05-07T11:22:27.000000Z",
+      "points": 0,
+      "avatar": null
+    },
+    {
       "name": "Sequel",
       "type": "machine",
-      "action": "root",
+      "action": "Owned Root",
       "difficulty": null,
       "category": null,
       "date": "2026-05-06T14:15:41.000000Z",
@@ -25,7 +45,7 @@
     {
       "name": "Appointment",
       "type": "machine",
-      "action": "root",
+      "action": "Owned Root",
       "difficulty": null,
       "category": null,
       "date": "2026-05-06T13:57:42.000000Z",
@@ -35,7 +55,7 @@
     {
       "name": "Synced",
       "type": "machine",
-      "action": "root",
+      "action": "Owned Root",
       "difficulty": null,
       "category": null,
       "date": "2026-05-06T12:28:41.000000Z",
@@ -45,7 +65,7 @@
     {
       "name": "Arctic",
       "type": "machine",
-      "action": "root",
+      "action": "Owned Root",
       "difficulty": null,
       "category": null,
       "date": "2026-05-06T11:55:31.000000Z",
@@ -55,7 +75,7 @@
     {
       "name": "Funnel",
       "type": "machine",
-      "action": "root",
+      "action": "Owned Root",
       "difficulty": null,
       "category": null,
       "date": "2026-04-25T11:24:57.000000Z",
@@ -65,7 +85,7 @@
     {
       "name": "Responder",
       "type": "machine",
-      "action": "root",
+      "action": "Owned Root",
       "difficulty": null,
       "category": null,
       "date": "2026-04-25T10:34:18.000000Z",
@@ -75,7 +95,7 @@
     {
       "name": "Tactics",
       "type": "machine",
-      "action": "root",
+      "action": "Owned Root",
       "difficulty": null,
       "category": null,
       "date": "2026-04-23T09:26:08.000000Z",
@@ -85,7 +105,7 @@
     {
       "name": "Three",
       "type": "machine",
-      "action": "root",
+      "action": "Owned Root",
       "difficulty": null,
       "category": null,
       "date": "2026-04-23T08:04:00.000000Z",
@@ -95,7 +115,7 @@
     {
       "name": "Redeemer",
       "type": "machine",
-      "action": "root",
+      "action": "Owned Root",
       "difficulty": null,
       "category": null,
       "date": "2026-04-23T07:36:23.000000Z",
@@ -105,7 +125,7 @@
     {
       "name": "Markup",
       "type": "machine",
-      "action": "root",
+      "action": "Owned Root",
       "difficulty": null,
       "category": null,
       "date": "2026-04-20T20:53:24.000000Z",
@@ -115,7 +135,7 @@
     {
       "name": "Included",
       "type": "machine",
-      "action": "root",
+      "action": "Owned Root",
       "difficulty": null,
       "category": null,
       "date": "2026-04-20T11:35:02.000000Z",
@@ -125,7 +145,7 @@
     {
       "name": "Vaccine",
       "type": "machine",
-      "action": "root",
+      "action": "Owned Root",
       "difficulty": null,
       "category": null,
       "date": "2026-04-19T20:43:17.000000Z",
@@ -135,7 +155,7 @@
     {
       "name": "Oopsie",
       "type": "machine",
-      "action": "root",
+      "action": "Owned Root",
       "difficulty": null,
       "category": null,
       "date": "2026-04-18T14:21:52.000000Z",
@@ -145,7 +165,7 @@
     {
       "name": "Archetype",
       "type": "machine",
-      "action": "root",
+      "action": "Owned Root",
       "difficulty": null,
       "category": null,
       "date": "2026-04-18T13:34:58.000000Z",
@@ -153,5 +173,5 @@
       "avatar": "https://labs.hackthebox.com/avatars/b39473da3f36b9b5718d6c76eb573a10_thumb.png"
     }
   ],
-  "updated_at": "2026-05-07T11:04:20.246Z"
+  "updated_at": "2026-05-07T11:47:03.776Z"
 }
