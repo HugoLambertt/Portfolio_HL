@@ -48,6 +48,8 @@ jobs:
           fi
 
       - name: Process & save activity data
+        env:
+          HTB_TOKEN: ${{ secrets.HTB_TOKEN }}
         run: |
           if [ ! -f /tmp/htb-activity.json ]; then
             echo "Skipping — no fresh data from HTB"
@@ -55,62 +57,120 @@ jobs:
           fi
 
           node -e "
-          const fs = require('fs');
+          const https = require('https');
+          const fs   = require('fs');
 
-          // --- Activity ---
-          const rawActivity = JSON.parse(fs.readFileSync('/tmp/htb-activity.json', 'utf8'));
-          const ACTION_RANK = { 'Owned Root': 3, 'Solved': 2, 'Owned User': 1 };
+          // Résout et valide une URL d'avatar — rejette les SVG et contenus inline
+          function resolveAvatar(raw) {
+            if (!raw) return null;
+            if (typeof raw === 'string' && raw.trim().startsWith('<')) return null;
+            const url = raw.startsWith('http') ? raw : 'https://labs.hackthebox.com' + raw;
+            if (url.toLowerCase().includes('.svg') || url.includes('svg+xml')) return null;
+            return url;
+          }
 
-          const best = new Map();
-          for (const item of (rawActivity.profile?.activity || [])) {
-            const key = item.object_type + ':' + item.name;
-            const rank = ACTION_RANK[item.type] ?? 0;
-            if (!best.has(key) || rank > best.get(key).rank) {
-              best.set(key, { rank, item });
+          // Appel GET authentifié vers l'API HTB
+          function htbGet(path) {
+            return new Promise(resolve => {
+              const opts = {
+                hostname: 'labs.hackthebox.com',
+                path,
+                headers: {
+                  'Authorization': 'Bearer ' + process.env.HTB_TOKEN,
+                  'User-Agent': 'Portfolio',
+                  'Accept': 'application/json',
+                },
+              };
+              const req = https.get(opts, res => {
+                let body = '';
+                res.on('data', d => body += d);
+                res.on('end', () => { try { resolve(JSON.parse(body)); } catch { resolve(null); } });
+              });
+              req.on('error', () => resolve(null));
+              req.setTimeout(8000, () => { req.destroy(); resolve(null); });
+            });
+          }
+
+          // Cherche l'avatar d'une machine par nom
+          async function fetchMachineAvatar(name) {
+            const data = await htbGet('/api/v4/machine/search?value=' + encodeURIComponent(name));
+            const list = data?.data || [];
+            const match = list.find(m => m.name && m.name.toLowerCase() === name.toLowerCase());
+            return resolveAvatar(match?.avatar || match?.avatar_thumb || null);
+          }
+
+          // Cherche l'avatar d'un sherlock par nom
+          async function fetchSherlockAvatar(name) {
+            const data = await htbGet('/api/v4/sherlocks?search=' + encodeURIComponent(name));
+            const list = data?.data || [];
+            const match = list.find(m => m.name && m.name.toLowerCase() === name.toLowerCase());
+            return resolveAvatar(match?.avatar || match?.avatar_thumb || null);
+          }
+
+          (async () => {
+            // --- Activity ---
+            const rawActivity = JSON.parse(fs.readFileSync('/tmp/htb-activity.json', 'utf8'));
+            const ACTION_RANK = { 'Owned Root': 3, 'Solved': 2, 'Owned User': 1 };
+
+            const best = new Map();
+            for (const item of (rawActivity.profile?.activity || [])) {
+              const key = item.object_type + ':' + item.name;
+              const rank = ACTION_RANK[item.type] ?? 0;
+              if (!best.has(key) || rank > best.get(key).rank) {
+                best.set(key, { rank, item });
+              }
             }
-          }
 
-          const activities = [...best.values()]
-            .sort((a, b) => new Date(b.item.date) - new Date(a.item.date))
-            .map(({ item }) => ({
-              name:       item.name,
-              type:       item.object_type,
-              action:     item.type,
-              difficulty: item.difficulty ?? null,
-              category:   item.challenge_category ?? null,
-              date:       item.date,
-              points:     item.points ?? 0,
-              avatar:     item.machine_avatar
-                ? (item.machine_avatar.startsWith('http')
-                    ? item.machine_avatar
-                    : 'https://labs.hackthebox.com' + item.machine_avatar)
-                : null,
-            }));
+            const activities = [...best.values()]
+              .sort((a, b) => new Date(b.item.date) - new Date(a.item.date))
+              .map(({ item }) => ({
+                name:       item.name,
+                type:       item.object_type,
+                action:     item.type,
+                difficulty: item.difficulty ?? null,
+                category:   item.challenge_category ?? null,
+                date:       item.date,
+                points:     item.points ?? 0,
+                avatar:     resolveAvatar(item.machine_avatar),
+              }));
 
-          // --- Profile stats ---
-          let stats = null;
-          if (fs.existsSync('/tmp/htb-profile.json')) {
-            const rawProfile = JSON.parse(fs.readFileSync('/tmp/htb-profile.json', 'utf8'));
-            const p = rawProfile.profile ?? {};
-            stats = {
-              name:             p.name             ?? null,
-              rank:             p.ranking          ?? null,
-              rank_text:        p.rank             ?? null,
-              points:           p.points           ?? 0,
-              root_owns:        p.root_owns        ?? 0,
-              user_owns:        p.user_owns        ?? 0,
-              challenge_owns:   p.challenge_owns   ?? 0,
-              sherlock_owns:    p.sheriff_owns     ?? p.sherlock_owns ?? 0,
-              respects:         p.respects         ?? 0,
-              avatar:           p.avatar
-                ? (p.avatar.startsWith('http') ? p.avatar : 'https://labs.hackthebox.com' + p.avatar)
-                : null,
-            };
-          }
+            // --- Enrichissement des avatars manquants ---
+            const missing = activities.filter(a => !a.avatar);
+            console.log('Avatars manquants à résoudre:', missing.length);
 
-          const result = { stats, activities, updated_at: new Date().toISOString() };
-          fs.writeFileSync('public/htb-activity.json', JSON.stringify(result, null, 2));
-          console.log('Saved', activities.length, 'activities | stats:', !!stats);
+            for (const act of missing) {
+              await new Promise(r => setTimeout(r, 350)); // évite le rate-limiting
+              if (act.type === 'machine') {
+                act.avatar = await fetchMachineAvatar(act.name);
+              } else if (act.type === 'sherlock') {
+                act.avatar = await fetchSherlockAvatar(act.name);
+              }
+              console.log(act.name + ' (' + act.type + '):', act.avatar ? 'OK -> ' + act.avatar : 'introuvable');
+            }
+
+            // --- Profile stats ---
+            let stats = null;
+            if (fs.existsSync('/tmp/htb-profile.json')) {
+              const rawProfile = JSON.parse(fs.readFileSync('/tmp/htb-profile.json', 'utf8'));
+              const p = rawProfile.profile ?? {};
+              stats = {
+                name:           p.name             ?? null,
+                rank:           p.ranking          ?? null,
+                rank_text:      p.rank             ?? null,
+                points:         p.points           ?? 0,
+                root_owns:      p.root_owns        ?? 0,
+                user_owns:      p.user_owns        ?? 0,
+                challenge_owns: p.challenge_owns   ?? 0,
+                sherlock_owns:  p.sheriff_owns     ?? p.sherlock_owns ?? 0,
+                respects:       p.respects         ?? 0,
+                avatar:         resolveAvatar(p.avatar),
+              };
+            }
+
+            const result = { stats, activities, updated_at: new Date().toISOString() };
+            fs.writeFileSync('public/htb-activity.json', JSON.stringify(result, null, 2));
+            console.log('Saved', activities.length, 'activities | stats:', !!stats);
+          })().catch(err => { console.error(err); process.exit(1); });
           "
 
       - name: Install dependencies
