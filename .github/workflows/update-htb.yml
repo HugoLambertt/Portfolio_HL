@@ -166,11 +166,13 @@ jobs:
               'root':       'Owned Root',
               'user':       'Owned User',
               'solve':      'Solved',
+              'challenge':  'Solved',
+              'sherlock':   'Solved',
               'Owned Root': 'Owned Root',
               'Owned User': 'Owned User',
               'Solved':     'Solved',
             };
-            const ACTION_RANK = { 'Owned Root': 3, 'root': 3, 'Solved': 2, 'solve': 2, 'Owned User': 1, 'user': 1 };
+            const ACTION_RANK = { 'Owned Root': 3, 'root': 3, 'Solved': 2, 'solve': 2, 'challenge': 2, 'sherlock': 2, 'Owned User': 1, 'user': 1 };
 
             const best = new Map();
             for (const item of (rawActivity.profile?.activity || [])) {
