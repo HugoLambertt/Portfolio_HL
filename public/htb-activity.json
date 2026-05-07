@@ -13,6 +13,16 @@
   },
   "activities": [
     {
+      "name": "Fawn",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": null,
+      "category": null,
+      "date": "2026-05-07T11:53:27.000000Z",
+      "points": 0,
+      "avatar": "https://labs.hackthebox.com/avatars/b64f85071e626e4cc2272d54332e4131_thumb.png"
+    },
+    {
       "name": "Meow",
       "type": "machine",
       "action": "Owned Root",
@@ -173,5 +183,5 @@
       "avatar": "https://labs.hackthebox.com/avatars/b39473da3f36b9b5718d6c76eb573a10_thumb.png"
     }
   ],
-  "updated_at": "2026-05-07T11:47:03.776Z"
+  "updated_at": "2026-05-07T12:00:28.395Z"
 }
