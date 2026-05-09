@@ -1,7 +1,7 @@
 {
   "stats": {
     "name": "Durrty",
-    "rank": 1026,
+    "rank": 1022,
     "rank_text": "Noob",
     "points": 0,
     "root_owns": 0,
@@ -12,6 +12,16 @@
     "avatar": null
   },
   "activities": [
+    {
+      "name": "Explosion",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": null,
+      "category": null,
+      "date": "2026-05-08T22:07:41.000000Z",
+      "points": 0,
+      "avatar": "https://labs.hackthebox.com/avatars/ca1623de6e76873fd49e0e99db53f08f_thumb.png"
+    },
     {
       "name": "Dancing",
       "type": "machine",
@@ -193,5 +203,5 @@
       "avatar": "https://labs.hackthebox.com/avatars/b39473da3f36b9b5718d6c76eb573a10_thumb.png"
     }
   ],
-  "updated_at": "2026-05-08T07:51:54.953Z"
+  "updated_at": "2026-05-09T08:05:40.348Z"
 }
