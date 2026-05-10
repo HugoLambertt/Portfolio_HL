@@ -1,7 +1,7 @@
 {
   "stats": {
     "name": "Durrty",
-    "rank": 1022,
+    "rank": 991,
     "rank_text": "Noob",
     "points": 0,
     "root_owns": 0,
@@ -12,6 +12,46 @@
     "avatar": null
   },
   "activities": [
+    {
+      "name": "Bike",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": null,
+      "category": null,
+      "date": "2026-05-09T11:46:53.000000Z",
+      "points": 0,
+      "avatar": "https://labs.hackthebox.com/avatars/a51f9bced90a0e984e47e36b854e5993_thumb.png"
+    },
+    {
+      "name": "Crocodile",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": null,
+      "category": null,
+      "date": "2026-05-09T10:36:41.000000Z",
+      "points": 0,
+      "avatar": "https://labs.hackthebox.com/avatars/00935a242722b9a2c700bdb6b65195f6_thumb.png"
+    },
+    {
+      "name": "Preignition",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": null,
+      "category": null,
+      "date": "2026-05-09T10:12:41.000000Z",
+      "points": 0,
+      "avatar": "https://labs.hackthebox.com/avatars/1bd28d62af041f549cfc61db042000a8_thumb.png"
+    },
+    {
+      "name": "Mongod",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": null,
+      "category": null,
+      "date": "2026-05-09T10:05:27.000000Z",
+      "points": 0,
+      "avatar": "https://labs.hackthebox.com/avatars/657738f01a2a0ed87faa7e8bf9237421_thumb.png"
+    },
     {
       "name": "Explosion",
       "type": "machine",
@@ -203,5 +243,5 @@
       "avatar": "https://labs.hackthebox.com/avatars/b39473da3f36b9b5718d6c76eb573a10_thumb.png"
     }
   ],
-  "updated_at": "2026-05-09T08:05:40.348Z"
+  "updated_at": "2026-05-10T08:20:05.242Z"
 }
