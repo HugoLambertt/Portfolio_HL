@@ -50,6 +50,8 @@ jobs:
           if [ "$ACTIVITY_STATUS" != "200" ]; then
             echo "⚠️ Activity API returned $ACTIVITY_STATUS — existing data will be kept"
             rm -f /tmp/htb-activity.json /tmp/htb-challenges.json /tmp/htb-profile.json
+            echo "::error::HTB Activity API failed with status $ACTIVITY_STATUS — check HTB_TOKEN secret"
+            exit 0
           else
             echo "✅ HTB data fetched successfully"
           fi

@@ -70,7 +70,7 @@ const toDisplay = (raw: RawActivity): DisplayActivity => {
     name:       raw.name,
     type,
     action:     raw.action ?? 'Solved',
-    difficulty: raw.difficulty ?? null,
+    difficulty: raw.difficulty ?? (type === 'Machine' ? 'Very Easy' : null),
     date:       formatDate(raw.date),
     fullDate:   formatFullDate(raw.date),
     points:     raw.points ?? 0,

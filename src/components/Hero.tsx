@@ -163,7 +163,7 @@ const Hero = ({ mousePos }: HeroProps) => {
       </div>
 
       {/* CONTENT LAYER */}
-      <div className="container mx-auto px-4 z-10 relative">
+      <div className="container mx-auto px-4 z-10 relative pt-[30px]">
         {phase === 'briefing' && (
           <div className="max-w-4xl mx-auto briefing-card">
             <div className="flex justify-center mb-8 animate-fade-in">
