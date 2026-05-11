@@ -1,7 +1,7 @@
 {
   "stats": {
     "name": "Durrty",
-    "rank": 991,
+    "rank": 1009,
     "rank_text": "Noob",
     "points": 0,
     "root_owns": 0,
@@ -12,6 +12,36 @@
     "avatar": null
   },
   "activities": [
+    {
+      "name": "Unified",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": null,
+      "category": null,
+      "date": "2026-05-10T10:14:44.000000Z",
+      "points": 0,
+      "avatar": "https://labs.hackthebox.com/avatars/525ba0e35574d9240e878bb8c716661e_thumb.png"
+    },
+    {
+      "name": "Pennyworth",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": null,
+      "category": null,
+      "date": "2026-05-10T08:36:37.000000Z",
+      "points": 0,
+      "avatar": "https://labs.hackthebox.com/avatars/27332a8471926116dce0f75f54ec72e7_thumb.png"
+    },
+    {
+      "name": "Ignition",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": null,
+      "category": null,
+      "date": "2026-05-10T08:23:47.000000Z",
+      "points": 0,
+      "avatar": "https://labs.hackthebox.com/avatars/fd78e233111c4c9829b71997477f34c0_thumb.png"
+    },
     {
       "name": "Bike",
       "type": "machine",
@@ -243,5 +273,5 @@
       "avatar": "https://labs.hackthebox.com/avatars/b39473da3f36b9b5718d6c76eb573a10_thumb.png"
     }
   ],
-  "updated_at": "2026-05-10T08:20:05.242Z"
+  "updated_at": "2026-05-11T09:24:43.822Z"
 }
