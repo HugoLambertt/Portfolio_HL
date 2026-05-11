@@ -5,13 +5,33 @@
     "rank_text": "Noob",
     "points": 0,
     "root_owns": 0,
-    "user_owns": 1,
+    "user_owns": 2,
     "challenge_owns": 0,
     "sherlock_owns": 0,
     "respects": 0,
     "avatar": null
   },
   "activities": [
+    {
+      "name": "Cap",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": null,
+      "category": null,
+      "date": "2026-05-11T21:14:57.000000Z",
+      "points": 0,
+      "avatar": "https://labs.hackthebox.com/avatars/70ea3357a2d090af11a0953ec8717e90.png"
+    },
+    {
+      "name": "Base",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": null,
+      "category": null,
+      "date": "2026-05-11T16:32:14.000000Z",
+      "points": 0,
+      "avatar": "https://labs.hackthebox.com/avatars/1c692d549c04dad7be38a59aaf987973.png"
+    },
     {
       "name": "Unified",
       "type": "machine",
@@ -273,5 +293,5 @@
       "avatar": "https://labs.hackthebox.com/avatars/b39473da3f36b9b5718d6c76eb573a10.png"
     }
   ],
-  "updated_at": "2026-05-11T09:57:40.911Z"
+  "updated_at": "2026-05-11T21:56:10.885Z"
 }
