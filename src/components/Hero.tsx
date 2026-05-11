@@ -358,14 +358,6 @@ const Hero = ({ mousePos }: HeroProps) => {
         )}
       </div>
 
-      {/* Scroll Indicator */}
-      {phase === 'complete' && (
-        <div className="absolute bottom-12 left-1/2 -translate-x-1/2 animate-bounce">
-          <div className="w-8 h-12 border-2 border-primary rounded-full flex items-start justify-center p-2">
-            <div className="w-1.5 h-4 bg-primary rounded-full animate-pulse" />
-          </div>
-        </div>
-      )}
     </section>
   );
 };
