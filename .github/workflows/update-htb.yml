@@ -79,6 +79,8 @@ jobs:
             if (typeof raw === 'string' && raw.trim().startsWith('<')) return null;
             if (raw.includes('svg+xml') || raw.toLowerCase().endsWith('.svg')) return null;
 
+            // URLs labs.hackthebox.com/avatars/ ne sont pas publiques — forcer enrichissement via S3
+            if (raw.includes('labs.hackthebox.com/avatars/')) return null;
             if (raw.startsWith('http')) return raw.includes('.svg') ? null : raw;
 
             // Conversion chemins relatifs HTB -> S3 public
@@ -229,9 +231,9 @@ jobs:
               }
             }
 
-            // --- Enrichissement des avatars manquants ---
-            const missing = activities.filter(a => !a.avatar);
-            console.log('Avatars manquants : ' + missing.length + '/' + activities.length);
+            // --- Enrichissement des avatars manquants ou non-S3 ---
+            const missing = activities.filter(a => !a.avatar || a.avatar.includes('labs.hackthebox.com'));
+            console.log('Avatars a enrichir : ' + missing.length + '/' + activities.length);
 
             for (const act of missing) {
               await new Promise(r => setTimeout(r, 350));

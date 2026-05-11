@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-import { Shield, Terminal, Activity, AlertTriangle, FileText, Lock, Unlock, Cpu, Network } from 'lucide-react';
+import { Shield, Terminal, Activity, AlertTriangle, Lock, Unlock, Cpu, Network } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import avatar from '@/assets/avatar.jpg';
 import gsap from 'gsap';
@@ -163,7 +163,7 @@ const Hero = ({ mousePos }: HeroProps) => {
       </div>
 
       {/* CONTENT LAYER */}
-      <div className="container mx-auto px-4 z-10 relative pt-[30px]">
+      <div className="container mx-auto px-4 z-10 relative pt-[50px]">
         {phase === 'briefing' && (
           <div className="max-w-4xl mx-auto briefing-card">
             <div className="flex justify-center mb-8 animate-fade-in">
@@ -340,7 +340,7 @@ const Hero = ({ mousePos }: HeroProps) => {
               </p>
             </div>
 
-            <div className="flex flex-col md:flex-row items-center justify-center gap-6">
+            <div className="flex items-center justify-center">
               <Button
                 size="lg"
                 className="bg-black/80 border-2 border-primary hover:bg-primary/20 text-primary shadow-neon-blue font-mono font-bold px-12 py-10 text-2xl group relative overflow-hidden w-full md:w-auto transition-all hover:scale-105"
@@ -352,14 +352,6 @@ const Hero = ({ mousePos }: HeroProps) => {
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/20 to-transparent animate-scan" />
                 <Terminal className="w-8 h-8 mr-4" />
                 CV_HUGO_LAMBERT.pdf
-              </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                className="border-2 border-secondary text-secondary hover:bg-secondary/10 font-mono font-bold px-12 py-10 text-2xl w-full md:w-auto"
-                onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}
-              >
-                VIEW_INTEL
               </Button>
             </div>
           </div>
