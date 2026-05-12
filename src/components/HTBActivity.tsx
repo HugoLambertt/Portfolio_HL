@@ -1,26 +1,7 @@
 import { useState, useEffect } from 'react';
-import {
-  Target,
-  Box,
-  ChevronRight,
-  Activity,
-  History,
-  Search,
-  Calendar,
-  BookOpen,
-  ExternalLink,
-  Info,
-  Loader2,
-  Zap,
-} from 'lucide-react';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { Box, Target, Search, ExternalLink, Loader2, Trophy, Flag, Shield, Star } from 'lucide-react';
 
-type RawActivity = {
+type Activity = {
   name:       string;
   type:       string;
   action:     string | null;
@@ -31,335 +12,249 @@ type RawActivity = {
   avatar:     string | null;
 };
 
-type DisplayActivity = {
-  name:       string;
-  type:       'Machine' | 'Challenge' | 'Sherlock';
-  action:     string;
-  difficulty: string | null;
-  date:       string;
-  fullDate:   string;
-  points:     number;
-  avatar:     string | null;
-  htbUrl:     string | null;
+type Stats = {
+  name:           string | null;
+  rank:           number | null;
+  rank_text:      string | null;
+  points:         number;
+  root_owns:      number;
+  user_owns:      number;
+  challenge_owns: number;
+  sherlock_owns:  number;
+  respects:       number;
+  avatar:         string | null;
 };
 
-const toDisplayType = (raw: string): 'Machine' | 'Challenge' | 'Sherlock' => {
-  switch (raw.toLowerCase()) {
-    case 'challenge': return 'Challenge';
-    case 'sherlock':  return 'Sherlock';
-    default:          return 'Machine';
-  }
+const DIFFICULTY_STYLES: Record<string, string> = {
+  'Very Easy': 'text-emerald-400 border-emerald-500/40 bg-emerald-500/10',
+  'Easy':      'text-green-400  border-green-500/40  bg-green-500/10',
+  'Medium':    'text-yellow-400 border-yellow-500/40 bg-yellow-500/10',
+  'Hard':      'text-orange-400 border-orange-500/40 bg-orange-500/10',
+  'Insane':    'text-red-400    border-red-500/40    bg-red-500/10',
+};
+
+const TYPE_STYLES: Record<string, string> = {
+  machine:   'text-[#9fef00] border-[#9fef00]/30 bg-[#9fef00]/10',
+  challenge: 'text-blue-400  border-blue-400/30  bg-blue-400/10',
+  sherlock:  'text-purple-400 border-purple-400/30 bg-purple-400/10',
+};
+
+const TypeIcon = ({ type, className = 'w-4 h-4' }: { type: string; className?: string }) => {
+  if (type === 'challenge') return <Target className={className} />;
+  if (type === 'sherlock')  return <Search  className={className} />;
+  return <Box className={className} />;
+};
+
+const htbUrl = (type: string, name: string) => {
+  const slug = encodeURIComponent(name.toLowerCase());
+  if (type === 'machine')   return `https://app.hackthebox.com/machines/${slug}`;
+  if (type === 'sherlock')  return `https://app.hackthebox.com/sherlocks/${slug}`;
+  return null;
 };
 
 const formatDate = (iso: string) =>
   new Date(iso).toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', year: 'numeric' });
 
-const formatFullDate = (iso: string) => {
-  const d = new Date(iso);
-  return (
-    d.toLocaleDateString('fr-FR', { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' }) +
-    ' à ' +
-    d.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })
-  );
-};
+const difficulty = (act: Activity) =>
+  act.difficulty ?? (act.type === 'machine' ? 'Very Easy' : null);
 
-const toDisplay = (raw: RawActivity): DisplayActivity => {
-  const type = toDisplayType(raw.type);
-  const slug = encodeURIComponent(raw.name.toLowerCase());
-  return {
-    name:       raw.name,
-    type,
-    action:     raw.action ?? 'Solved',
-    difficulty: raw.difficulty ?? (type === 'Machine' ? 'Very Easy' : null),
-    date:       formatDate(raw.date),
-    fullDate:   formatFullDate(raw.date),
-    points:     raw.points ?? 0,
-    avatar:     raw.avatar ?? null,
-    htbUrl:
-      type === 'Machine'  ? `https://app.hackthebox.com/machines/${slug}`  :
-      type === 'Sherlock' ? `https://app.hackthebox.com/sherlocks/${slug}` :
-      null,
-  };
-};
-
-const HTBActivity = () => {
-  const [filterType, setFilterType] = useState('All');
-  const [filterDifficulty, setFilterDifficulty] = useState('All');
-  const [showAll, setShowAll] = useState(false);
-  const [selectedActivity, setSelectedActivity] = useState<DisplayActivity | null>(null);
-  const [activities, setActivities] = useState<DisplayActivity[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [updatedAt, setUpdatedAt] = useState<string | null>(null);
+export default function HTBActivity() {
+  const [filter, setFilter]       = useState('all');
+  const [showAll, setShowAll]     = useState(false);
+  const [activities, setActivities] = useState<Activity[]>([]);
+  const [stats, setStats]         = useState<Stats | null>(null);
+  const [loading, setLoading]     = useState(true);
 
   useEffect(() => {
     fetch(`${import.meta.env.BASE_URL}htb-activity.json`)
-      .then(res => {
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        return res.json();
-      })
-      .then(data => {
-        setActivities((data.activities || []).map(toDisplay));
-        setUpdatedAt(data.updated_at ?? null);
-      })
-      .catch(err => console.error('HTB data load failed:', err))
+      .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
+      .then(data => { setActivities(data.activities ?? []); setStats(data.stats ?? null); })
+      .catch(err => console.error('HTB load failed:', err))
       .finally(() => setLoading(false));
   }, []);
 
-  const filteredActivity = activities.filter(act => {
-    const typeMatch = filterType === 'All' || act.type === filterType;
-    const diffMatch = filterDifficulty === 'All' || act.difficulty === filterDifficulty;
-    return typeMatch && diffMatch;
-  });
+  const filtered = filter === 'all'
+    ? activities
+    : activities.filter(a => a.type === filter);
 
-  const displayedActivity = showAll ? filteredActivity : filteredActivity.slice(0, 5);
+  const shown = showAll ? filtered : filtered.slice(0, 9);
 
-  const getDifficultyColor = (diff: string | null) => {
-    switch (diff) {
-      case 'Very Easy': return 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20';
-      case 'Easy':      return 'text-green-500 bg-green-500/10 border-green-500/20';
-      case 'Medium':    return 'text-yellow-500 bg-yellow-500/10 border-yellow-500/20';
-      case 'Hard':      return 'text-orange-500 bg-orange-500/10 border-orange-500/20';
-      case 'Insane':    return 'text-red-500 bg-red-500/10 border-red-500/20';
-      default:          return 'text-gray-500 bg-gray-500/10 border-gray-500/20';
-    }
+  const counts = {
+    machine:   activities.filter(a => a.type === 'machine').length,
+    challenge: activities.filter(a => a.type === 'challenge').length,
+    sherlock:  activities.filter(a => a.type === 'sherlock').length,
   };
-
-  const getTypeIcon = (type: string, size = 'w-4 h-4') => {
-    switch (type) {
-      case 'Machine':   return <Box className={size} />;
-      case 'Challenge': return <Target className={size} />;
-      case 'Sherlock':  return <Search className={size} />;
-      default:          return <Activity className={size} />;
-    }
-  };
-
-  const lastUpdateLabel = updatedAt
-    ? new Date(updatedAt).toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', year: 'numeric' })
-    : '—';
 
   return (
-    <section id="skills" className="py-24 relative overflow-hidden bg-black/20">
-      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#9fef00]/50 to-transparent opacity-30" />
+    <section id="skills" className="py-24 relative bg-black/20">
+      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#9fef00]/40 to-transparent" />
 
-      <div className="container mx-auto px-4 relative z-10">
-        <div className="max-w-6xl mx-auto">
+      <div className="container mx-auto px-4">
+        <div className="max-w-5xl mx-auto">
 
           {/* Header */}
-          <div className="text-center mb-16 animate-fade-up">
+          <div className="text-center mb-12">
             <h2 className="text-4xl md:text-5xl font-display font-bold mb-4">
               <span className="text-[#9fef00]">HackTheBox</span>
             </h2>
-            <div className="w-32 h-1 bg-[#9fef00]/50 mx-auto rounded-full shadow-[0_0_10px_rgba(159,239,0,0.5)] mb-6" />
-            <p className="text-muted-foreground text-lg max-w-2xl mx-auto font-bold">
-              Mes expériences HackTheBox
-            </p>
+            <div className="w-24 h-0.5 bg-[#9fef00]/50 mx-auto rounded-full mb-6" />
+            {stats && (
+              <p className="text-muted-foreground font-mono text-sm">
+                <span className="text-white font-bold">{stats.name}</span>
+                {stats.rank_text && <> · <span className="text-[#9fef00]">{stats.rank_text}</span></>}
+                {stats.rank     && <> · <span className="text-gray-400">#{stats.rank}</span></>}
+              </p>
+            )}
           </div>
 
           {loading && (
             <div className="flex items-center justify-center py-20 gap-3 text-muted-foreground">
-              <Loader2 className="w-5 h-5 animate-spin text-[#9fef00]" />
-              <span className="text-sm font-mono">Chargement de l'activité HTB...</span>
+              <Loader2 className="w-4 h-4 animate-spin text-[#9fef00]" />
+              <span className="text-sm font-mono">Chargement…</span>
             </div>
           )}
 
           {!loading && (
-            <div className="animate-fade-up">
-              {/* Filters header */}
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8 border-b border-white/5 pb-6">
-                <div className="flex items-center gap-3">
-                  <History className="w-6 h-6 text-[#9fef00]" />
-                  <h3 className="text-2xl font-display font-bold text-white uppercase tracking-wider">Activité Récente</h3>
-                </div>
-
-                <div className="flex flex-wrap items-center gap-4">
-                  <div className="flex items-center gap-2">
-                    <span className="text-[10px] uppercase font-bold text-muted-foreground tracking-widest">Type:</span>
-                    <div className="flex bg-white/5 rounded-lg p-1 border border-white/10">
-                      {['All', 'Machine', 'Challenge', 'Sherlock'].map(t => (
-                        <button
-                          key={t}
-                          onClick={() => { setFilterType(t); setShowAll(false); }}
-                          className={`px-3 py-1 rounded-md text-[10px] font-bold uppercase transition-all ${
-                            filterType === t ? 'bg-[#9fef00] text-black shadow-[0_0_10px_rgba(159,239,0,0.5)]' : 'text-gray-400 hover:text-white'
-                          }`}
-                        >
-                          {t}
-                        </button>
-                      ))}
+            <>
+              {/* Stats */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-10">
+                {[
+                  { icon: <Box     className="w-5 h-5" />, label: 'Machines',   value: counts.machine,   color: 'text-[#9fef00]' },
+                  { icon: <Target  className="w-5 h-5" />, label: 'Challenges', value: counts.challenge,  color: 'text-blue-400'  },
+                  { icon: <Search  className="w-5 h-5" />, label: 'Sherlocks',  value: counts.sherlock,   color: 'text-purple-400'},
+                  { icon: <Trophy  className="w-5 h-5" />, label: 'Rank',       value: stats?.rank ?? '—', color: 'text-amber-400' },
+                ].map(({ icon, label, value, color }) => (
+                  <div key={label} className="bg-[#0f121a]/60 border border-white/5 rounded-xl p-4 flex items-center gap-3">
+                    <div className={`${color} opacity-80`}>{icon}</div>
+                    <div>
+                      <div className={`text-xl font-bold font-mono ${color}`}>{value}</div>
+                      <div className="text-[10px] uppercase text-muted-foreground tracking-widest">{label}</div>
                     </div>
                   </div>
-
-                  <div className="flex items-center gap-2">
-                    <span className="text-[10px] uppercase font-bold text-muted-foreground tracking-widest">Difficulté:</span>
-                    <div className="flex bg-white/5 rounded-lg p-1 border border-white/10">
-                      {['All', 'Very Easy', 'Easy', 'Medium', 'Hard', 'Insane'].map(d => (
-                        <button
-                          key={d}
-                          onClick={() => { setFilterDifficulty(d); setShowAll(false); }}
-                          className={`px-3 py-1 rounded-md text-[10px] font-bold uppercase transition-all ${
-                            filterDifficulty === d ? 'bg-primary text-black shadow-[0_0_10px_rgba(0,242,254,0.5)]' : 'text-gray-400 hover:text-white'
-                          }`}
-                        >
-                          {d}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                </div>
+                ))}
               </div>
 
-              {/* Activity List */}
-              <div className="space-y-3">
-                {displayedActivity.length > 0 ? (
-                  displayedActivity.map((act, index) => (
-                    <div
-                      key={index}
-                      onClick={() => setSelectedActivity(act)}
-                      className="group bg-[#0f121a]/40 backdrop-blur-md border border-white/5 rounded-xl p-4 hover:border-[#9fef00]/30 transition-all duration-300 flex flex-col md:flex-row md:items-center justify-between gap-4 cursor-pointer"
-                    >
-                      <div className="flex items-center gap-4">
-                        {/* Avatar — icon in background, image on top if it loads */}
-                        <div className="relative flex-shrink-0">
-                          <div className="w-12 h-12 rounded-lg bg-black/40 border border-white/10 flex items-center justify-center group-hover:border-[#9fef00]/50 transition-colors overflow-hidden relative">
-                            {/* Icon always visible as base layer */}
-                            <div className="text-white/20 scale-150">
-                              {getTypeIcon(act.type, 'w-5 h-5')}
+              {/* Type filter */}
+              <div className="flex items-center gap-2 mb-6">
+                {[
+                  { key: 'all',       label: `Tout (${activities.length})` },
+                  { key: 'machine',   label: `Machines (${counts.machine})`   },
+                  { key: 'challenge', label: `Challenges (${counts.challenge})` },
+                  { key: 'sherlock',  label: `Sherlocks (${counts.sherlock})`  },
+                ].map(({ key, label }) => (
+                  <button
+                    key={key}
+                    onClick={() => { setFilter(key); setShowAll(false); }}
+                    className={`px-3 py-1.5 rounded-lg text-[11px] font-bold uppercase tracking-wide transition-all border ${
+                      filter === key
+                        ? 'bg-[#9fef00]/10 border-[#9fef00]/40 text-[#9fef00]'
+                        : 'border-white/10 text-gray-500 hover:text-gray-300 hover:border-white/20'
+                    }`}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+
+              {/* Activity grid */}
+              {shown.length === 0 ? (
+                <div className="text-center py-16 text-muted-foreground text-sm font-mono">
+                  Aucune activité dans cette catégorie.
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                  {shown.map((act, i) => {
+                    const diff = difficulty(act);
+                    const url  = htbUrl(act.type, act.name);
+                    const diffStyle = diff ? (DIFFICULTY_STYLES[diff] ?? 'text-gray-400 border-white/10') : '';
+                    const typeStyle = TYPE_STYLES[act.type] ?? TYPE_STYLES.machine;
+
+                    return (
+                      <div
+                        key={i}
+                        className="group bg-[#0f121a]/50 border border-white/5 rounded-xl overflow-hidden hover:border-[#9fef00]/20 transition-all duration-200"
+                      >
+                        {/* Avatar */}
+                        <div className="relative h-28 bg-black/40 flex items-center justify-center overflow-hidden">
+                          <div className="text-white/5">
+                            <TypeIcon type={act.type} className="w-16 h-16" />
+                          </div>
+                          {act.avatar && (
+                            <img
+                              src={act.avatar}
+                              alt={act.name}
+                              className="absolute inset-0 w-full h-full object-contain p-4"
+                              onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                            />
+                          )}
+                          {/* Type badge top-left */}
+                          <div className={`absolute top-2 left-2 flex items-center gap-1 px-2 py-0.5 rounded-md border text-[9px] font-bold uppercase ${typeStyle}`}>
+                            <TypeIcon type={act.type} className="w-3 h-3" />
+                            {act.type}
+                          </div>
+                          {/* Difficulty badge top-right */}
+                          {diff && (
+                            <div className={`absolute top-2 right-2 px-2 py-0.5 rounded-md border text-[9px] font-bold uppercase ${diffStyle}`}>
+                              {diff}
                             </div>
-                            {/* Image floats on top — hidden if it fails to load */}
-                            {act.avatar && (
-                              <img
-                                src={act.avatar}
-                                alt={act.name}
-                                className="absolute inset-0 w-full h-full object-contain p-1 opacity-90 group-hover:opacity-100 transition-opacity"
-                                onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
-                              />
+                          )}
+                        </div>
+
+                        {/* Info */}
+                        <div className="p-3">
+                          <div className="flex items-start justify-between gap-2">
+                            <div className="min-w-0">
+                              <h4 className="font-bold text-white text-sm truncate group-hover:text-[#9fef00] transition-colors">
+                                {act.name}
+                              </h4>
+                              <div className="flex items-center gap-1.5 mt-0.5">
+                                <Flag className="w-3 h-3 text-[#9fef00] flex-shrink-0" />
+                                <span className="text-[10px] text-[#9fef00] font-mono">{act.action ?? 'Solved'}</span>
+                                {act.category && (
+                                  <>
+                                    <span className="text-white/20">·</span>
+                                    <span className="text-[10px] text-gray-500 font-mono">{act.category}</span>
+                                  </>
+                                )}
+                              </div>
+                            </div>
+                            {url && (
+                              <a
+                                href={url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                onClick={e => e.stopPropagation()}
+                                className="flex-shrink-0 text-gray-600 hover:text-[#9fef00] transition-colors"
+                              >
+                                <ExternalLink className="w-3.5 h-3.5" />
+                              </a>
                             )}
                           </div>
-                          <div className="absolute -bottom-1 -right-1 p-1 bg-black rounded-md border border-white/10 scale-75">
-                            {getTypeIcon(act.type)}
-                          </div>
-                        </div>
-
-                        <div>
-                          <h4 className="font-bold text-white group-hover:text-[#9fef00] transition-colors">{act.name}</h4>
-                          <div className="flex items-center gap-2">
-                            <span className="text-[10px] uppercase text-muted-foreground font-mono">{act.type}</span>
-                            <span className="w-1 h-1 rounded-full bg-white/20" />
-                            <span className="text-[10px] text-[#9fef00] font-mono">{act.action}</span>
+                          <div className="mt-2 text-[10px] text-gray-600 font-mono">
+                            {formatDate(act.date)}
                           </div>
                         </div>
                       </div>
+                    );
+                  })}
+                </div>
+              )}
 
-                      <div className="flex items-center justify-between md:justify-end gap-6">
-                        <div className={`px-3 py-1 rounded-full text-[10px] font-black uppercase border ${getDifficultyColor(act.difficulty)}`}>
-                          {act.difficulty ?? '—'}
-                        </div>
-                        {act.points > 0 && (
-                          <div className="hidden md:flex items-center gap-1 text-[#9fef00]">
-                            <Zap className="w-3 h-3" />
-                            <span className="text-[10px] font-bold">{act.points} pts</span>
-                          </div>
-                        )}
-                        <div className="text-right">
-                          <div className="text-xs font-mono text-gray-400">{act.date}</div>
-                          <div className="text-[9px] uppercase text-muted-foreground font-bold tracking-tighter">Completion Date</div>
-                        </div>
-                        <div className="hidden md:block opacity-0 group-hover:opacity-100 transition-opacity">
-                          <Info className="w-5 h-5 text-[#9fef00]" />
-                        </div>
-                      </div>
-                    </div>
-                  ))
-                ) : (
-                  <div className="text-center py-20 bg-white/5 rounded-2xl border border-dashed border-white/10">
-                    <p className="text-muted-foreground">Aucune activité trouvée avec ces filtres.</p>
-                  </div>
-                )}
-              </div>
-
-              {filteredActivity.length > 5 && !showAll && (
+              {/* Show more */}
+              {filtered.length > 9 && !showAll && (
                 <div className="mt-8 flex justify-center">
                   <button
                     onClick={() => setShowAll(true)}
-                    className="px-8 py-3 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#9fef00]/50 rounded-xl text-white font-bold text-xs tracking-widest transition-all flex items-center gap-2 group"
+                    className="px-6 py-2 border border-white/10 hover:border-[#9fef00]/30 rounded-lg text-xs font-bold uppercase text-gray-400 hover:text-white transition-all"
                   >
-                    VOIR PLUS
-                    <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    Voir les {filtered.length - 9} autres
                   </button>
                 </div>
               )}
-
-              <div className="mt-8 text-center">
-              </div>
-            </div>
+            </>
           )}
         </div>
       </div>
-
-      {/* Detail Modal */}
-      <Dialog open={!!selectedActivity} onOpenChange={(open) => !open && setSelectedActivity(null)}>
-        <DialogContent className="bg-[#0f121a]/95 backdrop-blur-2xl border-[#9fef00]/20 text-white max-w-2xl">
-          <DialogHeader>
-            <DialogTitle className="text-2xl font-display font-bold flex items-center gap-3">
-              <span className="text-[#9fef00]">{selectedActivity?.name}</span>
-              <span className={`text-[10px] px-2 py-0.5 rounded uppercase border ${getDifficultyColor(selectedActivity?.difficulty ?? null)}`}>
-                {selectedActivity?.difficulty ?? '—'}
-              </span>
-            </DialogTitle>
-          </DialogHeader>
-
-          <div className="mt-6 space-y-6">
-            <div className="flex flex-wrap gap-4">
-              <div className="flex items-center gap-2 bg-white/5 px-3 py-1.5 rounded-lg border border-white/10">
-                {selectedActivity && getTypeIcon(selectedActivity.type)}
-                <span className="text-xs font-bold uppercase text-gray-400">{selectedActivity?.type}</span>
-              </div>
-              <div className="flex items-center gap-2 bg-[#9fef00]/10 px-3 py-1.5 rounded-lg border border-[#9fef00]/20 text-[#9fef00]">
-                <Activity className="w-4 h-4" />
-                <span className="text-xs font-bold uppercase">{selectedActivity?.action}</span>
-              </div>
-              {selectedActivity && selectedActivity.points > 0 && (
-                <div className="flex items-center gap-2 bg-amber-500/10 px-3 py-1.5 rounded-lg border border-amber-500/20 text-amber-400">
-                  <Zap className="w-4 h-4" />
-                  <span className="text-xs font-bold">{selectedActivity.points} points</span>
-                </div>
-              )}
-            </div>
-
-            <div className="space-y-2">
-              <div className="flex items-center gap-2 text-[#9fef00]">
-                <Calendar className="w-4 h-4" />
-                <span className="text-sm font-bold uppercase tracking-wider">Date de complétion</span>
-              </div>
-              <div className="text-sm text-gray-300">{selectedActivity?.fullDate}</div>
-            </div>
-
-            <div className="space-y-2">
-              <div className="flex items-center gap-2 text-[#9fef00]">
-                <BookOpen className="w-4 h-4" />
-                <span className="text-sm font-bold uppercase tracking-wider">Scenario</span>
-              </div>
-              <div className="text-sm text-gray-300 leading-relaxed bg-white/5 p-4 rounded-xl border border-white/5">
-                Aucun scénario détaillé disponible pour ce challenge.
-              </div>
-            </div>
-
-            {selectedActivity?.htbUrl && (
-              <a
-                href={selectedActivity.htbUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-[#9fef00] hover:underline text-sm font-bold"
-              >
-                Voir sur HackTheBox
-                <ExternalLink className="w-4 h-4" />
-              </a>
-            )}
-          </div>
-        </DialogContent>
-      </Dialog>
     </section>
   );
-};
-
-export default HTBActivity;
+}
