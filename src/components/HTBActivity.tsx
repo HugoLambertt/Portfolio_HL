@@ -1,5 +1,17 @@
 import { useState, useEffect } from 'react';
-import { Box, Target, Search, ExternalLink, Loader2, Trophy, Flag, Shield, Star } from 'lucide-react';
+import { Box, Target, Search, ExternalLink, Loader2, Flag } from 'lucide-react';
+
+const S3 = 'https://htb-mp-prod-public-storage.s3.eu-central-1.amazonaws.com';
+
+// Convertit labs.hackthebox.com/avatars/HASH.png → S3 public (même hash, domaine différent)
+const toPublicAvatar = (url: string | null): string | null => {
+  if (!url) return null;
+  if (url.includes('labs.hackthebox.com/avatars/')) {
+    const filename = url.split('/avatars/').pop()?.replace('_thumb', '');
+    return filename ? `${S3}/avatars/${filename}` : null;
+  }
+  return url;
+};
 
 type Activity = {
   name:       string;
@@ -10,19 +22,6 @@ type Activity = {
   date:       string;
   points:     number;
   avatar:     string | null;
-};
-
-type Stats = {
-  name:           string | null;
-  rank:           number | null;
-  rank_text:      string | null;
-  points:         number;
-  root_owns:      number;
-  user_owns:      number;
-  challenge_owns: number;
-  sherlock_owns:  number;
-  respects:       number;
-  avatar:         string | null;
 };
 
 const DIFFICULTY_STYLES: Record<string, string> = {
@@ -59,16 +58,15 @@ const difficulty = (act: Activity) =>
   act.difficulty ?? (act.type === 'machine' ? 'Very Easy' : null);
 
 export default function HTBActivity() {
-  const [filter, setFilter]       = useState('all');
-  const [showAll, setShowAll]     = useState(false);
+  const [filter, setFilter]         = useState('all');
+  const [showAll, setShowAll]       = useState(false);
   const [activities, setActivities] = useState<Activity[]>([]);
-  const [stats, setStats]         = useState<Stats | null>(null);
-  const [loading, setLoading]     = useState(true);
+  const [loading, setLoading]       = useState(true);
 
   useEffect(() => {
     fetch(`${import.meta.env.BASE_URL}htb-activity.json`)
       .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
-      .then(data => { setActivities(data.activities ?? []); setStats(data.stats ?? null); })
+      .then(data => setActivities(data.activities ?? []))
       .catch(err => console.error('HTB load failed:', err))
       .finally(() => setLoading(false));
   }, []);
@@ -98,13 +96,6 @@ export default function HTBActivity() {
               <span className="text-[#9fef00]">HackTheBox</span>
             </h2>
             <div className="w-24 h-0.5 bg-[#9fef00]/50 mx-auto rounded-full mb-6" />
-            {stats && (
-              <p className="text-muted-foreground font-mono text-sm">
-                <span className="text-white font-bold">{stats.name}</span>
-                {stats.rank_text && <> · <span className="text-[#9fef00]">{stats.rank_text}</span></>}
-                {stats.rank     && <> · <span className="text-gray-400">#{stats.rank}</span></>}
-              </p>
-            )}
           </div>
 
           {loading && (
@@ -116,24 +107,6 @@ export default function HTBActivity() {
 
           {!loading && (
             <>
-              {/* Stats */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-10">
-                {[
-                  { icon: <Box     className="w-5 h-5" />, label: 'Machines',   value: counts.machine,   color: 'text-[#9fef00]' },
-                  { icon: <Target  className="w-5 h-5" />, label: 'Challenges', value: counts.challenge,  color: 'text-blue-400'  },
-                  { icon: <Search  className="w-5 h-5" />, label: 'Sherlocks',  value: counts.sherlock,   color: 'text-purple-400'},
-                  { icon: <Trophy  className="w-5 h-5" />, label: 'Rank',       value: stats?.rank ?? '—', color: 'text-amber-400' },
-                ].map(({ icon, label, value, color }) => (
-                  <div key={label} className="bg-[#0f121a]/60 border border-white/5 rounded-xl p-4 flex items-center gap-3">
-                    <div className={`${color} opacity-80`}>{icon}</div>
-                    <div>
-                      <div className={`text-xl font-bold font-mono ${color}`}>{value}</div>
-                      <div className="text-[10px] uppercase text-muted-foreground tracking-widest">{label}</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
               {/* Type filter */}
               <div className="flex items-center gap-2 mb-6">
                 {[
@@ -164,8 +137,9 @@ export default function HTBActivity() {
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                   {shown.map((act, i) => {
-                    const diff = difficulty(act);
-                    const url  = htbUrl(act.type, act.name);
+                    const diff      = difficulty(act);
+                    const url       = htbUrl(act.type, act.name);
+                    const imgSrc    = toPublicAvatar(act.avatar);
                     const diffStyle = diff ? (DIFFICULTY_STYLES[diff] ?? 'text-gray-400 border-white/10') : '';
                     const typeStyle = TYPE_STYLES[act.type] ?? TYPE_STYLES.machine;
 
@@ -179,9 +153,9 @@ export default function HTBActivity() {
                           <div className="text-white/5">
                             <TypeIcon type={act.type} className="w-16 h-16" />
                           </div>
-                          {act.avatar && (
+                          {imgSrc && (
                             <img
-                              src={act.avatar}
+                              src={imgSrc}
                               alt={act.name}
                               className="absolute inset-0 w-full h-full object-contain p-4"
                               onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }}

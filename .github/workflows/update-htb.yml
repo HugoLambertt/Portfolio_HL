@@ -110,8 +110,11 @@ jobs:
             if (typeof raw === 'string' && raw.trim().startsWith('<')) return null;
             if (raw.includes('svg+xml') || raw.toLowerCase().endsWith('.svg')) return null;
 
-            // URLs labs.hackthebox.com/avatars/ ne sont pas publiques — forcer enrichissement via S3
-            if (raw.includes('labs.hackthebox.com/avatars/')) return null;
+            // labs.hackthebox.com/avatars/HASH.png → S3 public (même hash, domaine différent)
+            if (raw.includes('labs.hackthebox.com/avatars/')) {
+              const filename = raw.split('/avatars/').pop().replace('_thumb', '');
+              return filename ? S3 + '/avatars/' + filename : null;
+            }
             if (raw.startsWith('http')) return raw.includes('.svg') ? null : raw;
 
             // Conversion chemins relatifs HTB -> S3 public
