@@ -40,27 +40,6 @@ jobs:
             "https://labs.hackthebox.com/api/v4/profile/${HTB_USER_ID}/challenges/solved")
           echo "Challenges API: $CHALLENGE_STATUS"
 
-          # Essai de plusieurs endpoints Sherlock jusqu'à en trouver un qui marche
-          for SHERLOCK_PATH in \
-            "/api/v4/profile/${HTB_USER_ID}/sherlocks/solved" \
-            "/api/v4/profile/${HTB_USER_ID}/sherlocks" \
-            "/api/v4/profile/${HTB_USER_ID}/progress/sherlocks" \
-            "/api/v4/sherlocks?solved=1" \
-            "/api/v4/sherlocks?user_id=${HTB_USER_ID}"; do
-            S=$(curl -s -o /tmp/htb-sherlocks.json -w "%{http_code}" \
-              -H "Authorization: Bearer ${HTB_TOKEN}" \
-              -H "User-Agent: Portfolio" \
-              -H "Accept: application/json" \
-              "https://labs.hackthebox.com${SHERLOCK_PATH}")
-            echo "Sherlocks try ${SHERLOCK_PATH}: $S"
-            if [ "$S" = "200" ]; then
-              SIZE=$(wc -c < /tmp/htb-sherlocks.json)
-              echo "  -> Response size: ${SIZE} bytes"
-              break
-            fi
-            rm -f /tmp/htb-sherlocks.json
-          done
-
           PROFILE_STATUS=$(curl -s -o /tmp/htb-profile.json -w "%{http_code}" \
             -H "Authorization: Bearer ${HTB_TOKEN}" \
             -H "User-Agent: Portfolio" \
@@ -68,64 +47,44 @@ jobs:
             "https://labs.hackthebox.com/api/v4/profile/${HTB_USER_ID}")
           echo "Profile API: $PROFILE_STATUS"
 
-          # Dump brut pour debug — affiche chaque item avec object_type+type+name
-          echo "=== Activity feed items (object_type | type | name) ==="
-          python3 - <<'PYEOF'
-import sys, json
-with open('/tmp/htb-activity.json') as f:
-    d = json.load(f)
-print("Top-level keys:", list(d.keys()))
-items = (d.get('profile') or {}).get('activity') or d.get('data', {}).get('activity') or d.get('activity') or d.get('data') or []
-print(f"Items count: {len(items)}")
-for i, item in enumerate(items[:50]):
-    ot = item.get('object_type','?')
-    t  = item.get('type','?')
-    n  = item.get('name','?')
-    dt = item.get('date','?')
-    print(f"  [{i}] object_type={ot} | type={t} | name={n} | date={dt}")
-PYEOF
+          # Essai de plusieurs endpoints Sherlock
+          for SHERLOCK_PATH in \
+            "/api/v4/profile/${HTB_USER_ID}/sherlocks/solved" \
+            "/api/v4/profile/${HTB_USER_ID}/sherlocks" \
+            "/api/v4/profile/${HTB_USER_ID}/progress/sherlocks"; do
+            S=$(curl -s -o /tmp/htb-sherlocks.json -w "%{http_code}" \
+              -H "Authorization: Bearer ${HTB_TOKEN}" \
+              -H "User-Agent: Portfolio" \
+              -H "Accept: application/json" \
+              "https://labs.hackthebox.com${SHERLOCK_PATH}")
+            echo "Sherlocks ${SHERLOCK_PATH}: $S"
+            if [ "$S" = "200" ]; then
+              echo "  -> $(wc -c < /tmp/htb-sherlocks.json) bytes"
+              break
+            fi
+            rm -f /tmp/htb-sherlocks.json
+          done
 
-          echo "=== Sherlocks endpoint response ==="
+          # Debug jq — structure de l'activity feed
+          echo "=== Activity feed top-level keys ==="
+          jq 'keys' /tmp/htb-activity.json 2>/dev/null || true
+          echo "=== Activity items (object_type | type | name) ==="
+          jq -r '(.profile.activity // .data.activity // .activity // .data // [])[] | "\(.object_type // "?") | \(.type // "?") | \(.name // "?")" ' /tmp/htb-activity.json 2>/dev/null | head -50 || true
+          echo "=== Profile sherlock fields ==="
+          jq '.profile | with_entries(select(.key | test("sherlock|sheriff"; "i")))' /tmp/htb-profile.json 2>/dev/null || true
+          echo "=== Sherlocks file ==="
           if [ -f /tmp/htb-sherlocks.json ]; then
-            python3 - <<'PYEOF'
-import sys, json
-with open('/tmp/htb-sherlocks.json') as f:
-    d = json.load(f)
-print("Top-level keys:", list(d.keys()))
-def find_lists(obj, path=""):
-    if isinstance(obj, list):
-        print(f"  List at [{path}]: {len(obj)} items")
-        for i, item in enumerate(obj[:3]):
-            print(f"    [{i}]", json.dumps(item)[:200])
-    elif isinstance(obj, dict):
-        for k, v in obj.items():
-            find_lists(v, f"{path}.{k}")
-find_lists(d)
-PYEOF
+            jq 'keys' /tmp/htb-sherlocks.json 2>/dev/null || true
+            jq '(.data // .sherlocks // .profile.sherlock_owns // []) | length' /tmp/htb-sherlocks.json 2>/dev/null || true
+            jq '(.data // .sherlocks // .profile.sherlock_owns // []) | .[0:3]' /tmp/htb-sherlocks.json 2>/dev/null || true
           else
             echo "no sherlocks file"
           fi
 
-          echo "=== Profile JSON top-level keys and sherlock fields ==="
-          python3 - <<'PYEOF'
-import sys, json
-with open('/tmp/htb-profile.json') as f:
-    d = json.load(f)
-print("Top-level keys:", list(d.keys()))
-p = d.get('profile', {})
-print("profile keys:", list(p.keys()))
-for k, v in p.items():
-    if 'sherlock' in k.lower() or 'sheriff' in k.lower():
-        print(f"  sherlock-related field: {k} = {json.dumps(v)[:300]}")
-PYEOF
-
           if [ "$ACTIVITY_STATUS" != "200" ]; then
-            echo "⚠️ Activity API returned $ACTIVITY_STATUS — existing data will be kept"
+            echo "Activity API failed: $ACTIVITY_STATUS — check HTB_TOKEN"
             rm -f /tmp/htb-activity.json /tmp/htb-challenges.json /tmp/htb-sherlocks.json /tmp/htb-profile.json
-            echo "::error::HTB Activity API failed with status $ACTIVITY_STATUS — check HTB_TOKEN secret"
-            exit 0
-          else
-            echo "✅ HTB data fetched successfully"
+            exit 1
           fi
 
       - name: Process & save activity data
