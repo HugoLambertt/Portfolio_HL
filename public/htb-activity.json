@@ -1,7 +1,7 @@
 {
   "stats": {
     "name": "Durrty",
-    "rank": 1011,
+    "rank": 1016,
     "rank_text": "Noob",
     "points": 0,
     "root_owns": 0,
@@ -293,5 +293,5 @@
       "avatar": "https://labs.hackthebox.com/avatars/b39473da3f36b9b5718d6c76eb573a10.png"
     }
   ],
-  "updated_at": "2026-05-12T20:20:15.952Z"
+  "updated_at": "2026-05-13T08:50:48.647Z"
 }
