@@ -1,17 +1,27 @@
 {
   "stats": {
     "name": "Durrty",
-    "rank": 1010,
+    "rank": 1013,
     "rank_text": "Noob",
     "points": 0,
     "root_owns": 0,
-    "user_owns": 3,
+    "user_owns": 4,
     "challenge_owns": 0,
     "sherlock_owns": 0,
     "respects": 0,
     "avatar": null
   },
   "activities": [
+    {
+      "name": "Awkward",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": null,
+      "category": null,
+      "date": "2026-05-14T15:56:13.000000Z",
+      "points": 0,
+      "avatar": "https://labs.hackthebox.com/avatars/431ade6f6bf5631c6abded988021371a.png"
+    },
     {
       "name": "Principal",
       "type": "machine",
@@ -303,5 +313,5 @@
       "avatar": "https://labs.hackthebox.com/avatars/b39473da3f36b9b5718d6c76eb573a10.png"
     }
   ],
-  "updated_at": "2026-05-14T08:43:41.223Z"
+  "updated_at": "2026-05-15T08:55:04.506Z"
 }
