@@ -54,8 +54,7 @@ const htbUrl = (type: string, name: string) => {
 const formatDate = (iso: string) =>
   new Date(iso).toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', year: 'numeric' });
 
-const difficulty = (act: Activity) =>
-  act.difficulty ?? (act.type === 'machine' ? 'Very Easy' : null);
+const difficulty = (act: Activity) => act.difficulty ?? null;
 
 export default function HTBActivity() {
   const [filter, setFilter]         = useState('all');
@@ -204,7 +203,7 @@ export default function HTBActivity() {
                               </a>
                             )}
                           </div>
-                          <div className="mt-2 text-[10px] text-gray-600 font-mono">
+                          <div className="mt-2 text-[10px] text-gray-300 font-mono">
                             {formatDate(act.date)}
                           </div>
                         </div>

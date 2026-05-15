@@ -159,24 +159,26 @@ jobs:
             });
           }
 
-          // Machine : search, puis fallback profile par slug
-          async function fetchMachineAvatar(name) {
+          // Machine : search, puis fallback profile par slug — retourne { avatar, difficulty }
+          async function fetchMachineData(name) {
             const search = await htbGet('/api/v4/machine/search?value=' + encodeURIComponent(name));
             const list   = search?.data || [];
             const match  = list.find(m => m.name && m.name.toLowerCase() === name.toLowerCase());
             if (match) {
-              const url = resolveAvatar(match.avatar || match.avatar_thumb || null);
-              if (url) return url;
+              const url  = resolveAvatar(match.avatar || match.avatar_thumb || null);
+              const diff = match.difficultyText || match.difficulty_text || match.difficulty || null;
+              if (url || diff) return { avatar: url, difficulty: diff };
             }
-            // Fallback : profil par slug (ex: 'wingdata')
+            // Fallback : profil par slug
             const slug    = name.toLowerCase().replace(/[^a-z0-9]/g, '');
             const profile = await htbGet('/api/v4/machine/profile/' + encodeURIComponent(slug));
             const info    = profile?.info || profile?.data || profile;
             if (info && typeof info === 'object') {
-              const url = resolveAvatar(info.avatar || info.avatar_thumb || null);
-              if (url) return url;
+              const url  = resolveAvatar(info.avatar || info.avatar_thumb || null);
+              const diff = info.difficultyText || info.difficulty_text || info.difficulty || null;
+              return { avatar: url, difficulty: diff };
             }
-            return null;
+            return { avatar: null, difficulty: null };
           }
 
           // Sherlock : search par nom
@@ -312,17 +314,27 @@ jobs:
             }
 
             // --- Enrichissement des avatars manquants ou non-S3 ---
-            const missing = activities.filter(a => !a.avatar || a.avatar.includes('labs.hackthebox.com'));
+            const missing = activities.filter(a =>
+              !a.avatar || a.avatar.includes('labs.hackthebox.com') ||
+              (a.type === 'machine' && !a.difficulty)
+            );
             console.log('Avatars a enrichir : ' + missing.length + '/' + activities.length);
 
             for (const act of missing) {
               await new Promise(r => setTimeout(r, 350));
-              if      (act.type === 'machine')   act.avatar = await fetchMachineAvatar(act.name);
-              else if (act.type === 'sherlock')  act.avatar = await fetchSherlockAvatar(act.name);
-              else if (act.type === 'challenge') act.avatar = await fetchChallengeAvatar(act.name);
+              if (act.type === 'machine') {
+                const data = await fetchMachineData(act.name);
+                act.avatar = data.avatar;
+                if (data.difficulty && !act.difficulty) act.difficulty = data.difficulty;
+              } else if (act.type === 'sherlock') {
+                act.avatar = await fetchSherlockAvatar(act.name);
+              } else if (act.type === 'challenge') {
+                act.avatar = await fetchChallengeAvatar(act.name);
+              }
 
+              const diff   = act.difficulty ? (' diff=' + act.difficulty) : '';
               const status = act.avatar ? ('OK -> ' + act.avatar) : 'introuvable';
-              console.log('  ' + act.name + ' (' + act.type + '): ' + status);
+              console.log('  ' + act.name + ' (' + act.type + ')' + diff + ': ' + status);
             }
 
             const found = activities.filter(a => a.avatar).length;
