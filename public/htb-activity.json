@@ -1,17 +1,27 @@
 {
   "stats": {
     "name": "Durrty",
-    "rank": 1013,
+    "rank": 1019,
     "rank_text": "Noob",
-    "points": 0,
+    "points": 1,
     "root_owns": 0,
-    "user_owns": 6,
+    "user_owns": 7,
     "challenge_owns": 0,
     "sherlock_owns": 0,
     "respects": 0,
     "avatar": null
   },
   "activities": [
+    {
+      "name": "Interpreter",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": "Medium",
+      "category": null,
+      "date": "2026-05-15T21:09:54.000000Z",
+      "points": 30,
+      "avatar": "https://labs.hackthebox.com/avatars/09ad7380d2a445fff16a31fadcd35ff6.png"
+    },
     {
       "name": "Legacy",
       "type": "machine",
@@ -316,11 +326,11 @@
       "name": "Oopsie",
       "type": "machine",
       "action": "Owned Root",
-      "difficulty": "Very Easy",
+      "difficulty": null,
       "category": null,
       "date": "2026-04-18T14:21:52.000000Z",
       "points": 0,
-      "avatar": "https://labs.hackthebox.com/avatars/c5843e27067b877dfba7a82e4209a279.png"
+      "avatar": null
     },
     {
       "name": "Archetype",
@@ -333,5 +343,5 @@
       "avatar": null
     }
   ],
-  "updated_at": "2026-05-15T14:11:21.711Z"
+  "updated_at": "2026-05-16T08:10:35.139Z"
 }
