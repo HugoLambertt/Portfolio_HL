@@ -1,17 +1,27 @@
 {
   "stats": {
     "name": "Durrty",
-    "rank": 1019,
+    "rank": 973,
     "rank_text": "Noob",
     "points": 1,
     "root_owns": 0,
-    "user_owns": 7,
+    "user_owns": 8,
     "challenge_owns": 0,
     "sherlock_owns": 0,
     "respects": 0,
     "avatar": null
   },
   "activities": [
+    {
+      "name": "TwoMillion",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": "Easy",
+      "category": null,
+      "date": "2026-05-16T10:15:44.000000Z",
+      "points": 0,
+      "avatar": "https://labs.hackthebox.com/avatars/d7bc2758fb7589dfa046bee9ce4d75cb.png"
+    },
     {
       "name": "Interpreter",
       "type": "machine",
@@ -316,11 +326,11 @@
       "name": "Vaccine",
       "type": "machine",
       "action": "Owned Root",
-      "difficulty": "Very Easy",
+      "difficulty": null,
       "category": null,
       "date": "2026-04-19T20:43:17.000000Z",
       "points": 0,
-      "avatar": "https://labs.hackthebox.com/avatars/4abda8d32b5c71e6905244988879c575.png"
+      "avatar": null
     },
     {
       "name": "Oopsie",
@@ -343,5 +353,5 @@
       "avatar": null
     }
   ],
-  "updated_at": "2026-05-16T08:10:35.139Z"
+  "updated_at": "2026-05-17T08:26:33.369Z"
 }
