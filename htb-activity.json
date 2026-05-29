@@ -1,9 +1,9 @@
 {
   "stats": {
     "name": "Durrty",
-    "rank": 1010,
+    "rank": 1013,
     "rank_text": "Noob",
-    "points": 1,
+    "points": 2,
     "root_owns": 0,
     "user_owns": 9,
     "challenge_owns": 0,
@@ -12,6 +12,16 @@
     "avatar": null
   },
   "activities": [
+    {
+      "name": "Global Hyperlink Zone",
+      "type": "challenge",
+      "action": "Solved",
+      "difficulty": null,
+      "category": "Quantum",
+      "date": "2026-05-28T17:04:51.000000Z",
+      "points": 1,
+      "avatar": null
+    },
     {
       "name": "Jerry",
       "type": "machine",
@@ -363,5 +373,5 @@
       "avatar": null
     }
   ],
-  "updated_at": "2026-05-28T10:11:50.103Z"
+  "updated_at": "2026-05-29T10:00:57.914Z"
 }
