@@ -1,7 +1,7 @@
 {
   "stats": {
     "name": "Durrty",
-    "rank": 995,
+    "rank": 991,
     "rank_text": "Noob",
     "points": 0,
     "root_owns": 0,
@@ -12,6 +12,16 @@
     "avatar": null
   },
   "activities": [
+    {
+      "name": "Lucky Dice",
+      "type": "challenge",
+      "action": "Solved",
+      "difficulty": null,
+      "category": "Misc",
+      "date": "2026-06-02T09:01:58.000000Z",
+      "points": 1,
+      "avatar": null
+    },
     {
       "name": "Global Hyperlink Zone",
       "type": "challenge",
@@ -373,5 +383,5 @@
       "avatar": null
     }
   ],
-  "updated_at": "2026-06-01T11:43:53.651Z"
+  "updated_at": "2026-06-02T10:44:23.551Z"
 }
