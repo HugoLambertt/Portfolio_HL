@@ -18,7 +18,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
           cache: 'npm'
 
       - name: Fetch HTB data
@@ -30,28 +30,45 @@ jobs:
             -H "Authorization: Bearer ${HTB_TOKEN}" \
             -H "User-Agent: Portfolio" \
             -H "Accept: application/json" \
-            "https://labs.hackthebox.com/api/v4/profile/activity/${HTB_USER_ID}")
-          echo "Activity API: $ACTIVITY_STATUS"
+            "https://labs.hackthebox.com/api/v4/user/profile/activity/${HTB_USER_ID}")
+          echo "Activity API status: $ACTIVITY_STATUS"
+          if [ "$ACTIVITY_STATUS" != "200" ]; then
+            echo "--- Activity API Error Response ---"
+            cat /tmp/htb-activity.json
+            echo "-----------------------------------"
+          fi
 
           CHALLENGE_STATUS=$(curl -s -o /tmp/htb-challenges.json -w "%{http_code}" \
             -H "Authorization: Bearer ${HTB_TOKEN}" \
             -H "User-Agent: Portfolio" \
             -H "Accept: application/json" \
-            "https://labs.hackthebox.com/api/v4/profile/${HTB_USER_ID}/challenges/solved")
-          echo "Challenges API: $CHALLENGE_STATUS"
+            "https://labs.hackthebox.com/api/v4/user/profile/${HTB_USER_ID}/challenges/solved")
+          echo "Challenges API status: $CHALLENGE_STATUS"
+          if [ "$CHALLENGE_STATUS" != "200" ]; then
+            echo "--- Challenges API Error Response ---"
+            cat /tmp/htb-challenges.json
+            echo "-------------------------------------"
+          fi
 
           PROFILE_STATUS=$(curl -s -o /tmp/htb-profile.json -w "%{http_code}" \
             -H "Authorization: Bearer ${HTB_TOKEN}" \
             -H "User-Agent: Portfolio" \
             -H "Accept: application/json" \
-            "https://labs.hackthebox.com/api/v4/profile/${HTB_USER_ID}")
-          echo "Profile API: $PROFILE_STATUS"
+            "https://labs.hackthebox.com/api/v4/user/profile/basic/${HTB_USER_ID}")
+          echo "Profile API status: $PROFILE_STATUS"
+          if [ "$PROFILE_STATUS" != "200" ]; then
+            echo "--- Profile API Error Response ---"
+            cat /tmp/htb-profile.json
+            echo "----------------------------------"
+          fi
 
           # Essai de plusieurs endpoints Sherlock
           for SHERLOCK_PATH in \
+            "/api/v4/user/profile/${HTB_USER_ID}/sherlocks/solved" \
+            "/api/v4/user/profile/${HTB_USER_ID}/sherlocks" \
+            "/api/v4/user/profile/${HTB_USER_ID}/progress/sherlocks" \
             "/api/v4/profile/${HTB_USER_ID}/sherlocks/solved" \
-            "/api/v4/profile/${HTB_USER_ID}/sherlocks" \
-            "/api/v4/profile/${HTB_USER_ID}/progress/sherlocks"; do
+            "/api/v4/profile/${HTB_USER_ID}/sherlocks"; do
             S=$(curl -s -o /tmp/htb-sherlocks.json -w "%{http_code}" \
               -H "Authorization: Bearer ${HTB_TOKEN}" \
               -H "User-Agent: Portfolio" \
@@ -116,6 +133,12 @@ jobs:
               return filename ? S3 + '/avatars/' + filename : null;
             }
             if (raw.startsWith('http')) return raw.includes('.svg') ? null : raw;
+
+            // Relative avatars path conversion
+            if (raw.startsWith('/avatars/')) {
+              const filename = raw.split('/avatars/').pop().replace('_thumb', '');
+              return filename ? S3 + '/avatars/' + filename : null;
+            }
 
             // Conversion chemins relatifs HTB -> S3 public
             if (raw.startsWith('/storage/avatars/'))
@@ -199,7 +222,14 @@ jobs:
 
           (async () => {
             // --- Activity (machines + sherlocks) ---
-            const rawActivity = JSON.parse(fs.readFileSync('/tmp/htb-activity.json', 'utf8'));
+            let rawActivity = {};
+            try {
+              rawActivity = JSON.parse(fs.readFileSync('/tmp/htb-activity.json', 'utf8'));
+            } catch (e) {
+              console.error('CRITICAL: Failed to parse /tmp/htb-activity.json as JSON.', e.message);
+              console.error('File content sample:', fs.readFileSync('/tmp/htb-activity.json', 'utf8').substring(0, 1000));
+              process.exit(1);
+            }
 
             // Debug : afficher la structure brute
             const activityItems = rawActivity.profile?.activity
@@ -343,20 +373,27 @@ jobs:
             // --- Profile stats ---
             let stats = null;
             if (fs.existsSync('/tmp/htb-profile.json')) {
-              const rawProfile = JSON.parse(fs.readFileSync('/tmp/htb-profile.json', 'utf8'));
-              const p = rawProfile.profile ?? {};
-              stats = {
-                name:           p.name           ?? null,
-                rank:           p.ranking        ?? null,
-                rank_text:      p.rank           ?? null,
-                points:         p.points         ?? 0,
-                root_owns:      p.root_owns      ?? 0,
-                user_owns:      p.user_owns      ?? 0,
-                challenge_owns: p.challenge_owns ?? 0,
-                sherlock_owns:  p.sheriff_owns   ?? p.sherlock_owns ?? 0,
-                respects:       p.respects       ?? 0,
-                avatar:         resolveAvatar(p.avatar),
-              };
+              try {
+                const rawProfile = JSON.parse(fs.readFileSync('/tmp/htb-profile.json', 'utf8'));
+                const p = rawProfile.profile ?? rawProfile.data ?? rawProfile ?? {};
+                stats = {
+                  name:           p.name           ?? null,
+                  rank:           p.ranking        ?? null,
+                  rank_text:      p.rank           ?? null,
+                  points:         p.points         ?? 0,
+                  root_owns:      p.root_owns      ?? 0,
+                  user_owns:      p.user_owns      ?? 0,
+                  challenge_owns: p.challenge_owns ?? 0,
+                  sherlock_owns:  p.sheriff_owns   ?? p.sherlock_owns ?? 0,
+                  respects:       p.respects       ?? 0,
+                  avatar:         resolveAvatar(p.avatar),
+                };
+              } catch (e) {
+                console.error('WARNING: Failed to parse /tmp/htb-profile.json as JSON.', e.message);
+                if (fs.existsSync('/tmp/htb-profile.json')) {
+                  console.error('File content sample:', fs.readFileSync('/tmp/htb-profile.json', 'utf8').substring(0, 1000));
+                }
+              }
             }
 
             const result = { stats, activities, updated_at: new Date().toISOString() };
