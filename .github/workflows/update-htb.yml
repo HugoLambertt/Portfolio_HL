@@ -270,7 +270,8 @@ jobs:
 
             const best = new Map();
             for (const item of activityItems) {
-              const objType = item.object_type || item.type_name || item.type || 'machine';
+              let objType = item.object_type || item.type_name || item.type || 'machine';
+              if (objType === 'root' || objType === 'user') objType = 'machine';
               const key  = objType + ':' + item.name;
               const rank = ACTION_RANK[item.type] ?? 0;
               if (!best.has(key) || rank > best.get(key).rank)
