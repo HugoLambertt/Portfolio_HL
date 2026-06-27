@@ -16,7 +16,7 @@
       "name": "Cicada",
       "type": "machine",
       "action": "Owned Root",
-      "difficulty": null,
+      "difficulty": "Easy",
       "category": null,
       "points": 0,
       "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90cc-93da-4402-a4f0-b252cbc9c7e2.png"
@@ -43,7 +43,7 @@
       "name": "Jerry",
       "type": "machine",
       "action": "Owned Root",
-      "difficulty": null,
+      "difficulty": "Easy",
       "category": null,
       "points": 0,
       "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90d5-eec2-40f8-a422-d4825b3c1a89.png"
@@ -52,7 +52,7 @@
       "name": "TwoMillion",
       "type": "machine",
       "action": "Owned Root",
-      "difficulty": null,
+      "difficulty": "Easy",
       "category": null,
       "points": 0,
       "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90cd-c843-47e4-97f7-c0a2d69b78ce.png"
@@ -61,7 +61,7 @@
       "name": "Interpreter",
       "type": "machine",
       "action": "Owned Root",
-      "difficulty": null,
+      "difficulty": "Medium",
       "category": null,
       "points": 0,
       "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/a117abeb-4068-443a-9c58-245b9381805a.png"
@@ -70,7 +70,7 @@
       "name": "Legacy",
       "type": "machine",
       "action": "Owned Root",
-      "difficulty": null,
+      "difficulty": "Easy",
       "category": null,
       "points": 0,
       "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90d7-a094-4d19-acb4-e24b7ae44f57.png"
@@ -79,7 +79,7 @@
       "name": "Lame",
       "type": "machine",
       "action": "Owned Root",
-      "difficulty": null,
+      "difficulty": "Easy",
       "category": null,
       "points": 0,
       "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90d7-a3c6-4bf5-944f-b6d62ba830bb.png"
@@ -88,11 +88,11 @@
       "name": "Awkward",
       "type": "machine",
       "action": "Owned Root",
-      "difficulty": null,
+      "difficulty": "Medium",
       "category": null,
       "points": 0,
       "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90cf-ec1a-41e4-87e7-5cfd8cfa18f6.png"
     }
   ],
-  "updated_at": "2026-06-27T22:31:45.224Z"
+  "updated_at": "2026-06-27T22:45:37.344Z"
 }
