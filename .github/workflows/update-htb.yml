@@ -30,7 +30,7 @@ jobs:
             -H "Authorization: Bearer ${HTB_TOKEN}" \
             -H "User-Agent: Portfolio" \
             -H "Accept: application/json" \
-            "https://labs.hackthebox.com/api/v4/user/profile/activity/${HTB_USER_ID}")
+            "https://labs.hackthebox.com/api/v5/user/profile/activity/${HTB_USER_ID}")
           echo "Activity API status: $ACTIVITY_STATUS"
           if [ "$ACTIVITY_STATUS" != "200" ]; then
             echo "--- Activity API Error Response ---"
@@ -42,7 +42,14 @@ jobs:
             -H "Authorization: Bearer ${HTB_TOKEN}" \
             -H "User-Agent: Portfolio" \
             -H "Accept: application/json" \
-            "https://labs.hackthebox.com/api/v4/user/profile/${HTB_USER_ID}/challenges/solved")
+            "https://labs.hackthebox.com/api/v5/user/profile/challenges/solved/${HTB_USER_ID}")
+          if [ "$CHALLENGE_STATUS" != "200" ]; then
+            CHALLENGE_STATUS=$(curl -s -o /tmp/htb-challenges.json -w "%{http_code}" \
+              -H "Authorization: Bearer ${HTB_TOKEN}" \
+              -H "User-Agent: Portfolio" \
+              -H "Accept: application/json" \
+              "https://labs.hackthebox.com/api/v5/user/profile/${HTB_USER_ID}/challenges/solved")
+          fi
           echo "Challenges API status: $CHALLENGE_STATUS"
           if [ "$CHALLENGE_STATUS" != "200" ]; then
             echo "--- Challenges API Error Response ---"
@@ -64,6 +71,9 @@ jobs:
 
           # Essai de plusieurs endpoints Sherlock
           for SHERLOCK_PATH in \
+            "/api/v5/user/profile/sherlocks/solved/${HTB_USER_ID}" \
+            "/api/v5/user/profile/${HTB_USER_ID}/sherlocks/solved" \
+            "/api/v5/user/profile/${HTB_USER_ID}/sherlocks" \
             "/api/v4/user/profile/${HTB_USER_ID}/sherlocks/solved" \
             "/api/v4/user/profile/${HTB_USER_ID}/sherlocks" \
             "/api/v4/user/profile/${HTB_USER_ID}/progress/sherlocks" \
