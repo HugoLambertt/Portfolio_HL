@@ -1,7 +1,7 @@
 {
   "stats": {
     "name": "Durrty",
-    "rank": 1035,
+    "rank": 1012,
     "rank_text": "Noob",
     "points": 0,
     "root_owns": 0,
@@ -94,5 +94,5 @@
       "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90cf-ec1a-41e4-87e7-5cfd8cfa18f6.png"
     }
   ],
-  "updated_at": "2026-06-27T22:45:37.344Z"
+  "updated_at": "2026-06-28T09:16:26.936Z"
 }
