@@ -13,6 +13,16 @@
   },
   "activities": [
     {
+      "name": "Cicada",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": "Easy",
+      "category": null,
+      "points": 0,
+      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90cc-93da-4402-a4f0-b252cbc9c7e2.png",
+      "date": "2026-06-25T00:00:00.000Z"
+    },
+    {
       "name": "Lucky Dice",
       "type": "challenge",
       "action": "Solved",
@@ -579,15 +589,6 @@
       "category": null,
       "date": "2025-05-22T00:00:00.000000Z",
       "avatar": null
-    },
-    {
-      "name": "Cicada",
-      "type": "machine",
-      "action": "Owned Root",
-      "difficulty": "Easy",
-      "category": null,
-      "points": 0,
-      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90cc-93da-4402-a4f0-b252cbc9c7e2.png"
     }
   ],
   "updated_at": "2026-07-01T08:18:39.866Z"
