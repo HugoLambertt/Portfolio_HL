@@ -85,4 +85,3 @@ Dans **Settings → Secrets and variables → Actions** du repo :
 - Illustrer mes connaissances en cybersécurité
 - Centraliser mes projets académiques et personnels
 - Servir de support pour mes recherches de stage / alternance
-claude --resume 16575804-cad7-4d2d-ad11-04298d02bb04

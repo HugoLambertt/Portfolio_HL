@@ -279,14 +279,18 @@ jobs:
             }
 
             const activities = [...best.values()]
-              .sort((a, b) => new Date(b.item.date) - new Date(a.item.date))
+              .sort((a, b) => {
+                const dateA = new Date(a.item.date ?? a.item.created_at ?? a.item.solved_at ?? a.item.time ?? 0);
+                const dateB = new Date(b.item.date ?? b.item.created_at ?? b.item.solved_at ?? b.item.time ?? 0);
+                return dateB - dateA;
+              })
               .map(({ item, objType }) => ({
                 name:       item.name,
                 type:       objType,
                 action:     ACTION_LABEL[item.type] ?? item.type ?? 'Completed',
                 difficulty: item.difficulty         ?? null,
                 category:   item.challenge_category ?? item.category ?? null,
-                date:       item.date,
+                date:       item.date ?? item.created_at ?? item.solved_at ?? item.time ?? new Date().toISOString(),
                 points:     item.points             ?? 0,
                 avatar:     resolveAvatar(item.machine_avatar || item.sherlock_avatar || item.avatar || item.challenge_avatar || null),
               }));

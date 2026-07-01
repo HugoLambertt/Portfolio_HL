@@ -51,8 +51,12 @@ const htbUrl = (type: string, name: string) => {
   return null;
 };
 
-const formatDate = (iso: string) =>
-  new Date(iso).toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', year: 'numeric' });
+const formatDate = (iso: string) => {
+  if (!iso) return 'Date inconnue';
+  const d = new Date(iso);
+  if (isNaN(d.getTime())) return 'Date inconnue';
+  return d.toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', year: 'numeric' });
+};
 
 const difficulty = (act: Activity) => act.difficulty ?? null;
 
