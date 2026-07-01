@@ -33,7 +33,7 @@ const Projects = () => {
       description: 'Application web de gestion et de visualisation de la désinfection, de l\'hygiène et de l\'inventaire des véhicules ambulanciers, intégrant un système de profils utilisateurs (Régulation, Ambulancier, Mécanicien, Administrateur) et un scan de QR codes',
       technologies: ['PHP', 'HTML/CSS', 'JavaScript', 'SQL', 'API', 'Android'],
       icon: Globe,
-      color: 'primary', 
+      color: 'primary',
       presentationLink: './Présentationsanios.pdf',
     },
     /*{
@@ -48,7 +48,7 @@ const Projects = () => {
       title: 'TOURNAMENT GAMES',
       category: 'web',
       description: 'Projet de fin d\'études BTS SIO : conception et développement d\'une application web et mobile permettant l\'organisation de tournois de jeux vidéo inter-écoles. Le projet repose principalement sur une architecture CRUD pour la gestion des données (tournois, équipes, joueurs, matchs). La plateforme web, développée avec CodeIgniter 4 et Bootstrap, communique via une API REST avec une application mobile Android développée en Kotlin.',
-      technologies: ['PHP', 'HTML/CSS','CodeIgniter4', 'Bootstrap', 'Kotlin', 'API'],
+      technologies: ['PHP', 'HTML/CSS', 'CodeIgniter4', 'Bootstrap', 'Kotlin', 'API'],
       icon: Globe,
       color: 'primary',
       githubLink: 'https://github.com/HugoLambertt/Tournament-Games.git',
@@ -67,10 +67,19 @@ const Projects = () => {
       title: 'Challenge 48h forensic de M. Philippe JARLOV',
       category: 'cyber',
       description: 'Le challenge 48h est un CTF de type forensic immersif où les étudiants participent à une enquête numérique réaliste pendant deux jours. Ils doivent analyser des preuves comme des machines virtuelles et des données de téléphones pour résoudre une affaire d’espionnage, en se mettant dans la peau d’un analyste forensique. L’événement est encadré par Philippe JARLOV, expert reconnu en criminalistique numérique.',
-      technologies: ['Autopsy', 'TrueCrypt', 'OpenStego','CelleBrite'],
+      technologies: ['Autopsy', 'TrueCrypt', 'OpenStego', 'CelleBrite'],
       icon: Shield,
       color: 'secondary',
       presentationLink: './Challenge_48h_Forensic.pdf',
+    },
+    {
+      title: 'CTF HackTheBox x Ynov Campus',
+      category: 'cyber',
+      description: 'Participation au CTF HackTheBox avec Ynov Campus, encadré par des expert dans le domaine de chez HackTheBox, le ctf s est déroulé par équipe de 5 avec pour objectif d\'obtenir un maximum de Flag.',
+      technologies: ['Web', 'Crypto', 'Hardware', 'Pwn', 'Forensic', 'OSINT'],
+      icon: Shield,
+      color: 'secondary',
+      presentationLink: './HackTheBoxxYnovCampusCTF2026.pdf',
     },
   ];
 
@@ -81,8 +90,8 @@ const Projects = () => {
     { id: 'cyber', label: 'Cybersécurité' },
   ];
 
-  const filteredProjects = activeFilter === 'all' 
-    ? projects 
+  const filteredProjects = activeFilter === 'all'
+    ? projects
     : projects.filter(p => p.category === activeFilter);
 
   return (
@@ -105,8 +114,8 @@ const Projects = () => {
                 variant={activeFilter === filter.id ? 'default' : 'outline'}
                 onClick={() => setActiveFilter(filter.id)}
                 className={`
-                  ${activeFilter === filter.id 
-                    ? 'bg-primary hover:bg-primary-glow text-primary-foreground shadow-neon-blue' 
+                  ${activeFilter === filter.id
+                    ? 'bg-primary hover:bg-primary-glow text-primary-foreground shadow-neon-blue'
                     : 'border-primary/30 hover:border-primary hover:bg-primary/10'
                   }
                   transition-all duration-300
