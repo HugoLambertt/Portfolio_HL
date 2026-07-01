@@ -13,22 +13,14 @@
   },
   "activities": [
     {
-      "name": "Cicada",
-      "type": "machine",
-      "action": "Owned Root",
-      "difficulty": "Easy",
-      "category": null,
-      "points": 0,
-      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90cc-93da-4402-a4f0-b252cbc9c7e2.png"
-    },
-    {
       "name": "Lucky Dice",
       "type": "challenge",
       "action": "Solved",
       "difficulty": null,
       "category": null,
       "points": 1,
-      "avatar": null
+      "avatar": null,
+      "date": "2026-06-02T09:01:58.000000Z"
     },
     {
       "name": "Global Hyperlink Zone",
@@ -37,7 +29,8 @@
       "difficulty": null,
       "category": null,
       "points": 1,
-      "avatar": null
+      "avatar": null,
+      "date": "2026-05-28T17:04:51.000000Z"
     },
     {
       "name": "Jerry",
@@ -46,7 +39,8 @@
       "difficulty": "Easy",
       "category": null,
       "points": 0,
-      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90d5-eec2-40f8-a422-d4825b3c1a89.png"
+      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90d5-eec2-40f8-a422-d4825b3c1a89.png",
+      "date": "2026-05-24T17:37:53.000000Z"
     },
     {
       "name": "TwoMillion",
@@ -55,16 +49,8 @@
       "difficulty": "Easy",
       "category": null,
       "points": 0,
-      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90cd-c843-47e4-97f7-c0a2d69b78ce.png"
-    },
-    {
-      "name": "Interpreter",
-      "type": "machine",
-      "action": "Owned Root",
-      "difficulty": "Medium",
-      "category": null,
-      "points": 0,
-      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/a117abeb-4068-443a-9c58-245b9381805a.png"
+      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90cd-c843-47e4-97f7-c0a2d69b78ce.png",
+      "date": "2026-05-16T10:15:44.000000Z"
     },
     {
       "name": "Legacy",
@@ -73,7 +59,8 @@
       "difficulty": "Easy",
       "category": null,
       "points": 0,
-      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90d7-a094-4d19-acb4-e24b7ae44f57.png"
+      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90d7-a094-4d19-acb4-e24b7ae44f57.png",
+      "date": "2026-05-15T13:56:01.000000Z"
     },
     {
       "name": "Lame",
@@ -82,7 +69,8 @@
       "difficulty": "Easy",
       "category": null,
       "points": 0,
-      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90d7-a3c6-4bf5-944f-b6d62ba830bb.png"
+      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90d7-a3c6-4bf5-944f-b6d62ba830bb.png",
+      "date": "2026-05-15T13:27:22.000000Z"
     },
     {
       "name": "Awkward",
@@ -91,8 +79,516 @@
       "difficulty": "Medium",
       "category": null,
       "points": 0,
-      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90cf-ec1a-41e4-87e7-5cfd8cfa18f6.png"
+      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90cf-ec1a-41e4-87e7-5cfd8cfa18f6.png",
+      "date": "2026-05-14T15:56:13.000000Z"
+    },
+    {
+      "name": "Principal",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": "Medium",
+      "category": null,
+      "date": "2026-05-13T12:13:06.000000Z",
+      "points": 0,
+      "avatar": "https://labs.hackthebox.com/avatars/a3257c109bddf7358350a2cf02b8ae81.png"
+    },
+    {
+      "name": "Cap",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": "Easy",
+      "category": null,
+      "date": "2026-05-11T21:14:57.000000Z",
+      "points": 0,
+      "avatar": "https://labs.hackthebox.com/avatars/70ea3357a2d090af11a0953ec8717e90.png"
+    },
+    {
+      "name": "Base",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": "Very Easy",
+      "category": null,
+      "date": "2026-05-11T16:32:14.000000Z",
+      "points": 0,
+      "avatar": "https://labs.hackthebox.com/avatars/1c692d549c04dad7be38a59aaf987973.png"
+    },
+    {
+      "name": "Unified",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": "Very Easy",
+      "category": null,
+      "date": "2026-05-10T10:14:44.000000Z",
+      "points": 0,
+      "avatar": "https://labs.hackthebox.com/avatars/525ba0e35574d9240e878bb8c716661e.png"
+    },
+    {
+      "name": "Pennyworth",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": "Very Easy",
+      "category": null,
+      "date": "2026-05-10T08:36:37.000000Z",
+      "points": 0,
+      "avatar": "https://labs.hackthebox.com/avatars/27332a8471926116dce0f75f54ec72e7.png"
+    },
+    {
+      "name": "Ignition",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": "Very Easy",
+      "category": null,
+      "date": "2026-05-10T08:23:47.000000Z",
+      "points": 0,
+      "avatar": "https://labs.hackthebox.com/avatars/fd78e233111c4c9829b71997477f34c0.png"
+    },
+    {
+      "name": "Bike",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": "Very Easy",
+      "category": null,
+      "date": "2026-05-09T11:46:53.000000Z",
+      "points": 0,
+      "avatar": "https://labs.hackthebox.com/avatars/a51f9bced90a0e984e47e36b854e5993.png"
+    },
+    {
+      "name": "Crocodile",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": "Very Easy",
+      "category": null,
+      "date": "2026-05-09T10:36:41.000000Z",
+      "points": 0,
+      "avatar": "https://labs.hackthebox.com/avatars/00935a242722b9a2c700bdb6b65195f6.png"
+    },
+    {
+      "name": "Preignition",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": "Very Easy",
+      "category": null,
+      "date": "2026-05-09T10:12:41.000000Z",
+      "points": 0,
+      "avatar": "https://labs.hackthebox.com/avatars/1bd28d62af041f549cfc61db042000a8.png"
+    },
+    {
+      "name": "Mongod",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": "Very Easy",
+      "category": null,
+      "date": "2026-05-09T10:05:27.000000Z",
+      "points": 0,
+      "avatar": "https://labs.hackthebox.com/avatars/657738f01a2a0ed87faa7e8bf9237421.png"
+    },
+    {
+      "name": "Explosion",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": "Very Easy",
+      "category": null,
+      "date": "2026-05-08T22:07:41.000000Z",
+      "points": 0,
+      "avatar": "https://labs.hackthebox.com/avatars/ca1623de6e76873fd49e0e99db53f08f.png"
+    },
+    {
+      "name": "Dancing",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": "Very Easy",
+      "category": null,
+      "date": "2026-05-07T12:07:43.000000Z",
+      "points": 0,
+      "avatar": "https://labs.hackthebox.com/avatars/ce52eadd09ff5a28a1eea8c65d6683a9.png"
+    },
+    {
+      "name": "Fawn",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": "Very Easy",
+      "category": null,
+      "date": "2026-05-07T11:53:27.000000Z",
+      "points": 0,
+      "avatar": "https://labs.hackthebox.com/avatars/b64f85071e626e4cc2272d54332e4131.png"
+    },
+    {
+      "name": "Meow",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": "Very Easy",
+      "category": null,
+      "date": "2026-05-07T11:45:40.000000Z",
+      "points": 0,
+      "avatar": "https://labs.hackthebox.com/avatars/61b5837dfdfe1fb1ca3750cf2712da44.png"
+    },
+    {
+      "name": "Spookifier",
+      "type": "challenge",
+      "action": "Solved",
+      "difficulty": null,
+      "category": "Web",
+      "date": "2026-05-07T11:22:27.000000Z",
+      "points": 0,
+      "avatar": null
+    },
+    {
+      "name": "Sequel",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": "Very Easy",
+      "category": null,
+      "date": "2026-05-06T14:15:41.000000Z",
+      "points": 0,
+      "avatar": "https://labs.hackthebox.com/avatars/b783687f4acd9b12249440c9a8105e46.png"
+    },
+    {
+      "name": "Appointment",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": "Very Easy",
+      "category": null,
+      "date": "2026-05-06T13:57:42.000000Z",
+      "points": 0,
+      "avatar": "https://labs.hackthebox.com/avatars/a9ddcda8d2f6eb388c6717de2caff896.png"
+    },
+    {
+      "name": "Synced",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": "Very Easy",
+      "category": null,
+      "date": "2026-05-06T12:28:41.000000Z",
+      "points": 0,
+      "avatar": "https://labs.hackthebox.com/avatars/64c963e673f572edd2c7d7c3de4f5048.png"
+    },
+    {
+      "name": "Arctic",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": "Easy",
+      "category": null,
+      "date": "2026-05-06T11:55:31.000000Z",
+      "points": 0,
+      "avatar": "https://labs.hackthebox.com/avatars/0d6275efbd5e48fcdc96e61b9724ae5e.png"
+    },
+    {
+      "name": "Funnel",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": "Very Easy",
+      "category": null,
+      "date": "2026-04-25T11:24:57.000000Z",
+      "points": 0,
+      "avatar": "https://labs.hackthebox.com/avatars/fdaacd3ce33321271e6265b27aa5a291.png"
+    },
+    {
+      "name": "Responder",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": "Very Easy",
+      "category": null,
+      "date": "2026-04-25T10:34:18.000000Z",
+      "points": 0,
+      "avatar": "https://labs.hackthebox.com/avatars/0348ed41851064f497d155c2a6af359a.png"
+    },
+    {
+      "name": "Tactics",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": "Very Easy",
+      "category": null,
+      "date": "2026-04-23T09:26:08.000000Z",
+      "points": 0,
+      "avatar": "https://labs.hackthebox.com/avatars/e7b1ffda86078c06ca783ba89288cd02.png"
+    },
+    {
+      "name": "Three",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": "Very Easy",
+      "category": null,
+      "date": "2026-04-23T08:04:00.000000Z",
+      "points": 0,
+      "avatar": "https://labs.hackthebox.com/avatars/49fa1274ca631fd870e9feca35b7d7c2.png"
+    },
+    {
+      "name": "Redeemer",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": "Very Easy",
+      "category": null,
+      "date": "2026-04-23T07:36:23.000000Z",
+      "points": 0,
+      "avatar": "https://labs.hackthebox.com/avatars/cdf77651ab0a4eca65acd5cf388b4c66.png"
+    },
+    {
+      "name": "Markup",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": "Very Easy",
+      "category": null,
+      "date": "2026-04-20T20:53:24.000000Z",
+      "points": 0,
+      "avatar": "https://labs.hackthebox.com/avatars/619fa91801ba0956c435db03ab267118.png"
+    },
+    {
+      "name": "Included",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": "Very Easy",
+      "category": null,
+      "date": "2026-04-20T11:35:02.000000Z",
+      "points": 0,
+      "avatar": null
+    },
+    {
+      "name": "Vaccine",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": "Very Easy",
+      "category": null,
+      "date": "2026-04-19T20:43:17.000000Z",
+      "points": 0,
+      "avatar": null
+    },
+    {
+      "name": "Oopsie",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": "Very Easy",
+      "category": null,
+      "date": "2026-04-18T14:21:52.000000Z",
+      "points": 0,
+      "avatar": null
+    },
+    {
+      "name": "Archetype",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": "Very Easy",
+      "category": null,
+      "date": "2026-04-18T13:34:58.000000Z",
+      "points": 0,
+      "avatar": null
+    },
+    {
+      "name": "CCTV",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": null,
+      "category": null,
+      "date": "2026-03-13T20:32:00.000000Z",
+      "avatar": "https://htb-mp-prod-public-storage.s3.eu-central-1.amazonaws.com/avatars/9867e8b14b7602881160973ebb50b2c4.png"
+    },
+    {
+      "name": "Lupin",
+      "type": "sherlock",
+      "action": "Solved",
+      "difficulty": "Medium",
+      "category": null,
+      "date": "2026-02-23T15:27:00.000000Z",
+      "avatar": "https://htb-mp-prod-public-storage.s3.eu-central-1.amazonaws.com/challenges/c3e0c62ee91db8dc7382bde7419bb573.png"
+    },
+    {
+      "name": "Interpreter",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": "Medium",
+      "category": null,
+      "points": 0,
+      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/a117abeb-4068-443a-9c58-245b9381805a.png",
+      "date": "2026-02-23T00:00:00.000000Z"
+    },
+    {
+      "name": "WingData",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": "Easy",
+      "category": null,
+      "date": "2026-02-16T00:00:00.000000Z",
+      "avatar": null
+    },
+    {
+      "name": "Pterodactyl",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": "Hard",
+      "category": null,
+      "date": "2026-02-08T00:00:00.000000Z",
+      "avatar": null
+    },
+    {
+      "name": "Facts",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": "Easy",
+      "category": null,
+      "date": "2026-02-03T00:00:00.000000Z",
+      "avatar": null
+    },
+    {
+      "name": "Triage",
+      "type": "sherlock",
+      "action": "Solved",
+      "difficulty": "Medium",
+      "category": null,
+      "date": "2026-01-20T00:00:00.000000Z",
+      "avatar": null
+    },
+    {
+      "name": "Cobblestone",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": "Easy",
+      "category": null,
+      "date": "2025-08-13T00:00:00.000000Z",
+      "avatar": null
+    },
+    {
+      "name": "Editor",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": "Easy",
+      "category": null,
+      "date": "2025-08-08T00:00:00.000000Z",
+      "avatar": null
+    },
+    {
+      "name": "Era",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": "Medium",
+      "category": null,
+      "date": "2025-08-02T00:00:00.000000Z",
+      "avatar": null
+    },
+    {
+      "name": "Mirage",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": "Hard",
+      "category": null,
+      "date": "2025-07-23T00:00:00.000000Z",
+      "avatar": null
+    },
+    {
+      "name": "Code",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": "Easy",
+      "category": null,
+      "date": "2025-07-18T00:00:00.000000Z",
+      "avatar": null
+    },
+    {
+      "name": "Outbound",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": "Easy",
+      "category": null,
+      "date": "2025-07-12T00:00:00.000000Z",
+      "avatar": null
+    },
+    {
+      "name": "Voleur",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": "Medium",
+      "category": null,
+      "date": "2025-07-11T00:00:00.000000Z",
+      "avatar": null
+    },
+    {
+      "name": "RustyKey",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": "Easy",
+      "category": null,
+      "date": "2025-07-04T00:00:00.000000Z",
+      "avatar": null
+    },
+    {
+      "name": "Artificial",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": "Hard",
+      "category": null,
+      "date": "2025-06-22T00:00:00.000000Z",
+      "avatar": null
+    },
+    {
+      "name": "Sorcery",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": "Medium",
+      "category": null,
+      "date": "2025-06-19T00:00:00.000000Z",
+      "avatar": null
+    },
+    {
+      "name": "Eureka",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": "Easy",
+      "category": null,
+      "date": "2025-06-10T00:00:00.000000Z",
+      "avatar": null
+    },
+    {
+      "name": "TombWatcher",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": "Hard",
+      "category": null,
+      "date": "2025-06-09T00:00:00.000000Z",
+      "avatar": null
+    },
+    {
+      "name": "Planning",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": "Easy",
+      "category": null,
+      "date": "2025-06-07T00:00:00.000000Z",
+      "avatar": null
+    },
+    {
+      "name": "Certificate",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": "Medium",
+      "category": null,
+      "date": "2025-06-02T00:00:00.000000Z",
+      "avatar": null
+    },
+    {
+      "name": "Nocturnal",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": "Easy",
+      "category": null,
+      "date": "2025-05-27T00:00:00.000000Z",
+      "avatar": null
+    },
+    {
+      "name": "Fluffy",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": "Easy",
+      "category": null,
+      "date": "2025-05-22T00:00:00.000000Z",
+      "avatar": null
+    },
+    {
+      "name": "Cicada",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": "Easy",
+      "category": null,
+      "points": 0,
+      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90cc-93da-4402-a4f0-b252cbc9c7e2.png"
     }
   ],
-  "updated_at": "2026-06-30T09:45:18.220Z"
+  "updated_at": "2026-07-01T08:18:39.866Z"
 }
