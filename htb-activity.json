@@ -1,7 +1,7 @@
 {
   "stats": {
     "name": "Durrty",
-    "rank": 1033,
+    "rank": 1042,
     "rank_text": "Noob",
     "points": 0,
     "root_owns": 0,
@@ -13,12 +13,22 @@
   },
   "activities": [
     {
+      "name": "Cicada",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": "Easy",
+      "category": null,
+      "date": "2026-07-03T09:24:26.406Z",
+      "points": 0,
+      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90cc-93da-4402-a4f0-b252cbc9c7e2.png"
+    },
+    {
       "name": "Lucky Dice",
       "type": "challenge",
       "action": "Solved",
       "difficulty": null,
       "category": null,
-      "date": "2026-07-02T09:18:36.918Z",
+      "date": "2026-07-03T09:24:26.406Z",
       "points": 1,
       "avatar": null
     },
@@ -28,7 +38,7 @@
       "action": "Solved",
       "difficulty": null,
       "category": null,
-      "date": "2026-07-02T09:18:36.918Z",
+      "date": "2026-07-03T09:24:26.406Z",
       "points": 1,
       "avatar": null
     },
@@ -38,7 +48,7 @@
       "action": "Owned Root",
       "difficulty": "Easy",
       "category": null,
-      "date": "2026-07-02T09:18:36.918Z",
+      "date": "2026-07-03T09:24:26.406Z",
       "points": 0,
       "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90d5-eec2-40f8-a422-d4825b3c1a89.png"
     },
@@ -48,7 +58,7 @@
       "action": "Owned Root",
       "difficulty": "Easy",
       "category": null,
-      "date": "2026-07-02T09:18:36.918Z",
+      "date": "2026-07-03T09:24:26.406Z",
       "points": 0,
       "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90cd-c843-47e4-97f7-c0a2d69b78ce.png"
     },
@@ -58,7 +68,7 @@
       "action": "Owned Root",
       "difficulty": "Medium",
       "category": null,
-      "date": "2026-07-02T09:18:36.918Z",
+      "date": "2026-07-03T09:24:26.406Z",
       "points": 0,
       "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/a117abeb-4068-443a-9c58-245b9381805a.png"
     },
@@ -68,7 +78,7 @@
       "action": "Owned Root",
       "difficulty": "Easy",
       "category": null,
-      "date": "2026-07-02T09:18:36.918Z",
+      "date": "2026-07-03T09:24:26.406Z",
       "points": 0,
       "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90d7-a094-4d19-acb4-e24b7ae44f57.png"
     },
@@ -78,7 +88,7 @@
       "action": "Owned Root",
       "difficulty": "Easy",
       "category": null,
-      "date": "2026-07-02T09:18:36.918Z",
+      "date": "2026-07-03T09:24:26.406Z",
       "points": 0,
       "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90d7-a3c6-4bf5-944f-b6d62ba830bb.png"
     },
@@ -88,20 +98,10 @@
       "action": "Owned Root",
       "difficulty": "Medium",
       "category": null,
-      "date": "2026-07-02T09:18:36.918Z",
+      "date": "2026-07-03T09:24:26.406Z",
       "points": 0,
       "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90cf-ec1a-41e4-87e7-5cfd8cfa18f6.png"
-    },
-    {
-      "name": "Cicada",
-      "type": "machine",
-      "action": "Owned Root",
-      "difficulty": "Easy",
-      "category": null,
-      "date": "2026-07-02T09:18:36.917Z",
-      "points": 0,
-      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90cc-93da-4402-a4f0-b252cbc9c7e2.png"
     }
   ],
-  "updated_at": "2026-07-02T09:18:45.875Z"
+  "updated_at": "2026-07-03T09:24:37.540Z"
 }
