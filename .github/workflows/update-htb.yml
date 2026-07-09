@@ -231,6 +231,31 @@ jobs:
           }
 
           (async () => {
+            // --- Fonction d'extraction de date ---
+            function findDate(item) {
+              if (!item) return null;
+              const fields = ['date', 'created_at', 'solved_at', 'time', 'timestamp', 'owned_at', 'date_solved', 'own_date', 'completed_at', 'own_time'];
+              for (const f of fields) {
+                if (item[f]) return new Date(item[f]).toISOString();
+              }
+              return null;
+            }
+
+            // --- Chargement de l'historique existant ---
+            let existingActivities = new Map();
+            if (fs.existsSync('public/htb-activity.json')) {
+              try {
+                const old = JSON.parse(fs.readFileSync('public/htb-activity.json', 'utf8'));
+                if (Array.isArray(old.activities)) {
+                  for (const a of old.activities) {
+                    existingActivities.set(a.type + ':' + a.name, a);
+                  }
+                }
+              } catch (e) {
+                console.log('Failed to parse existing htb-activity.json', e.message);
+              }
+            }
+
             // --- Activity (machines + sherlocks) ---
             let rawActivity = {};
             try {
@@ -278,22 +303,25 @@ jobs:
                 best.set(key, { rank, item, objType });
             }
 
-            const activities = [...best.values()]
-              .sort((a, b) => {
-                const dateA = new Date(a.item.date ?? a.item.created_at ?? a.item.solved_at ?? a.item.time ?? 0);
-                const dateB = new Date(b.item.date ?? b.item.created_at ?? b.item.solved_at ?? b.item.time ?? 0);
-                return dateB - dateA;
-              })
-              .map(({ item, objType }) => ({
+            // Initialize merged activities list with existing ones
+            const activitiesMap = new Map(existingActivities);
+
+            // Process Activity feed
+            for (const [key, { item, objType }] of best.entries()) {
+              const existing = activitiesMap.get(key) || {};
+              const apiDate = findDate(item);
+              
+              activitiesMap.set(key, {
                 name:       item.name,
                 type:       objType,
-                action:     ACTION_LABEL[item.type] ?? item.type ?? 'Completed',
-                difficulty: item.difficulty         ?? null,
-                category:   item.challenge_category ?? item.category ?? null,
-                date:       item.date ?? item.created_at ?? item.solved_at ?? item.time ?? new Date().toISOString(),
-                points:     item.points             ?? 0,
-                avatar:     resolveAvatar(item.machine_avatar || item.sherlock_avatar || item.avatar || item.challenge_avatar || null),
-              }));
+                action:     ACTION_LABEL[item.type] ?? item.type ?? existing.action ?? 'Completed',
+                difficulty: item.difficulty         ?? existing.difficulty ?? null,
+                category:   item.challenge_category ?? item.category ?? existing.category ?? null,
+                date:       apiDate ?? existing.date ?? new Date().toISOString(),
+                points:     item.points             ?? existing.points ?? 0,
+                avatar:     resolveAvatar(item.machine_avatar || item.sherlock_avatar || item.avatar || item.challenge_avatar || existing.avatar || null),
+              });
+            }
 
             // --- Challenges résolus (endpoint séparé) ---
             if (fs.existsSync('/tmp/htb-challenges.json')) {
@@ -306,21 +334,20 @@ jobs:
                 console.log('Challenges API retourne ' + solved.length + ' entries');
                 for (const ch of solved) {
                   const key = 'challenge:' + ch.name;
-                  if (!best.has(key)) {
-                    activities.push({
-                      name:       ch.name,
-                      type:       'challenge',
-                      action:     'Solved',
-                      difficulty: ch.difficulty ?? null,
-                      category:   ch.category_name ?? ch.category ?? null,
-                      date:       ch.solved_at ?? ch.created_at ?? ch.date ?? new Date().toISOString(),
-                      points:     ch.points ?? 0,
-                      avatar:     resolveAvatar(ch.avatar || ch.avatar_thumb || null),
-                    });
-                    best.set(key, true);
-                  }
+                  const existing = activitiesMap.get(key) || {};
+                  const apiDate = findDate(ch);
+                  
+                  activitiesMap.set(key, {
+                    name:       ch.name,
+                    type:       'challenge',
+                    action:     'Solved',
+                    difficulty: ch.difficulty ?? existing.difficulty ?? null,
+                    category:   ch.category_name ?? ch.category ?? existing.category ?? null,
+                    date:       apiDate ?? existing.date ?? new Date().toISOString(),
+                    points:     ch.points ?? existing.points ?? 0,
+                    avatar:     resolveAvatar(ch.avatar || ch.avatar_thumb || existing.avatar || null),
+                  });
                 }
-                activities.sort((a, b) => new Date(b.date) - new Date(a.date));
               } catch (e) {
                 console.log('Challenges parse error: ' + e.message);
               }
@@ -338,25 +365,27 @@ jobs:
                 console.log('Sherlocks API retourne ' + solved.length + ' entries');
                 for (const sh of solved) {
                   const key = 'sherlock:' + sh.name;
-                  if (!best.has(key)) {
-                    activities.push({
-                      name:       sh.name,
-                      type:       'sherlock',
-                      action:     'Solved',
-                      difficulty: sh.difficulty ?? null,
-                      category:   sh.category_name ?? sh.category ?? null,
-                      date:       sh.solved_at ?? sh.completed_at ?? sh.created_at ?? sh.date ?? new Date().toISOString(),
-                      points:     sh.points ?? 0,
-                      avatar:     resolveAvatar(sh.avatar || sh.avatar_thumb || sh.image || null),
-                    });
-                    best.set(key, true);
-                  }
+                  const existing = activitiesMap.get(key) || {};
+                  const apiDate = findDate(sh);
+                  
+                  activitiesMap.set(key, {
+                    name:       sh.name,
+                    type:       'sherlock',
+                    action:     'Solved',
+                    difficulty: sh.difficulty ?? existing.difficulty ?? null,
+                    category:   sh.category_name ?? sh.category ?? existing.category ?? null,
+                    date:       apiDate ?? existing.date ?? new Date().toISOString(),
+                    points:     sh.points ?? existing.points ?? 0,
+                    avatar:     resolveAvatar(sh.avatar || sh.avatar_thumb || sh.image || existing.avatar || null),
+                  });
                 }
-                activities.sort((a, b) => new Date(b.date) - new Date(a.date));
               } catch (e) {
                 console.log('Sherlocks parse error: ' + e.message);
               }
             }
+
+            const activities = Array.from(activitiesMap.values())
+              .sort((a, b) => new Date(b.date) - new Date(a.date));
 
             // --- Enrichissement des avatars manquants ou non-S3 ---
             const missing = activities.filter(a =>
