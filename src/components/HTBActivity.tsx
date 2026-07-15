@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
-import { Box, Target, Search, ExternalLink, Loader2, Flag } from 'lucide-react';
+import { Box, Target, Search, ExternalLink, Loader2, Flag, Terminal } from 'lucide-react';
 
 const S3 = 'https://htb-mp-prod-public-storage.s3.eu-central-1.amazonaws.com';
 
-// Convertit labs.hackthebox.com/avatars/HASH.png → S3 public (même hash, domaine différent)
 const toPublicAvatar = (url: string | null): string | null => {
   if (!url) return null;
   if (url.includes('labs.hackthebox.com/avatars/')) {
@@ -69,7 +68,9 @@ export default function HTBActivity() {
   useEffect(() => {
     fetch(`${import.meta.env.BASE_URL}htb-activity.json`)
       .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
-      .then(data => setActivities(data.activities ?? []))
+      .then(data => {
+        setActivities(data.activities ?? []);
+      })
       .catch(err => console.error('HTB load failed:', err))
       .finally(() => setLoading(false));
   }, []);
@@ -111,7 +112,7 @@ export default function HTBActivity() {
           {!loading && (
             <>
               {/* Type filter */}
-              <div className="flex items-center gap-2 mb-6">
+              <div className="flex flex-wrap items-center justify-center md:justify-start gap-2 mb-6">
                 {[
                   { key: 'all',       label: `Tout (${activities.length})` },
                   { key: 'machine',   label: `Machines (${counts.machine})`   },
@@ -121,10 +122,10 @@ export default function HTBActivity() {
                   <button
                     key={key}
                     onClick={() => { setFilter(key); setShowAll(false); }}
-                    className={`px-3 py-1.5 rounded-lg text-[11px] font-bold uppercase tracking-wide transition-all border ${
+                    className={`px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wide transition-all border ${
                       filter === key
-                        ? 'bg-[#9fef00]/10 border-[#9fef00]/40 text-[#9fef00]'
-                        : 'border-white/10 text-gray-500 hover:text-gray-300 hover:border-white/20'
+                        ? 'bg-[#9fef00]/10 border-[#9fef00]/40 text-[#9fef00] shadow-[0_0_15px_rgba(159,239,0,0.1)]'
+                        : 'bg-black/20 border-white/10 text-gray-400 hover:text-white hover:border-white/20'
                     }`}
                   >
                     {label}
@@ -134,11 +135,14 @@ export default function HTBActivity() {
 
               {/* Activity grid */}
               {shown.length === 0 ? (
-                <div className="text-center py-16 text-muted-foreground text-sm font-mono">
-                  Aucune activité dans cette catégorie.
+                <div className="text-center py-16 bg-[#0f121a]/50 rounded-xl border border-white/5">
+                  <Terminal className="w-8 h-8 text-white/20 mx-auto mb-3" />
+                  <div className="text-muted-foreground text-sm font-mono">
+                    Aucune activité dans cette catégorie.
+                  </div>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                   {shown.map((act, i) => {
                     const diff      = difficulty(act);
                     const url       = htbUrl(act.type, act.name);
@@ -149,49 +153,51 @@ export default function HTBActivity() {
                     return (
                       <div
                         key={i}
-                        className="group bg-[#0f121a]/50 border border-white/5 rounded-xl overflow-hidden hover:border-[#9fef00]/20 transition-all duration-200"
+                        className="group bg-[#0f121a]/50 border border-white/5 rounded-xl overflow-hidden hover:border-[#9fef00]/20 transition-all duration-300 hover:shadow-[0_0_20px_rgba(159,239,0,0.05)]"
                       >
                         {/* Avatar */}
-                        <div className="relative h-28 bg-black/40 flex items-center justify-center overflow-hidden">
+                        <div className="relative h-32 bg-black/40 flex items-center justify-center overflow-hidden">
+                          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#0f121a]/80 z-10" />
                           <div className="text-white/5">
-                            <TypeIcon type={act.type} className="w-16 h-16" />
+                            <TypeIcon type={act.type} className="w-20 h-20" />
                           </div>
                           {imgSrc && (
                             <img
                               src={imgSrc}
                               alt={act.name}
-                              className="absolute inset-0 w-full h-full object-contain p-4"
+                              className="absolute inset-0 w-full h-full object-contain p-5 z-0 group-hover:scale-110 transition-transform duration-500"
                               onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }}
                             />
                           )}
                           {/* Type badge top-left */}
-                          <div className={`absolute top-2 left-2 flex items-center gap-1 px-2 py-0.5 rounded-md border text-[9px] font-bold uppercase ${typeStyle}`}>
-                            <TypeIcon type={act.type} className="w-3 h-3" />
+                          <div className={`absolute top-3 left-3 flex items-center gap-1.5 px-2.5 py-1 rounded-md border text-[10px] font-bold uppercase z-20 backdrop-blur-sm ${typeStyle}`}>
+                            <TypeIcon type={act.type} className="w-3.5 h-3.5" />
                             {act.type}
                           </div>
                           {/* Difficulty badge top-right */}
                           {diff && (
-                            <div className={`absolute top-2 right-2 px-2 py-0.5 rounded-md border text-[9px] font-bold uppercase ${diffStyle}`}>
+                            <div className={`absolute top-3 right-3 px-2.5 py-1 rounded-md border text-[10px] font-bold uppercase z-20 backdrop-blur-sm ${diffStyle}`}>
                               {diff}
                             </div>
                           )}
                         </div>
 
                         {/* Info */}
-                        <div className="p-3">
-                          <div className="flex items-start justify-between gap-2">
+                        <div className="p-4 relative z-20 -mt-2 bg-[#0f121a]">
+                          <div className="flex items-start justify-between gap-3">
                             <div className="min-w-0">
-                              <h4 className="font-bold text-white text-sm truncate group-hover:text-[#9fef00] transition-colors">
+                              <h4 className="font-bold text-white text-base truncate group-hover:text-[#9fef00] transition-colors">
                                 {act.name}
                               </h4>
-                              <div className="flex items-center gap-1.5 mt-0.5">
-                                <Flag className="w-3 h-3 text-[#9fef00] flex-shrink-0" />
-                                <span className="text-[10px] text-[#9fef00] font-mono">{act.action ?? 'Solved'}</span>
+                              <div className="flex items-center gap-2 mt-1.5">
+                                <span className="flex items-center gap-1 bg-[#9fef00]/10 text-[#9fef00] px-1.5 py-0.5 rounded text-[10px] font-mono font-bold">
+                                  <Flag className="w-3 h-3" />
+                                  {act.action ?? 'Solved'}
+                                </span>
                                 {act.category && (
-                                  <>
-                                    <span className="text-white/20">·</span>
-                                    <span className="text-[10px] text-gray-500 font-mono">{act.category}</span>
-                                  </>
+                                  <span className="text-[10px] text-gray-400 font-mono truncate max-w-[120px]" title={act.category}>
+                                    {act.category}
+                                  </span>
                                 )}
                               </div>
                             </div>
@@ -201,14 +207,21 @@ export default function HTBActivity() {
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 onClick={e => e.stopPropagation()}
-                                className="flex-shrink-0 text-gray-600 hover:text-[#9fef00] transition-colors"
+                                className="flex-shrink-0 bg-white/5 p-2 rounded-lg text-gray-400 hover:text-[#9fef00] hover:bg-[#9fef00]/10 transition-colors"
                               >
-                                <ExternalLink className="w-3.5 h-3.5" />
+                                <ExternalLink className="w-4 h-4" />
                               </a>
                             )}
                           </div>
-                          <div className="mt-2 text-[10px] text-gray-300 font-mono">
-                            {formatDate(act.date)}
+                          <div className="mt-4 pt-4 border-t border-white/5 flex items-center justify-between">
+                            <div className="text-[11px] text-gray-500 font-mono">
+                              {formatDate(act.date)}
+                            </div>
+                            {act.points > 0 && (
+                              <div className="text-[11px] text-yellow-500/80 font-mono font-bold flex items-center gap-1">
+                                +{act.points} pts
+                              </div>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -219,12 +232,12 @@ export default function HTBActivity() {
 
               {/* Show more */}
               {filtered.length > 9 && !showAll && (
-                <div className="mt-8 flex justify-center">
+                <div className="mt-10 flex justify-center">
                   <button
                     onClick={() => setShowAll(true)}
-                    className="px-6 py-2 border border-white/10 hover:border-[#9fef00]/30 rounded-lg text-xs font-bold uppercase text-gray-400 hover:text-white transition-all"
+                    className="px-8 py-3 border-2 border-white/10 hover:border-[#9fef00]/50 rounded-xl text-xs font-bold uppercase text-gray-400 hover:text-[#9fef00] transition-all bg-black/20 hover:bg-[#9fef00]/5 shadow-lg hover:shadow-[0_0_20px_rgba(159,239,0,0.15)]"
                   >
-                    Voir les {filtered.length - 9} autres
+                    Voir les {filtered.length - 9} autres activités
                   </button>
                 </div>
               )}
