@@ -13,74 +13,14 @@
   },
   "activities": [
     {
-      "name": "Lucky Dice",
-      "type": "challenge",
-      "action": "Solved",
-      "difficulty": null,
-      "category": null,
-      "date": "2026-07-09T09:51:38.726Z",
-      "points": 1,
-      "avatar": null
-    },
-    {
-      "name": "Global Hyperlink Zone",
-      "type": "challenge",
-      "action": "Solved",
-      "difficulty": null,
-      "category": null,
-      "date": "2026-07-09T09:51:38.726Z",
-      "points": 1,
-      "avatar": null
-    },
-    {
-      "name": "Jerry",
+      "name": "Cicada",
       "type": "machine",
       "action": "Owned Root",
       "difficulty": "Easy",
       "category": null,
-      "date": "2026-07-09T09:51:38.726Z",
+      "date": "2026-07-09T09:51:38.725Z",
       "points": 0,
-      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90d5-eec2-40f8-a422-d4825b3c1a89.png"
-    },
-    {
-      "name": "TwoMillion",
-      "type": "machine",
-      "action": "Owned Root",
-      "difficulty": "Easy",
-      "category": null,
-      "date": "2026-07-09T09:51:38.726Z",
-      "points": 0,
-      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90cd-c843-47e4-97f7-c0a2d69b78ce.png"
-    },
-    {
-      "name": "Interpreter",
-      "type": "machine",
-      "action": "Owned Root",
-      "difficulty": "Medium",
-      "category": null,
-      "date": "2026-07-09T09:51:38.726Z",
-      "points": 0,
-      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/a117abeb-4068-443a-9c58-245b9381805a.png"
-    },
-    {
-      "name": "Legacy",
-      "type": "machine",
-      "action": "Owned Root",
-      "difficulty": "Easy",
-      "category": null,
-      "date": "2026-07-09T09:51:38.726Z",
-      "points": 0,
-      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90d7-a094-4d19-acb4-e24b7ae44f57.png"
-    },
-    {
-      "name": "Lame",
-      "type": "machine",
-      "action": "Owned Root",
-      "difficulty": "Easy",
-      "category": null,
-      "date": "2026-07-09T09:51:38.726Z",
-      "points": 0,
-      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90d7-a3c6-4bf5-944f-b6d62ba830bb.png"
+      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90cc-93da-4402-a4f0-b252cbc9c7e2.png"
     },
     {
       "name": "Sea",
@@ -93,15 +33,75 @@
       "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90cc-b7e0-4f99-a36a-b9d0480b294e.png"
     },
     {
-      "name": "Cicada",
+      "name": "Lame",
       "type": "machine",
       "action": "Owned Root",
       "difficulty": "Easy",
       "category": null,
-      "date": "2026-07-09T09:51:38.725Z",
+      "date": "2026-07-09T09:51:38.726Z",
       "points": 0,
-      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90cc-93da-4402-a4f0-b252cbc9c7e2.png"
+      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90d7-a3c6-4bf5-944f-b6d62ba830bb.png"
+    },
+    {
+      "name": "Legacy",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": "Easy",
+      "category": null,
+      "date": "2026-07-09T09:51:38.726Z",
+      "points": 0,
+      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90d7-a094-4d19-acb4-e24b7ae44f57.png"
+    },
+    {
+      "name": "Interpreter",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": "Medium",
+      "category": null,
+      "date": "2026-07-09T09:51:38.726Z",
+      "points": 0,
+      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/a117abeb-4068-443a-9c58-245b9381805a.png"
+    },
+    {
+      "name": "TwoMillion",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": "Easy",
+      "category": null,
+      "date": "2026-07-09T09:51:38.726Z",
+      "points": 0,
+      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90cd-c843-47e4-97f7-c0a2d69b78ce.png"
+    },
+    {
+      "name": "Jerry",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": "Easy",
+      "category": null,
+      "date": "2026-07-09T09:51:38.726Z",
+      "points": 0,
+      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90d5-eec2-40f8-a422-d4825b3c1a89.png"
+    },
+    {
+      "name": "Global Hyperlink Zone",
+      "type": "challenge",
+      "action": "Solved",
+      "difficulty": null,
+      "category": null,
+      "date": "2026-07-09T09:51:38.726Z",
+      "points": 1,
+      "avatar": null
+    },
+    {
+      "name": "Lucky Dice",
+      "type": "challenge",
+      "action": "Solved",
+      "difficulty": null,
+      "category": null,
+      "date": "2026-07-09T09:51:38.726Z",
+      "points": 1,
+      "avatar": null
     }
   ],
-  "updated_at": "2026-07-15T08:20:27.619Z"
+  "updated_at": "2026-07-15T09:08:05.369Z"
 }
