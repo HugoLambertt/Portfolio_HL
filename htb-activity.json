@@ -1,7 +1,7 @@
 {
   "stats": {
     "name": "Durrty",
-    "rank": 1050,
+    "rank": 1062,
     "rank_text": "Noob",
     "points": 0,
     "root_owns": 0,
@@ -623,164 +623,7 @@
       "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90cc-b7e0-4f99-a36a-b9d0480b294e.png"
     },
     {
-      "name": "SpookyPass",
-      "type": "challenge",
-      "action": "Solved",
-      "difficulty": null,
-      "category": null,
-      "date": "2026-07-16T08:19:36.741Z",
-      "points": 0,
-      "avatar": null
-    },
-    {
-      "name": "Flag Command",
-      "type": "challenge",
-      "action": "Solved",
-      "difficulty": null,
-      "category": null,
-      "date": "2026-07-16T08:19:36.741Z",
-      "points": 0,
-      "avatar": null
-    },
-    {
-      "name": "Baby Frame",
-      "type": "challenge",
-      "action": "Solved",
-      "difficulty": null,
-      "category": null,
-      "date": "2026-07-16T08:19:36.741Z",
-      "points": 0,
-      "avatar": null
-    },
-    {
-      "name": "Awkward",
-      "type": "root",
-      "action": "Owned Root",
-      "difficulty": null,
-      "category": null,
-      "points": 0,
-      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90cf-ec1a-41e4-87e7-5cfd8cfa18f6.png"
-    },
-    {
-      "name": "Lame",
-      "type": "user",
-      "action": "Owned User",
-      "difficulty": null,
-      "category": null,
-      "points": 0,
-      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90d7-a3c6-4bf5-944f-b6d62ba830bb.png"
-    },
-    {
-      "name": "Lame",
-      "type": "root",
-      "action": "Owned Root",
-      "difficulty": null,
-      "category": null,
-      "points": 0,
-      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90d7-a3c6-4bf5-944f-b6d62ba830bb.png"
-    },
-    {
-      "name": "Legacy",
-      "type": "user",
-      "action": "Owned User",
-      "difficulty": null,
-      "category": null,
-      "points": 0,
-      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90d7-a094-4d19-acb4-e24b7ae44f57.png"
-    },
-    {
-      "name": "Legacy",
-      "type": "root",
-      "action": "Owned Root",
-      "difficulty": null,
-      "category": null,
-      "points": 0,
-      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90d7-a094-4d19-acb4-e24b7ae44f57.png"
-    },
-    {
-      "name": "Interpreter",
-      "type": "user",
-      "action": "Owned User",
-      "difficulty": null,
-      "category": null,
-      "points": 0,
-      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/a117abeb-4068-443a-9c58-245b9381805a.png"
-    },
-    {
-      "name": "Interpreter",
-      "type": "root",
-      "action": "Owned Root",
-      "difficulty": null,
-      "category": null,
-      "points": 0,
-      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/a117abeb-4068-443a-9c58-245b9381805a.png"
-    },
-    {
-      "name": "TwoMillion",
-      "type": "user",
-      "action": "Owned User",
-      "difficulty": null,
-      "category": null,
-      "points": 0,
-      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90cd-c843-47e4-97f7-c0a2d69b78ce.png"
-    },
-    {
-      "name": "TwoMillion",
-      "type": "root",
-      "action": "Owned Root",
-      "difficulty": null,
-      "category": null,
-      "points": 0,
-      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90cd-c843-47e4-97f7-c0a2d69b78ce.png"
-    },
-    {
-      "name": "Jerry",
-      "type": "user",
-      "action": "Owned User",
-      "difficulty": null,
-      "category": null,
-      "points": 0,
-      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90d5-eec2-40f8-a422-d4825b3c1a89.png"
-    },
-    {
-      "name": "Jerry",
-      "type": "root",
-      "action": "Owned Root",
-      "difficulty": null,
-      "category": null,
-      "points": 0,
-      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90d5-eec2-40f8-a422-d4825b3c1a89.png"
-    },
-    {
-      "name": "Cicada",
-      "type": "user",
-      "action": "Owned User",
-      "difficulty": null,
-      "category": null,
-      "points": 0,
-      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90cc-93da-4402-a4f0-b252cbc9c7e2.png"
-    },
-    {
-      "name": "Cicada",
-      "type": "root",
-      "action": "Owned Root",
-      "difficulty": null,
-      "category": null,
-      "points": 0,
-      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90cc-93da-4402-a4f0-b252cbc9c7e2.png"
-    },
-    {
-      "name": "Find The Easy Pass",
-      "type": "challenge",
-      "action": "Solved",
-      "difficulty": null,
-      "category": null,
-      "date": "2026-07-16T13:12:39.574Z",
-      "points": 0,
-      "avatar": null
-    },
-    {
-      "name": "Templated",
+      "name": "OpenSecret",
       "type": "challenge",
       "action": "Solved",
       "difficulty": null,
@@ -800,7 +643,7 @@
       "avatar": null
     },
     {
-      "name": "OpenSecret",
+      "name": "Templated",
       "type": "challenge",
       "action": "Solved",
       "difficulty": null,
@@ -810,12 +653,12 @@
       "avatar": null
     },
     {
-      "name": "Baby RE",
+      "name": "Find The Easy Pass",
       "type": "challenge",
       "action": "Solved",
       "difficulty": null,
       "category": null,
-      "date": "2026-07-22T08:33:57.159Z",
+      "date": "2026-07-16T13:12:39.574Z",
       "points": 0,
       "avatar": null
     },
@@ -830,12 +673,12 @@
       "avatar": null
     },
     {
-      "name": "Impossible Password",
+      "name": "Baby RE",
       "type": "challenge",
       "action": "Solved",
       "difficulty": null,
       "category": null,
-      "date": "2026-07-24T08:31:49.709Z",
+      "date": "2026-07-22T08:33:57.159Z",
       "points": 0,
       "avatar": null
     },
@@ -848,7 +691,164 @@
       "date": "2026-07-24T08:31:49.709Z",
       "points": 1,
       "avatar": null
+    },
+    {
+      "name": "Impossible Password",
+      "type": "challenge",
+      "action": "Solved",
+      "difficulty": null,
+      "category": null,
+      "date": "2026-07-24T08:31:49.709Z",
+      "points": 0,
+      "avatar": null
+    },
+    {
+      "name": "Cicada",
+      "type": "root",
+      "action": "Owned Root",
+      "difficulty": null,
+      "category": null,
+      "points": 0,
+      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90cc-93da-4402-a4f0-b252cbc9c7e2.png"
+    },
+    {
+      "name": "Cicada",
+      "type": "user",
+      "action": "Owned User",
+      "difficulty": null,
+      "category": null,
+      "points": 0,
+      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90cc-93da-4402-a4f0-b252cbc9c7e2.png"
+    },
+    {
+      "name": "Jerry",
+      "type": "root",
+      "action": "Owned Root",
+      "difficulty": null,
+      "category": null,
+      "points": 0,
+      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90d5-eec2-40f8-a422-d4825b3c1a89.png"
+    },
+    {
+      "name": "Jerry",
+      "type": "user",
+      "action": "Owned User",
+      "difficulty": null,
+      "category": null,
+      "points": 0,
+      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90d5-eec2-40f8-a422-d4825b3c1a89.png"
+    },
+    {
+      "name": "TwoMillion",
+      "type": "root",
+      "action": "Owned Root",
+      "difficulty": null,
+      "category": null,
+      "points": 0,
+      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90cd-c843-47e4-97f7-c0a2d69b78ce.png"
+    },
+    {
+      "name": "TwoMillion",
+      "type": "user",
+      "action": "Owned User",
+      "difficulty": null,
+      "category": null,
+      "points": 0,
+      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90cd-c843-47e4-97f7-c0a2d69b78ce.png"
+    },
+    {
+      "name": "Interpreter",
+      "type": "root",
+      "action": "Owned Root",
+      "difficulty": null,
+      "category": null,
+      "points": 0,
+      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/a117abeb-4068-443a-9c58-245b9381805a.png"
+    },
+    {
+      "name": "Interpreter",
+      "type": "user",
+      "action": "Owned User",
+      "difficulty": null,
+      "category": null,
+      "points": 0,
+      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/a117abeb-4068-443a-9c58-245b9381805a.png"
+    },
+    {
+      "name": "Legacy",
+      "type": "root",
+      "action": "Owned Root",
+      "difficulty": null,
+      "category": null,
+      "points": 0,
+      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90d7-a094-4d19-acb4-e24b7ae44f57.png"
+    },
+    {
+      "name": "Legacy",
+      "type": "user",
+      "action": "Owned User",
+      "difficulty": null,
+      "category": null,
+      "points": 0,
+      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90d7-a094-4d19-acb4-e24b7ae44f57.png"
+    },
+    {
+      "name": "Lame",
+      "type": "root",
+      "action": "Owned Root",
+      "difficulty": null,
+      "category": null,
+      "points": 0,
+      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90d7-a3c6-4bf5-944f-b6d62ba830bb.png"
+    },
+    {
+      "name": "Lame",
+      "type": "user",
+      "action": "Owned User",
+      "difficulty": null,
+      "category": null,
+      "points": 0,
+      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90d7-a3c6-4bf5-944f-b6d62ba830bb.png"
+    },
+    {
+      "name": "Awkward",
+      "type": "root",
+      "action": "Owned Root",
+      "difficulty": null,
+      "category": null,
+      "points": 0,
+      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90cf-ec1a-41e4-87e7-5cfd8cfa18f6.png"
+    },
+    {
+      "name": "Baby Frame",
+      "type": "challenge",
+      "action": "Solved",
+      "difficulty": null,
+      "category": null,
+      "date": "2026-07-16T08:19:36.741Z",
+      "points": 0,
+      "avatar": null
+    },
+    {
+      "name": "Flag Command",
+      "type": "challenge",
+      "action": "Solved",
+      "difficulty": null,
+      "category": null,
+      "date": "2026-07-16T08:19:36.741Z",
+      "points": 0,
+      "avatar": null
+    },
+    {
+      "name": "SpookyPass",
+      "type": "challenge",
+      "action": "Solved",
+      "difficulty": null,
+      "category": null,
+      "date": "2026-07-16T08:19:36.741Z",
+      "points": 0,
+      "avatar": null
     }
   ],
-  "updated_at": "2026-07-29T08:46:10.606Z"
+  "updated_at": "2026-07-30T08:32:17.339Z"
 }
