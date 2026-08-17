@@ -39,7 +39,7 @@ const About = () => {
       type: 'work',
       title: 'Apprenti analyste en Cybersécurité',
       institution: 'Groupe Unofi Gestion',
-      description: 'Superviser l\'analyste cyber et le rssi du groupe unofi au sein du siège social.',
+      description: 'Collaboration avec l\'analyste cyber et le rssi du groupe unofi au sein du siège social.',
     },
     {
       year: '2026 - 2028',
