@@ -36,9 +36,16 @@ const About = () => {
   const timeline = [
     {
       year: '2026 - 2028',
+      type: 'work',
+      title: 'Apprenti analyste en Cybersécurité',
+      institution: 'Groupe Unofi Gestion',
+      description: 'Superviser l\'analyste cyber et le rssi du groupe unofi au sein du siège social.',
+    },
+    {
+      year: '2026 - 2028',
       type: 'education',
-      title: '(A venir) Master Cybersécurité',
-      institution: 'Selon l\'entreprise',
+      title: 'Mastère Expert en Cybersécurité',
+      institution: 'Ynov Campus Bordeaux',
       description: 'Formation en alternance - Titre RNCP niveau 7',
     },
     {
@@ -48,7 +55,7 @@ const About = () => {
       institution: 'Ynov Campus Bordeaux',
       description: 'Formation en alternance chez Etoile Secours - Titre Administrateur systèmes, réseaux et bases de données de niveau 6',
     },
-        {
+    {
       year: '2023 - 2026',
       type: 'work',
       title: 'Apprenti Informatique',
@@ -70,13 +77,13 @@ const About = () => {
       description: '',
     },
   ];
-const contact = [
+  const contact = [
 
   ];
 
   return (
     <section id="about" className="py-20 relative overflow-hidden">
-      
+
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-6xl mx-auto">
           {/* Section Header */}
@@ -129,7 +136,7 @@ const contact = [
             <h3 className="text-3xl font-display font-bold mb-8 text-center animate-fade-up">
               <span className="glow-purple">Parcours</span>
             </h3>
-            
+
             <div className="relative">
               {/* Timeline Line */}
               <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary via-secondary to-accent" />
@@ -140,13 +147,11 @@ const contact = [
                   <div
                     key={index}
                     ref={(el) => (itemRefs.current[index] = el)}
-                    className={`relative flex flex-col md:flex-row items-start md:items-center gap-8 transition-all duration-700 ${
-                      index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
-                    } ${
-                      visibleItems.has(index)
+                    className={`relative flex flex-col md:flex-row items-start md:items-center gap-8 transition-all duration-700 ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
+                      } ${visibleItems.has(index)
                         ? 'opacity-100 translate-y-0'
                         : 'opacity-0 translate-y-8'
-                    }`}
+                      }`}
                   >
                     {/* Timeline Dot */}
                     <div className="absolute left-8 md:left-1/2 w-4 h-4 -ml-2 rounded-full bg-background border-2 border-primary shadow-neon-blue z-10">
