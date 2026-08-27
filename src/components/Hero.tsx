@@ -18,7 +18,7 @@ const Hero = ({ mousePos }: HeroProps) => {
   const logsContainerRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLDivElement>(null);
   const hudRef = useRef<HTMLDivElement>(null);
-  
+
   const scanLogs = [
     '> Initializing network scan...',
     '> Detecting active hosts: 192.168.1.0/24',
@@ -27,7 +27,7 @@ const Hero = ({ mousePos }: HeroProps) => {
     '> Vulnerability assessment: RUNNING',
     '> Checking OWASP Top 10 vulnerabilities...',
     '> SQL Injection test: NEGATIVE',
-    '> XSS detection: NEGATIVE', 
+    '> XSS detection: NEGATIVE',
     '> Authentication bypass attempt: FAILED',
     '> Network intrusion detected: FALSE ALARM',
     '> Firewall status: ACTIVE',
@@ -72,7 +72,7 @@ const Hero = ({ mousePos }: HeroProps) => {
   useEffect(() => {
     if (phase === 'scanning') {
       const tl = gsap.timeline();
-      
+
       // Glitch effect on start
       tl.to(heroRef.current, {
         duration: 0.1,
@@ -118,7 +118,7 @@ const Hero = ({ mousePos }: HeroProps) => {
           }, 1000);
         }
         setScanProgress(Math.floor(progress));
-        
+
         // Add logs based on progress
         const logIndex = Math.floor((progress / 100) * scanLogs.length);
         setLogs(scanLogs.slice(0, logIndex + 1));
@@ -182,7 +182,7 @@ const Hero = ({ mousePos }: HeroProps) => {
 
             <div className="bg-card/40 backdrop-blur-md border border-primary/30 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden group">
               <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity" />
-              
+
               <div className="flex items-start gap-6 mb-8 relative z-10">
                 <div className="p-4 bg-primary/20 rounded-2xl border border-primary/40 shadow-neon-blue">
                   <Lock className="w-10 h-10 text-primary" />
@@ -247,13 +247,13 @@ const Hero = ({ mousePos }: HeroProps) => {
                 </div>
                 <div className="flex items-end gap-1 h-8">
                   {[...Array(12)].map((_, i) => (
-                    <div 
-                      key={i} 
-                      className="w-full bg-secondary opacity-50" 
-                      style={{ 
+                    <div
+                      key={i}
+                      className="w-full bg-secondary opacity-50"
+                      style={{
                         height: `${Math.random() * 100}%`,
                         animation: `pulse 1s infinite ${Math.random()}s`
-                      }} 
+                      }}
                     />
                   ))}
                 </div>
@@ -281,9 +281,9 @@ const Hero = ({ mousePos }: HeroProps) => {
                     </div>
                     <div className="font-mono text-primary text-4xl font-black">{scanProgress}%</div>
                   </div>
-                  
+
                   <div className="w-full h-6 bg-background rounded-full border border-primary/20 p-1 mb-12">
-                    <div 
+                    <div
                       className="h-full bg-gradient-to-r from-primary via-secondary to-primary shadow-neon-blue transition-all duration-300"
                       style={{ width: `${scanProgress}%` }}
                     />
@@ -351,7 +351,7 @@ const Hero = ({ mousePos }: HeroProps) => {
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/20 to-transparent animate-scan" />
                 <Terminal className="w-8 h-8 mr-4" />
-                CV_HUGO_LAMBERT.pdf
+                NON_DISPONIBLE.pdf
               </Button>
             </div>
           </div>
