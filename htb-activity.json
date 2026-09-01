@@ -1,7 +1,7 @@
 {
   "stats": {
     "name": "Durrty",
-    "rank": 1043,
+    "rank": 1050,
     "rank_text": "Noob",
     "points": 1,
     "root_owns": 0,
@@ -12,123 +12,6 @@
     "avatar": null
   },
   "activities": [
-    {
-      "name": "Cicada",
-      "type": "root",
-      "action": "Owned Root",
-      "difficulty": null,
-      "category": null,
-      "points": 0,
-      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90cc-93da-4402-a4f0-b252cbc9c7e2.png"
-    },
-    {
-      "name": "Cicada",
-      "type": "user",
-      "action": "Owned User",
-      "difficulty": null,
-      "category": null,
-      "points": 0,
-      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90cc-93da-4402-a4f0-b252cbc9c7e2.png"
-    },
-    {
-      "name": "Jerry",
-      "type": "root",
-      "action": "Owned Root",
-      "difficulty": null,
-      "category": null,
-      "points": 0,
-      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90d5-eec2-40f8-a422-d4825b3c1a89.png"
-    },
-    {
-      "name": "Jerry",
-      "type": "user",
-      "action": "Owned User",
-      "difficulty": null,
-      "category": null,
-      "points": 0,
-      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90d5-eec2-40f8-a422-d4825b3c1a89.png"
-    },
-    {
-      "name": "TwoMillion",
-      "type": "root",
-      "action": "Owned Root",
-      "difficulty": null,
-      "category": null,
-      "points": 0,
-      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90cd-c843-47e4-97f7-c0a2d69b78ce.png"
-    },
-    {
-      "name": "TwoMillion",
-      "type": "user",
-      "action": "Owned User",
-      "difficulty": null,
-      "category": null,
-      "points": 0,
-      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90cd-c843-47e4-97f7-c0a2d69b78ce.png"
-    },
-    {
-      "name": "Interpreter",
-      "type": "root",
-      "action": "Owned Root",
-      "difficulty": null,
-      "category": null,
-      "points": 0,
-      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/a117abeb-4068-443a-9c58-245b9381805a.png"
-    },
-    {
-      "name": "Interpreter",
-      "type": "user",
-      "action": "Owned User",
-      "difficulty": null,
-      "category": null,
-      "points": 0,
-      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/a117abeb-4068-443a-9c58-245b9381805a.png"
-    },
-    {
-      "name": "Legacy",
-      "type": "root",
-      "action": "Owned Root",
-      "difficulty": null,
-      "category": null,
-      "points": 0,
-      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90d7-a094-4d19-acb4-e24b7ae44f57.png"
-    },
-    {
-      "name": "Legacy",
-      "type": "user",
-      "action": "Owned User",
-      "difficulty": null,
-      "category": null,
-      "points": 0,
-      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90d7-a094-4d19-acb4-e24b7ae44f57.png"
-    },
-    {
-      "name": "Lame",
-      "type": "root",
-      "action": "Owned Root",
-      "difficulty": null,
-      "category": null,
-      "points": 0,
-      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90d7-a3c6-4bf5-944f-b6d62ba830bb.png"
-    },
-    {
-      "name": "Lame",
-      "type": "user",
-      "action": "Owned User",
-      "difficulty": null,
-      "category": null,
-      "points": 0,
-      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90d7-a3c6-4bf5-944f-b6d62ba830bb.png"
-    },
-    {
-      "name": "Awkward",
-      "type": "root",
-      "action": "Owned Root",
-      "difficulty": null,
-      "category": null,
-      "points": 0,
-      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90cf-ec1a-41e4-87e7-5cfd8cfa18f6.png"
-    },
     {
       "name": "Fluffy",
       "type": "machine",
@@ -740,7 +623,7 @@
       "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90cc-b7e0-4f99-a36a-b9d0480b294e.png"
     },
     {
-      "name": "Baby Frame",
+      "name": "SpookyPass",
       "type": "challenge",
       "action": "Solved",
       "difficulty": null,
@@ -760,7 +643,7 @@
       "avatar": null
     },
     {
-      "name": "SpookyPass",
+      "name": "Baby Frame",
       "type": "challenge",
       "action": "Solved",
       "difficulty": null,
@@ -770,17 +653,7 @@
       "avatar": null
     },
     {
-      "name": "Find The Easy Pass",
-      "type": "challenge",
-      "action": "Solved",
-      "difficulty": null,
-      "category": null,
-      "date": "2026-07-16T13:12:39.574Z",
-      "points": 0,
-      "avatar": null
-    },
-    {
-      "name": "Templated",
+      "name": "OpenSecret",
       "type": "challenge",
       "action": "Solved",
       "difficulty": null,
@@ -800,7 +673,7 @@
       "avatar": null
     },
     {
-      "name": "OpenSecret",
+      "name": "Templated",
       "type": "challenge",
       "action": "Solved",
       "difficulty": null,
@@ -810,12 +683,12 @@
       "avatar": null
     },
     {
-      "name": "Baby RE",
+      "name": "Find The Easy Pass",
       "type": "challenge",
       "action": "Solved",
       "difficulty": null,
       "category": null,
-      "date": "2026-07-22T08:33:57.159Z",
+      "date": "2026-07-16T13:12:39.574Z",
       "points": 0,
       "avatar": null
     },
@@ -830,12 +703,12 @@
       "avatar": null
     },
     {
-      "name": "Impossible Password",
+      "name": "Baby RE",
       "type": "challenge",
       "action": "Solved",
       "difficulty": null,
       "category": null,
-      "date": "2026-07-24T08:31:49.709Z",
+      "date": "2026-07-22T08:33:57.159Z",
       "points": 0,
       "avatar": null
     },
@@ -847,6 +720,16 @@
       "category": null,
       "date": "2026-07-24T08:31:49.709Z",
       "points": 1,
+      "avatar": null
+    },
+    {
+      "name": "Impossible Password",
+      "type": "challenge",
+      "action": "Solved",
+      "difficulty": null,
+      "category": null,
+      "date": "2026-07-24T08:31:49.709Z",
+      "points": 0,
       "avatar": null
     },
     {
@@ -890,16 +773,6 @@
       "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90d7-9cce-4bed-82d5-bd5f4bf2ab77.png"
     },
     {
-      "name": "Optimum",
-      "type": "machine",
-      "action": "Owned Root",
-      "difficulty": "Easy",
-      "category": null,
-      "date": "2026-08-22T06:44:31.148Z",
-      "points": 0,
-      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90d7-9224-4228-85f9-7b86d909ee9d.png"
-    },
-    {
       "name": "Bashed",
       "type": "machine",
       "action": "Owned Root",
@@ -908,6 +781,16 @@
       "date": "2026-08-22T06:44:31.148Z",
       "points": 0,
       "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90d6-f64a-49bf-9082-06f7269225c7.png"
+    },
+    {
+      "name": "Optimum",
+      "type": "machine",
+      "action": "Owned Root",
+      "difficulty": "Easy",
+      "category": null,
+      "date": "2026-08-22T06:44:31.148Z",
+      "points": 0,
+      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90d7-9224-4228-85f9-7b86d909ee9d.png"
     },
     {
       "name": "Reactor",
@@ -950,14 +833,14 @@
       "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90d5-dc8f-4276-afba-e99d3da016d3.png"
     },
     {
-      "name": "Keeper",
+      "name": "OpenAdmin",
       "type": "machine",
       "action": "Owned Root",
       "difficulty": "Easy",
       "category": null,
       "date": "2026-08-27T17:28:04.589Z",
       "points": 0,
-      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90cd-a58e-4090-bdcf-4031c67e301c.png"
+      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90d4-871a-4692-976e-297a3e39400f.png"
     },
     {
       "name": "Shocker",
@@ -970,24 +853,24 @@
       "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90d7-28dd-432f-9149-8c7e087fc543.png"
     },
     {
-      "name": "OpenAdmin",
+      "name": "Keeper",
       "type": "machine",
       "action": "Owned Root",
       "difficulty": "Easy",
       "category": null,
       "date": "2026-08-27T17:28:04.589Z",
       "points": 0,
-      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90d4-871a-4692-976e-297a3e39400f.png"
+      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90cd-a58e-4090-bdcf-4031c67e301c.png"
     },
     {
-      "name": "Beep",
+      "name": "Knife",
       "type": "machine",
       "action": "Owned Root",
       "difficulty": "Easy",
       "category": null,
       "date": "2026-08-28T18:21:40.329Z",
       "points": 0,
-      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90d7-9551-4a99-8df6-e48b2c403aca.png"
+      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90d2-7b7c-4dd0-886a-2d213991b2c7.png"
     },
     {
       "name": "Sau",
@@ -1000,14 +883,14 @@
       "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90cd-b8b1-4091-8f70-bb2e5b2800ee.png"
     },
     {
-      "name": "Knife",
+      "name": "Beep",
       "type": "machine",
       "action": "Owned Root",
       "difficulty": "Easy",
       "category": null,
       "date": "2026-08-28T18:21:40.329Z",
       "points": 0,
-      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90d2-7b7c-4dd0-886a-2d213991b2c7.png"
+      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90d7-9551-4a99-8df6-e48b2c403aca.png"
     },
     {
       "name": "Sauna",
@@ -1028,7 +911,124 @@
       "date": "2026-08-31T13:07:17.671Z",
       "points": 0,
       "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90cf-d47b-4dd7-a54b-b967342a30f9.png"
+    },
+    {
+      "name": "Awkward",
+      "type": "root",
+      "action": "Owned Root",
+      "difficulty": null,
+      "category": null,
+      "points": 0,
+      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90cf-ec1a-41e4-87e7-5cfd8cfa18f6.png"
+    },
+    {
+      "name": "Lame",
+      "type": "user",
+      "action": "Owned User",
+      "difficulty": null,
+      "category": null,
+      "points": 0,
+      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90d7-a3c6-4bf5-944f-b6d62ba830bb.png"
+    },
+    {
+      "name": "Lame",
+      "type": "root",
+      "action": "Owned Root",
+      "difficulty": null,
+      "category": null,
+      "points": 0,
+      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90d7-a3c6-4bf5-944f-b6d62ba830bb.png"
+    },
+    {
+      "name": "Legacy",
+      "type": "user",
+      "action": "Owned User",
+      "difficulty": null,
+      "category": null,
+      "points": 0,
+      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90d7-a094-4d19-acb4-e24b7ae44f57.png"
+    },
+    {
+      "name": "Legacy",
+      "type": "root",
+      "action": "Owned Root",
+      "difficulty": null,
+      "category": null,
+      "points": 0,
+      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90d7-a094-4d19-acb4-e24b7ae44f57.png"
+    },
+    {
+      "name": "Interpreter",
+      "type": "user",
+      "action": "Owned User",
+      "difficulty": null,
+      "category": null,
+      "points": 0,
+      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/a117abeb-4068-443a-9c58-245b9381805a.png"
+    },
+    {
+      "name": "Interpreter",
+      "type": "root",
+      "action": "Owned Root",
+      "difficulty": null,
+      "category": null,
+      "points": 0,
+      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/a117abeb-4068-443a-9c58-245b9381805a.png"
+    },
+    {
+      "name": "TwoMillion",
+      "type": "user",
+      "action": "Owned User",
+      "difficulty": null,
+      "category": null,
+      "points": 0,
+      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90cd-c843-47e4-97f7-c0a2d69b78ce.png"
+    },
+    {
+      "name": "TwoMillion",
+      "type": "root",
+      "action": "Owned Root",
+      "difficulty": null,
+      "category": null,
+      "points": 0,
+      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90cd-c843-47e4-97f7-c0a2d69b78ce.png"
+    },
+    {
+      "name": "Jerry",
+      "type": "user",
+      "action": "Owned User",
+      "difficulty": null,
+      "category": null,
+      "points": 0,
+      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90d5-eec2-40f8-a422-d4825b3c1a89.png"
+    },
+    {
+      "name": "Jerry",
+      "type": "root",
+      "action": "Owned Root",
+      "difficulty": null,
+      "category": null,
+      "points": 0,
+      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90d5-eec2-40f8-a422-d4825b3c1a89.png"
+    },
+    {
+      "name": "Cicada",
+      "type": "user",
+      "action": "Owned User",
+      "difficulty": null,
+      "category": null,
+      "points": 0,
+      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90cc-93da-4402-a4f0-b252cbc9c7e2.png"
+    },
+    {
+      "name": "Cicada",
+      "type": "root",
+      "action": "Owned Root",
+      "difficulty": null,
+      "category": null,
+      "points": 0,
+      "avatar": "https://cdn.services-k8s.prod.aws.htb.systems/content/machines/avatar/9e4d90cc-93da-4402-a4f0-b252cbc9c7e2.png"
     }
   ],
-  "updated_at": "2026-08-31T13:07:25.759Z"
+  "updated_at": "2026-09-01T11:21:20.430Z"
 }
