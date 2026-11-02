@@ -1,365 +1,106 @@
-import { useEffect, useState, useRef } from 'react';
-import { Shield, Terminal, Activity, AlertTriangle, Lock, Unlock, Cpu, Network } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import avatar from '@/assets/avatar.jpg';
-import gsap from 'gsap';
+import { useMemo } from 'react';
+import { ArrowDown, FileText, Lock, Unlock } from 'lucide-react';
+import { profile, scanLogs } from '@/data/portfolio';
+import { useStickyProgress } from '@/three/quality';
+import { Anchor } from './Chapter';
 
-interface HeroProps {
-  mousePos: { x: number; y: number };
-}
+const GLYPHS = '!<>-_\\/[]{}—=+*^?#01ABCDEF';
 
-const Hero = ({ mousePos }: HeroProps) => {
-  const [phase, setPhase] = useState<'briefing' | 'scanning' | 'complete'>('briefing');
-  const [scanProgress, setScanProgress] = useState(0);
-  const [logs, setLogs] = useState<string[]>([]);
-  const [typedText, setTypedText] = useState('');
-  const fullText = '> Initializing penetration testing environment...';
-  const [cursorVisible, setCursorVisible] = useState(true);
-  const logsContainerRef = useRef<HTMLDivElement>(null);
-  const heroRef = useRef<HTMLDivElement>(null);
-  const hudRef = useRef<HTMLDivElement>(null);
+// Texte « déchiffré » par le scroll : chaque caractère se fixe quand la progression l'atteint.
+const scramble = (text: string, progress: number) =>
+  text
+    .split('')
+    .map((ch, i) => (ch === ' ' || i < progress * text.length ? ch : GLYPHS[Math.floor(Math.random() * GLYPHS.length)]))
+    .join('');
 
-  const scanLogs = [
-    '> Initializing network scan...',
-    '> Detecting active hosts: 192.168.1.0/24',
-    '> Port scan in progress: 80, 443, 22, 3306',
-    '> Analyzing traffic patterns...',
-    '> Vulnerability assessment: RUNNING',
-    '> Checking OWASP Top 10 vulnerabilities...',
-    '> SQL Injection test: NEGATIVE',
-    '> XSS detection: NEGATIVE',
-    '> Authentication bypass attempt: FAILED',
-    '> Network intrusion detected: FALSE ALARM',
-    '> Firewall status: ACTIVE',
-    '> IDS/IPS systems: OPERATIONAL',
-    '> Analyzing security headers...',
-    '> SSL/TLS certificate: VALID',
-    '> Backdoor detection: NONE FOUND',
-    '> Malware signature scan: CLEAN',
-    '> System integrity: VERIFIED',
-    '> Threat level assessment: LOW',
-    '> Mission objective located...',
-    '> Accessing candidate profile...',
-    '> PROFILE FOUND: Hugo LAMBERT',
-    '> Status: CYBERSECURITY SPECIALIST',
-    '> Clearance level: AUTHORIZED',
-    '> Loading mission report...',
-  ];
+// Repères caméra répartis sur la zone épinglée (340svh de section = 240svh de défilement).
+const HERO_SHOTS = [0, 0.33, 0.62, 0.95];
 
-  // Initial Typing Effect
-  useEffect(() => {
-    let currentIndex = 0;
-    const typingInterval = setInterval(() => {
-      if (currentIndex <= fullText.length) {
-        setTypedText(fullText.slice(0, currentIndex));
-        currentIndex++;
-      } else {
-        clearInterval(typingInterval);
-      }
-    }, 50);
+export default function Hero() {
+  const p = useStickyProgress(0);
+  const phase = p < 0.1 ? 'locked' : p < 0.6 ? 'scanning' : 'granted';
+  const scan = Math.min(1, Math.max(0, (p - 0.1) / 0.5));
+  const reveal = Math.min(1, Math.max(0, (p - 0.6) / 0.14));
+  const logs = useMemo(() => scanLogs.slice(0, Math.max(1, Math.ceil(scan * scanLogs.length))).slice(-4), [scan]);
 
-    const cursorInterval = setInterval(() => {
-      setCursorVisible((prev) => !prev);
-    }, 500);
-
-    return () => {
-      clearInterval(typingInterval);
-      clearInterval(cursorInterval);
-    };
-  }, []);
-
-  // GSAP HUD Animations
-  useEffect(() => {
-    if (phase === 'scanning') {
-      const tl = gsap.timeline();
-
-      // Glitch effect on start
-      tl.to(heroRef.current, {
-        duration: 0.1,
-        x: () => (Math.random() - 0.5) * 20,
-        y: () => (Math.random() - 0.5) * 20,
-        repeat: 5,
-        yoyo: true,
-        ease: "power2.inOut",
-        onComplete: () => gsap.set(heroRef.current, { x: 0, y: 0 })
-      });
-
-      // HUD Rotation
-      gsap.to(".hud-ring", {
-        rotation: 360,
-        duration: 20,
-        repeat: -1,
-        ease: "none"
-      });
-
-      gsap.to(".hud-ring-reverse", {
-        rotation: -360,
-        duration: 15,
-        repeat: -1,
-        ease: "none"
-      });
-
-      // Scan Progress Logic
-      let progress = 0;
-      const interval = setInterval(() => {
-        progress += Math.random() * 5;
-        if (progress >= 100) {
-          progress = 100;
-          clearInterval(interval);
-          setTimeout(() => {
-            gsap.to(heroRef.current, {
-              opacity: 0,
-              duration: 0.5,
-              onComplete: () => {
-                setPhase('complete');
-                gsap.to(heroRef.current, { opacity: 1, duration: 1 });
-              }
-            });
-          }, 1000);
-        }
-        setScanProgress(Math.floor(progress));
-
-        // Add logs based on progress
-        const logIndex = Math.floor((progress / 100) * scanLogs.length);
-        setLogs(scanLogs.slice(0, logIndex + 1));
-      }, 150);
-
-      return () => clearInterval(interval);
-    }
-  }, [phase]);
-
-  useEffect(() => {
-    if (logsContainerRef.current) {
-      logsContainerRef.current.scrollTop = logsContainerRef.current.scrollHeight;
-    }
-  }, [logs]);
-
-  const startMission = () => {
-    gsap.to(".briefing-card", {
-      scale: 0.8,
-      opacity: 0,
-      duration: 0.4,
-      ease: "back.in",
-      onComplete: () => setPhase('scanning')
-    });
-  };
+  const status = {
+    locked: { label: 'ACCÈS REFUSÉ', dot: 'bg-destructive', text: 'text-destructive' },
+    scanning: { label: `INTRUSION EN COURS · ${Math.round(scan * 100)}%`, dot: 'bg-primary animate-pulse', text: 'text-primary' },
+    granted: { label: 'ACCÈS AUTORISÉ', dot: 'bg-ok', text: 'text-ok' },
+  }[phase];
 
   return (
-    <section id="hero" ref={heroRef} className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* HUD BACKGROUND ELEMENTS */}
-      <div className="absolute inset-0 pointer-events-none z-0">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] opacity-20">
-          <svg viewBox="0 0 200 200" className="w-full h-full hud-ring">
-            <circle cx="100" cy="100" r="90" fill="none" stroke="currentColor" strokeWidth="0.5" strokeDasharray="10 5" className="text-primary" />
-            <circle cx="100" cy="100" r="70" fill="none" stroke="currentColor" strokeWidth="0.2" strokeDasharray="2 2" className="text-primary/50" />
-          </svg>
-        </div>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] opacity-10">
-          <svg viewBox="0 0 200 200" className="w-full h-full hud-ring-reverse">
-            <path d="M 100, 10 A 90,90 0 0,1 190,100" fill="none" stroke="currentColor" strokeWidth="1" className="text-secondary" />
-            <path d="M 100, 190 A 90,90 0 0,1 10,100" fill="none" stroke="currentColor" strokeWidth="1" className="text-secondary" />
-          </svg>
-        </div>
-      </div>
+    <section id="hero" data-chapter="hero" className="relative h-[340svh]">
+      {HERO_SHOTS.map((f, i) => (
+        <Anchor key={i} name={`hero-${i}`} at={`${50 + f * 240}svh`} />
+      ))}
 
-      {/* CONTENT LAYER */}
-      <div className="container mx-auto px-4 z-10 relative pt-[100px]">
-        {phase === 'briefing' && (
-          <div className="max-w-4xl mx-auto briefing-card">
-            <div className="flex justify-center mb-8 animate-fade-in">
-              <div className="inline-flex items-center gap-3 px-6 py-3 bg-red-500/10 border border-red-500/30 rounded-full shadow-neon-blue">
-                <AlertTriangle className="w-5 h-5 text-red-500 animate-pulse" />
-                <span className="text-sm font-mono text-red-500 font-semibold tracking-widest">MISSION CRITIQUE</span>
-              </div>
-            </div>
+      <div className="sticky top-0 flex h-svh flex-col justify-end px-4 pb-24 pt-28 md:justify-center md:px-[6vw] md:pb-0">
+        <div className="max-w-[580px]">
+          <div className={`mb-6 inline-flex items-center gap-2.5 font-mono text-xs tracking-[0.2em] ${status.text}`}>
+            <span className={`h-2 w-2 rounded-full ${status.dot}`} />
+            {status.label}
+          </div>
 
-            <div className="text-center mb-12">
-              <h1 className="text-5xl md:text-7xl font-display font-bold mb-6 tracking-tighter">
-                <span className="glow-blue">ACCÈS</span> <span className="glow-purple">REFUSÉ</span>
+          {phase === 'locked' && (
+            <>
+              <h1 className="mb-6 text-5xl leading-[1.02] md:text-7xl">Accès refusé.</h1>
+              <p className="max-w-md text-lg leading-relaxed text-muted-foreground">
+                Cible sécurisée. <span className="text-foreground">Hugo LAMBERT</span> est actuellement chiffré. Contournez la couche de sécurité pour révéler l'asset.
+              </p>
+            </>
+          )}
+
+          {phase === 'scanning' && (
+            <>
+              <h1 className="mb-6 font-mono text-5xl leading-[1.02] tracking-tight text-muted-foreground md:text-7xl" aria-label="Déchiffrement en cours">
+                {scramble(profile.name, 0)}
               </h1>
-              <div className="w-48 h-1 bg-gradient-cyber mx-auto rounded-full shadow-neon-blue mb-8" />
-            </div>
-
-            <div className="bg-card/40 backdrop-blur-md border border-primary/30 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden group">
-              <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity" />
-
-              <div className="flex items-start gap-6 mb-8 relative z-10">
-                <div className="p-4 bg-primary/20 rounded-2xl border border-primary/40 shadow-neon-blue">
-                  <Lock className="w-10 h-10 text-primary" />
-                </div>
-                <div className="flex-1">
-                  <h2 className="text-3xl font-display font-bold mb-2 glow-blue tracking-tight">
-                    Protocole de sécurité
-                  </h2>
-                  <p className="text-sm text-muted-foreground font-mono uppercase tracking-widest opacity-70">
-                    Protocole de Sécurité Système Restreint | Chiffrement Actif
+              <div className="panel max-w-md !p-4 font-mono text-[12px] leading-6 text-ok/80">
+                {logs.map((line) => (
+                  <p key={line} className={line.includes('FOUND') ? 'text-primary' : ''}>
+                    {line}
                   </p>
+                ))}
+                <div className="mt-3 h-1 overflow-hidden rounded-full bg-white/10">
+                  <div className="h-full bg-primary transition-[width] duration-150" style={{ width: `${scan * 100}%` }} />
                 </div>
               </div>
+            </>
+          )}
 
-              <div className="space-y-6 mb-10 relative z-10">
-                <p className="text-xl md:text-2xl leading-relaxed font-light">
-                  Cible sécurisée. <span className="text-primary font-bold italic underline decoration-primary/30">Hugo LAMBERT</span> est actuellement chiffré. Contournez la couche de sécurité pour révéler l'asset.
-                </p>
-              </div>
-
-              <Button
-                size="lg"
-                onClick={startMission}
-                className="w-full bg-primary hover:bg-primary-glow text-primary-foreground shadow-neon-blue font-mono font-bold text-xl py-8 group relative overflow-hidden transition-all duration-500 hover:scale-[1.02]"
-              >
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-                <Activity className="w-6 h-6 mr-3 group-hover:animate-spin" />
-                CLIQUEZ_ICI.exe
-              </Button>
-            </div>
-
-            <div className="mt-12 text-center">
-              <p className="text-primary font-mono text-sm md:text-base opacity-80">
-                {typedText}
-                <span className={`inline-block w-2 h-4 bg-primary ml-1 ${cursorVisible ? 'opacity-100' : 'opacity-0'}`} />
+          {phase === 'granted' && (
+            <>
+              <h1 className="mb-3 text-5xl leading-[1.02] md:text-7xl" aria-label={profile.name}>
+                {scramble(profile.name, reveal)}
+              </h1>
+              <p className="mb-8 text-xl text-muted-foreground md:text-2xl">
+                Étudiant en <span className="text-primary">Cybersécurité</span>
               </p>
-            </div>
+              <div className="panel max-w-md !p-5" style={{ opacity: reveal }}>
+                <div className="min-w-0 space-y-1.5 text-sm">
+                  <p className="text-foreground">{profile.role}</p>
+                  <p className="text-muted-foreground">{profile.school}</p>
+                  <span className="chip mt-1" title="Le CV sera bientôt mis en ligne">
+                    <FileText className="h-3 w-3" /> CV · bientôt disponible
+                  </span>
+                </div>
+              </div>
+            </>
+          )}
+        </div>
+
+        <div className="absolute inset-x-4 bottom-8 flex items-center gap-4 md:inset-x-[6vw]">
+          <span className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
+            {phase === 'granted' ? <Unlock className="h-3.5 w-3.5 text-ok" /> : <Lock className="h-3.5 w-3.5" />}
+            {phase === 'granted' ? 'Continuer vers le réseau' : 'Faites défiler pour lancer l’intrusion'}
+            <ArrowDown className="h-3.5 w-3.5 animate-bounce" />
+          </span>
+          <div className="h-px flex-1 bg-white/10">
+            <div className="h-px bg-primary" style={{ width: `${p * 100}%` }} />
           </div>
-        )}
-
-        {phase === 'scanning' && (
-          <div className="max-w-6xl mx-auto scan-dashboard">
-            {/* HUD Status Header */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-              <div className="bg-black/60 backdrop-blur-xl border border-primary/30 rounded-2xl p-6 shadow-neon-blue">
-                <div className="flex items-center gap-4 mb-2">
-                  <div className="p-2 bg-primary/20 rounded-lg">
-                    <Cpu className="w-6 h-6 text-primary animate-pulse" />
-                  </div>
-                  <span className="font-mono text-xs text-primary uppercase tracking-widest">CPU LOAD</span>
-                </div>
-                <div className="h-2 bg-background/50 rounded-full overflow-hidden">
-                  <div className="h-full bg-primary w-[85%] animate-pulse" />
-                </div>
-              </div>
-              <div className="bg-black/60 backdrop-blur-xl border border-secondary/30 rounded-2xl p-6 shadow-neon-purple">
-                <div className="flex items-center gap-4 mb-2">
-                  <div className="p-2 bg-secondary/20 rounded-lg">
-                    <Network className="w-6 h-6 text-secondary animate-pulse" />
-                  </div>
-                  <span className="font-mono text-xs text-secondary uppercase tracking-widest">NETWORK TRAFFIC</span>
-                </div>
-                <div className="flex items-end gap-1 h-8">
-                  {[...Array(12)].map((_, i) => (
-                    <div
-                      key={i}
-                      className="w-full bg-secondary opacity-50"
-                      style={{
-                        height: `${Math.random() * 100}%`,
-                        animation: `pulse 1s infinite ${Math.random()}s`
-                      }}
-                    />
-                  ))}
-                </div>
-              </div>
-              <div className="bg-black/60 backdrop-blur-xl border border-red-500/30 rounded-2xl p-6">
-                <div className="flex items-center gap-4 mb-2">
-                  <div className="p-2 bg-red-500/20 rounded-lg">
-                    <AlertTriangle className="w-6 h-6 text-red-500" />
-                  </div>
-                  <span className="font-mono text-xs text-red-500 uppercase tracking-widest">THREAT LEVEL</span>
-                </div>
-                <div className="text-2xl font-mono font-bold text-red-500">MAXIMUM</div>
-              </div>
-            </div>
-
-            {/* Main Scan Display */}
-            <div className="relative mb-12">
-              <div className="absolute -inset-4 bg-primary/5 blur-3xl rounded-full animate-pulse" />
-              <div className="bg-black/80 backdrop-blur-2xl border-2 border-primary/40 rounded-3xl p-1 shadow-neon-blue overflow-hidden">
-                <div className="bg-gradient-to-r from-primary/20 via-transparent to-primary/20 p-8 md:p-12 relative">
-                  <div className="flex items-center justify-between mb-8">
-                    <div className="font-mono text-primary text-xl flex items-center gap-3">
-                      <Terminal className="w-6 h-6" />
-                      DECRYPTING ASSET...
-                    </div>
-                    <div className="font-mono text-primary text-4xl font-black">{scanProgress}%</div>
-                  </div>
-
-                  <div className="w-full h-6 bg-background rounded-full border border-primary/20 p-1 mb-12">
-                    <div
-                      className="h-full bg-gradient-to-r from-primary via-secondary to-primary shadow-neon-blue transition-all duration-300"
-                      style={{ width: `${scanProgress}%` }}
-                    />
-                  </div>
-
-                  {/* Terminal Output */}
-                  <div className="bg-black/90 rounded-xl p-6 font-mono text-sm h-[300px] overflow-hidden relative border border-primary/20 shadow-inner">
-                    <div ref={logsContainerRef} className="space-y-2 overflow-y-auto h-full scrollbar-thin scrollbar-thumb-primary/30">
-                      {logs.map((log, index) => (
-                        <div key={index} className="text-green-400/90 animate-fade-in flex gap-3">
-                          <span className="opacity-50">[{new Date().toLocaleTimeString()}]</span>
-                          <span className={log.includes('FOUND') ? 'text-primary font-bold' : ''}>{log}</span>
-                        </div>
-                      ))}
-                      <div className="inline-block w-2 h-4 bg-green-400 animate-pulse" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {phase === 'complete' && (
-          <div className="max-w-5xl mx-auto text-center pt-10 reveal-card">
-            {/* Final Reveal Header */}
-            <div className="inline-flex items-center gap-3 px-8 py-4 bg-green-500/10 border border-green-500/30 rounded-full mb-12 animate-fade-in shadow-neon-purple">
-              <Unlock className="w-6 h-6 text-green-500" />
-              <span className="text-lg font-mono text-green-500 font-bold tracking-widest">ACCÈS AUTORISÉ</span>
-            </div>
-
-            {/* Avatar & Info */}
-            <div className="mb-12 relative inline-block group">
-              <div className="absolute inset-0 bg-primary/20 rounded-full blur-3xl opacity-50 animate-glow-pulse group-hover:opacity-100 transition-opacity" />
-              <div className="relative">
-                <img
-                  src={avatar}
-                  alt="Hugo Lambert"
-                  className="relative w-48 h-48 md:w-64 md:h-64 rounded-full border-4 border-primary shadow-neon-blue mx-auto object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-                <div className="absolute -bottom-4 -right-4 w-16 h-16 bg-green-500 rounded-full flex items-center justify-center border-4 border-background shadow-2xl animate-bounce">
-                  <Shield className="w-8 h-8 text-white" />
-                </div>
-              </div>
-            </div>
-
-            <h1 className="text-5xl md:text-8xl font-display font-bold mb-8 tracking-tighter">
-              <span className="glow-blue">Hugo LAMBERT</span>
-            </h1>
-
-            <div className="mb-16">
-              <p className="text-2xl md:text-4xl text-muted-foreground font-light">
-                Étudiant en <span className="text-primary font-bold tracking-tight">Cybersécurité</span>
-              </p>
-            </div>
-
-            <div className="flex items-center justify-center">
-              <Button
-                size="lg"
-                className="bg-black/80 border-2 border-primary hover:bg-primary/20 text-primary shadow-neon-blue font-mono font-bold px-12 py-10 text-2xl group relative overflow-hidden w-full md:w-auto transition-all hover:scale-105"
-                onClick={() => {
-                  const pdfUrl = `${import.meta.env.BASE_URL}cv/CV_Hugo_LAMBERT.pdf`;
-                  window.open(pdfUrl, '_blank');
-                }}
-              >
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/20 to-transparent animate-scan" />
-                <Terminal className="w-8 h-8 mr-4" />
-                NON_DISPONIBLE.pdf
-              </Button>
-            </div>
-          </div>
-        )}
+        </div>
       </div>
-
     </section>
   );
-};
-
-export default Hero;
+}

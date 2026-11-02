@@ -1,93 +1,63 @@
-import { useState, useEffect } from 'react';
-import { Menu, X, Terminal } from 'lucide-react';
+import { useState } from 'react';
+import { Menu, X } from 'lucide-react';
+import { chapters } from '@/data/portfolio';
+import { useActiveChapter, useScrollValue } from '@/three/quality';
+import { scrollState } from '@/three/scroll';
+import { scrollToId } from '@/lib/smoothScroll';
 
-const Navigation = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+// Les deux premiers chapitres (intrusion, plongée) forment l'intro : pas de lien dédié.
+const NAV = chapters.map((c, index) => ({ ...c, index })).filter((c) => c.id !== 'hero' && c.id !== 'dive');
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+export default function Navigation() {
+  const active = useActiveChapter();
+  const scrolled = useScrollValue(() => scrollState.y > 40);
+  const [open, setOpen] = useState(false);
 
-  const navItems = [
-    { label: 'Accueil', href: '#hero' },
-    { label: 'À propos', href: '#about' },
-    { label: 'HackTheBox', href: '#skills' },
-    { label: 'Certifications', href: '#certifications' },
-    { label: 'Projets', href: '#projects' },
-    { label: 'Contact', href: '#contact' },
-  ];
-
-  const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-      setIsMobileMenuOpen(false);
-    }
+  const go = (id: string) => {
+    scrollToId(id);
+    setOpen(false);
   };
 
   return (
-    <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? 'bg-background/80 backdrop-blur-lg border-b border-primary/20 shadow-neon-blue'
-          : 'bg-transparent'
-      }`}
-    >
-      <div className="container mx-auto px-4 py-4">
-        <div className="flex items-center justify-between">
-          {/* Logo */}
-          <div className="flex items-center gap-2 cursor-pointer" onClick={() => scrollToSection('#hero')}>
-            <Terminal className="w-6 h-6 text-primary glow-blue" />
-            <span className="text-xl font-display font-bold glow-blue">
-              HUGO_<span className="text-secondary">LAMBERT</span>
-            </span>
-          </div>
+    <nav className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${scrolled || open ? 'border-b border-white/[0.06] bg-background/75 backdrop-blur-md' : ''}`}>
+      <div className="flex h-16 items-center justify-between px-4 md:px-[6vw]">
+        <button onClick={() => go('hero')} className="font-mono text-sm tracking-tight text-foreground">
+          hugo<span className="text-primary">_</span>lambert
+        </button>
 
-          {/* Desktop Menu */}
-          <div className="hidden md:flex items-center gap-8">
-            {navItems.map((item) => (
-              <button
-                key={item.href}
-                onClick={() => scrollToSection(item.href)}
-                className="text-foreground hover:text-primary transition-colors duration-300 font-medium relative group"
-              >
-                {item.label}
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300 shadow-neon-blue"></span>
-              </button>
-            ))}
-          </div>
-
-          {/* Mobile Menu Button */}
-          <button
-            className="md:hidden text-foreground hover:text-primary transition-colors"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          >
-            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
+        <div className="hidden items-center gap-7 md:flex">
+          {NAV.map((item) => (
+            <button
+              key={item.id}
+              onClick={() => go(item.id)}
+              aria-current={active === item.index ? 'true' : undefined}
+              className={`relative py-1 text-[13px] transition-colors ${active === item.index ? 'text-foreground' : 'text-muted-foreground hover:text-foreground'}`}
+            >
+              {item.label}
+              <span className={`absolute inset-x-0 -bottom-0.5 h-px bg-primary transition-transform duration-300 ${active === item.index ? 'scale-x-100' : 'scale-x-0'}`} />
+            </button>
+          ))}
         </div>
 
-        {/* Mobile Menu */}
-        {isMobileMenuOpen && (
-          <div className="md:hidden mt-4 py-4 border-t border-primary/20 animate-fade-in">
-            {navItems.map((item) => (
-              <button
-                key={item.href}
-                onClick={() => scrollToSection(item.href)}
-                className="block w-full text-left py-3 text-foreground hover:text-primary hover:bg-card/50 transition-all duration-300 px-4 rounded-lg"
-              >
-                {item.label}
-              </button>
-            ))}
-          </div>
-        )}
+        <button className="text-foreground md:hidden" onClick={() => setOpen(!open)} aria-label={open ? 'Fermer le menu' : 'Ouvrir le menu'} aria-expanded={open}>
+          {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+        </button>
       </div>
+
+      {open && (
+        <div className="border-t border-white/[0.06] px-4 pb-4 md:hidden">
+          {NAV.map((item, i) => (
+            <button
+              key={item.id}
+              onClick={() => go(item.id)}
+              className={`flex w-full items-center gap-3 py-3 text-left ${active === item.index ? 'text-primary' : 'text-foreground'}`}
+            >
+              <span className="font-mono text-[11px] text-muted-foreground">{String(i + 1).padStart(2, '0')}</span>
+              {item.label}
+            </button>
+          ))}
+        </div>
+      )}
     </nav>
   );
-};
-
-export default Navigation;
+}

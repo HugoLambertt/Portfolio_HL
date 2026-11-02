@@ -41,8 +41,26 @@ npm run deploy      # Pousse dist/ sur la branche gh-pages
 | ⚡ Vite | Bundler & dev server |
 | 🎨 TailwindCSS | Styles utilitaires |
 | 🧩 shadcn-ui | Composants UI |
-| 🎞️ GSAP | Animations |
+| 🧊 three.js + React Three Fiber | Scène 3D pilotée par le scroll |
+| ✨ postprocessing | Bloom et vignette |
+| 🌊 Lenis | Défilement fluide |
+| 🎞️ GSAP | Curseur personnalisé |
 | 📧 EmailJS | Formulaire de contact |
+
+---
+
+## 🧊 Architecture 3D
+
+Une seule scène WebGL (`src/three/`) est fixée derrière le texte HTML. La caméra suit le scroll :
+
+- `src/data/portfolio.ts` : **source unique du contenu** (parcours, compétences, certifications, projets, réseaux). Le texte HTML et la 3D lisent tous les deux ce fichier.
+- `src/three/scroll.ts` : mesure la progression de chaque chapitre (`[data-chapter]`) et des repères caméra (`[data-anchor]`).
+- `src/three/layout.ts` : plan du monde 3D et un plan caméra par repère.
+- `src/three/Room.tsx` + `Operator.tsx` : la pièce et le personnage (procéduraux, sans modèle externe).
+- `src/three/Cyberspace.tsx`, `Stations.tsx`, `ProjectEmblems.tsx` : le réseau et les objets de chaque chapitre.
+
+Pour ajouter un projet ou une certification, il suffit de modifier `src/data/portfolio.ts`.
+Sans WebGL, la page s'affiche comme un document classique ; sur mobile, le post-traitement est désactivé.
 
 ---
 

@@ -1,33 +1,18 @@
-import { Terminal, Heart } from 'lucide-react';
+import { ArrowUp } from 'lucide-react';
+import { scrollToId } from '@/lib/smoothScroll';
 
-const Footer = () => {
+export default function Footer() {
   return (
-    <footer className="py-8 border-t border-primary/20 bg-background/50 backdrop-blur-sm">
-      <div className="container mx-auto px-4">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-          {/* Logo */}
-          <div className="flex items-center gap-2">
-            <Terminal className="w-5 h-5 text-primary glow-blue" />
-            <span className="font-display font-bold">
-              HUGO_<span className="text-secondary">LAMBERT</span>
-            </span>
-          </div>
-
-          {/* Copyright */}
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <span>© 2026 Hugo Lambert</span>
-            <span className="flex items-center gap-1">
-             
-            </span>
-          </div>
-
-          {/* Tech Stack */}
-          <div className="text-xs text-muted-foreground">
-          </div>
-        </div>
+    <footer className="relative z-10 border-t border-white/[0.06] bg-background/80 backdrop-blur-md">
+      <div className="flex flex-col items-center justify-between gap-4 px-4 py-8 text-sm text-muted-foreground md:flex-row md:px-[6vw]">
+        <span className="font-mono text-foreground">
+          hugo<span className="text-primary">_</span>lambert
+        </span>
+        <span>© 2026 Hugo Lambert</span>
+        <button onClick={() => scrollToId('hero')} className="flex items-center gap-1.5 hover:text-foreground">
+          Retour en haut <ArrowUp className="h-3.5 w-3.5" />
+        </button>
       </div>
     </footer>
   );
-};
-
-export default Footer;
+}
