@@ -1,23 +1,29 @@
 import { useEffect, useMemo, useRef } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
 import {
+  AdditiveBlending,
+  BufferAttribute,
+  BufferGeometry,
   CanvasTexture,
   Color,
   Group,
-  InstancedMesh,
   MeshBasicMaterial,
   MeshStandardMaterial,
-  Object3D,
+  Points,
+  PointsMaterial,
   RectAreaLight,
+  RepeatWrapping,
   SRGBColorSpace,
 } from 'three';
 import { RectAreaLightUniformsLib } from 'three/examples/jsm/lights/RectAreaLightUniformsLib.js';
-import Operator from './Operator';
 import { scrollState } from './scroll';
 import { COLORS, ROOM } from './layout';
 import { Screen, ScreenPhase, drawMain, drawMonitor, drawPackets } from './screens';
 
 RectAreaLightUniformsLib.init();
+
+// Le poste de l'intro : trois écrans flottant dans le noir au-dessus d'une grille lumineuse.
+// L'écran central raconte l'intrusion (refusé → scan → autorisé), puis la caméra le traverse pour entrer dans le réseau.
 
 const phaseFor = (): { phase: ScreenPhase; scan: number } => {
   const chapter = scrollState.activeChapter;
@@ -49,23 +55,42 @@ const radialTexture = (inner: string, outer: string) => {
   return new CanvasTexture(c);
 };
 
-const blindsTexture = () => {
+// Lueur rectangulaire floue, posée derrière chaque écran.
+const glowTexture = () => {
   const c = document.createElement('canvas');
-  c.width = 128;
-  c.height = 256;
+  c.width = 256;
+  c.height = 160;
   const ctx = c.getContext('2d')!;
-  ctx.fillStyle = '#05080b';
-  ctx.fillRect(0, 0, 128, 256);
-  for (let y = 4; y < 256; y += 16) {
-    const g = ctx.createLinearGradient(0, 0, 128, 0);
-    g.addColorStop(0, 'rgba(120,160,220,0.25)');
-    g.addColorStop(0.5, 'rgba(170,200,255,0.75)');
-    g.addColorStop(1, 'rgba(120,160,220,0.3)');
-    ctx.fillStyle = g;
-    ctx.fillRect(0, y, 128, 9);
+  ctx.shadowColor = 'rgba(255,255,255,0.9)';
+  ctx.shadowBlur = 28;
+  ctx.fillStyle = 'rgba(255,255,255,0.55)';
+  ctx.fillRect(40, 40, 176, 80);
+  return new CanvasTexture(c);
+};
+
+// Une maille de grille de 1 m, répétée sur tout le sol ; le brouillard l'efface au loin.
+const gridTexture = () => {
+  const c = document.createElement('canvas');
+  c.width = c.height = 256;
+  const ctx = c.getContext('2d')!;
+  ctx.strokeStyle = 'rgba(125, 214, 255, 0.55)';
+  ctx.lineWidth = 2;
+  ctx.strokeRect(0, 0, 256, 256);
+  ctx.strokeStyle = 'rgba(125, 214, 255, 0.14)';
+  ctx.lineWidth = 1;
+  for (let k = 64; k < 256; k += 64) {
+    ctx.beginPath();
+    ctx.moveTo(k, 0);
+    ctx.lineTo(k, 256);
+    ctx.moveTo(0, k);
+    ctx.lineTo(256, k);
+    ctx.stroke();
   }
   const tex = new CanvasTexture(c);
   tex.colorSpace = SRGBColorSpace;
+  tex.wrapS = tex.wrapT = RepeatWrapping;
+  tex.repeat.set(30, 30);
+  tex.anisotropy = 8;
   return tex;
 };
 
@@ -74,37 +99,33 @@ type MonitorProps = {
   rotation?: number;
   material: MeshBasicMaterial;
   frameMat: MeshStandardMaterial;
+  haloMat: MeshBasicMaterial;
 };
 
-const Monitor = ({ position, rotation = 0, material, frameMat }: MonitorProps) => {
+// Écran sans pied : un cadre fin, la dalle, et un halo derrière qui prend la couleur de la phase.
+const Monitor = ({ position, rotation = 0, material, frameMat, haloMat }: MonitorProps) => {
   const { w, h } = ROOM.screen;
   return (
     <group position={position} rotation={[0, rotation, 0]}>
+      <mesh material={haloMat} position={[0, 0, -0.03]}>
+        <planeGeometry args={[w * 1.45, h * 1.6]} />
+      </mesh>
       <mesh material={frameMat}>
-        <boxGeometry args={[w + 0.03, h + 0.03, 0.022]} />
+        <boxGeometry args={[w + 0.02, h + 0.02, 0.016]} />
       </mesh>
-      <mesh material={frameMat} position={[0, 0, -0.03]}>
-        <boxGeometry args={[w * 0.55, h * 0.6, 0.04]} />
-      </mesh>
-      <mesh material={material} position={[0, 0, 0.0115]}>
+      <mesh material={material} position={[0, 0, 0.0085]}>
         <planeGeometry args={[w, h]} />
-      </mesh>
-      <mesh material={frameMat} position={[0, -0.27, -0.05]}>
-        <boxGeometry args={[0.045, 0.2, 0.025]} />
-      </mesh>
-      <mesh material={frameMat} position={[0, ROOM.deskTop - position[1] + 0.006, -0.03]}>
-        <boxGeometry args={[0.22, 0.012, 0.16]} />
       </mesh>
     </group>
   );
 };
 
+const PARTICLES = 220;
+
 export default function Room() {
   const camera = useThree((s) => s.camera);
   const group = useRef<Group>(null);
   const screenLight = useRef<RectAreaLight>(null);
-  const leds = useRef<InstancedMesh>(null);
-  const keys = useRef<InstancedMesh>(null);
   const lastDraw = useRef({ main: '', side: 0 });
 
   const screens = useMemo(() => ({ main: new Screen(), left: new Screen(), right: new Screen() }), []);
@@ -113,55 +134,43 @@ export default function Room() {
       main: new MeshBasicMaterial({ map: screens.main.texture, toneMapped: false, transparent: true }),
       left: new MeshBasicMaterial({ map: screens.left.texture, toneMapped: false }),
       right: new MeshBasicMaterial({ map: screens.right.texture, toneMapped: false }),
-      frame: new MeshStandardMaterial({ color: '#0d1013', roughness: 0.45, metalness: 0.3 }),
-      desk: new MeshStandardMaterial({ color: '#171b20', roughness: 0.55, metalness: 0.1 }),
-      mat: new MeshStandardMaterial({ color: '#0c1013', roughness: 0.95 }),
-      chair: new MeshStandardMaterial({ color: '#14181d', roughness: 0.7 }),
-      floor: new MeshStandardMaterial({ color: '#0b0f13', roughness: 0.82, metalness: 0.05 }),
-      wall: new MeshStandardMaterial({ color: '#0a0d10', roughness: 0.95 }),
-      mug: new MeshStandardMaterial({ color: '#d5dadd', roughness: 0.4 }),
-      lampGlow: new MeshBasicMaterial({ color: '#ffd2a1', toneMapped: false }),
-      shadow: new MeshBasicMaterial({ map: radialTexture('rgba(0,0,0,0.75)', 'rgba(0,0,0,0)'), transparent: true, depthWrite: false }),
-      blinds: new MeshBasicMaterial({ map: blindsTexture(), color: '#6d7c94', toneMapped: false }),
+      frame: new MeshStandardMaterial({ color: '#0d1013', roughness: 0.4, metalness: 0.4 }),
+      halo: new MeshBasicMaterial({ map: glowTexture(), transparent: true, depthWrite: false, blending: AdditiveBlending, toneMapped: false }),
+      floor: new MeshStandardMaterial({ color: '#070a0d', roughness: 0.35, metalness: 0.6 }),
+      grid: new MeshBasicMaterial({ map: gridTexture(), transparent: true, depthWrite: false, opacity: 0.5 }),
+      pool: new MeshBasicMaterial({ map: radialTexture('rgba(125,214,255,0.35)', 'rgba(125,214,255,0)'), transparent: true, depthWrite: false, blending: AdditiveBlending }),
     }),
     [screens],
   );
 
+  // Particules de données qui montent lentement autour des écrans.
+  const particles = useMemo(() => {
+    const geometry = new BufferGeometry();
+    const pos = new Float32Array(PARTICLES * 3);
+    for (let i = 0; i < PARTICLES; i++) {
+      pos[i * 3] = (Math.random() - 0.5) * 4.5;
+      pos[i * 3 + 1] = Math.random() * 3;
+      pos[i * 3 + 2] = -1.6 + Math.random() * 3.2;
+    }
+    geometry.setAttribute('position', new BufferAttribute(pos, 3));
+    const material = new PointsMaterial({ color: COLORS.accent, size: 0.012, transparent: true, opacity: 0.55, depthWrite: false, blending: AdditiveBlending });
+    return new Points(geometry, material);
+  }, []);
+
   useEffect(() => {
     screenLight.current?.lookAt(0, ROOM.screen.y, 2);
-    const dummy = new Object3D();
-    const k = keys.current;
-    if (k) {
-      let i = 0;
-      for (let row = 0; row < 5; row++) {
-        for (let col = 0; col < 14; col++) {
-          dummy.position.set(-0.195 + col * 0.03, 0.762, -0.095 + row * 0.027);
-          dummy.updateMatrix();
-          k.setMatrixAt(i, dummy.matrix);
-          const lit = (row === 2 && col >= 1 && col <= 3) || (row === 1 && col === 2);
-          k.setColorAt(i, new Color(lit ? COLORS.accent : '#262c33'));
-          i++;
-        }
-      }
-      k.instanceMatrix.needsUpdate = true;
-      if (k.instanceColor) k.instanceColor.needsUpdate = true;
-    }
-    const l = leds.current;
-    if (l) {
-      for (let i = 0; i < 8; i++) {
-        dummy.position.set(1.15, 0.1 + i * 0.05, -0.058);
-        dummy.updateMatrix();
-        l.setMatrixAt(i, dummy.matrix);
-      }
-      l.instanceMatrix.needsUpdate = true;
-    }
     return () => {
       Object.values(screens).forEach((s) => s.dispose());
-      Object.values(mats).forEach((m) => m.dispose());
+      Object.values(mats).forEach((m) => {
+        m.map?.dispose();
+        m.dispose();
+      });
+      particles.geometry.dispose();
+      (particles.material as PointsMaterial).dispose();
     };
-  }, [mats, screens]);
+  }, [mats, screens, particles]);
 
-  useFrame((state) => {
+  useFrame((state, dt) => {
     const g = group.current;
     if (!g) return;
     g.visible = camera.position.z > -3.5;
@@ -186,129 +195,46 @@ export default function Room() {
       drawMonitor(screens.right, t);
     }
 
+    const tint = new Color(PHASE_LIGHT[phase]);
     const light = screenLight.current;
     if (light) {
-      light.color.lerp(new Color(PHASE_LIGHT[phase]), 0.06);
+      light.color.lerp(tint, 0.06);
       light.intensity = 9 + Math.sin(t * 9) * 0.25;
     }
+    mats.halo.color.lerp(tint, 0.06);
+    mats.pool.color.lerp(tint, 0.06);
+    mats.halo.opacity = 0.5 + Math.sin(t * 2.2) * 0.08;
 
-    const l = leds.current;
-    if (l) {
-      for (let i = 0; i < 8; i++) {
-        const on = Math.sin(t * (3 + i * 1.7) + i * 2.1) > 0.2;
-        l.setColorAt(i, new Color(on ? (i % 3 === 0 ? COLORS.ok : COLORS.accent) : '#0f1a20'));
-      }
-      if (l.instanceColor) l.instanceColor.needsUpdate = true;
+    const p = particles.geometry.attributes.position as BufferAttribute;
+    for (let i = 0; i < PARTICLES; i++) {
+      const y = p.getY(i) + dt * (0.05 + (i % 7) * 0.012);
+      p.setY(i, y > 3 ? 0 : y);
     }
+    p.needsUpdate = true;
   });
 
   return (
     <group ref={group}>
-      <ambientLight intensity={0.25} color="#9fb3c8" />
+      <ambientLight intensity={0.18} color="#9fb3c8" />
       <rectAreaLight ref={screenLight} position={[0, ROOM.screen.y, -0.42]} width={1.8} height={0.42} intensity={9} />
-      <pointLight position={[-0.72, 1.12, -0.12]} intensity={1.6} distance={3.5} decay={2} color="#ffb26b" />
-      <spotLight position={[-2.2, 2.1, 0.3]} target-position={[0, 0.8, 0]} angle={0.7} penumbra={1} intensity={7} distance={7} color="#8fb4ff" />
-      <directionalLight position={[2, 3, 3]} intensity={0.35} color="#9fdcff" />
-      {/* Lumière de contour : détache la silhouette du personnage du fond sombre */}
-      <directionalLight position={[-1.6, 2.4, 2.2]} intensity={0.9} color="#a9dcff" />
+      <directionalLight position={[2, 3, 3]} intensity={0.3} color="#9fdcff" />
 
-      <mesh material={mats.floor} rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]}>
+      {/* Sol sombre et brillant, grille lumineuse, flaque de lumière sous les écrans */}
+      <mesh material={mats.floor} rotation={[-Math.PI / 2, 0, 0]}>
         <planeGeometry args={[30, 30]} />
       </mesh>
-      <mesh material={mats.shadow} rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.003, 0.1]} scale={[2.6, 2.2, 1]}>
+      <mesh material={mats.grid} rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.002, 0]}>
+        <planeGeometry args={[30, 30]} />
+      </mesh>
+      <mesh material={mats.pool} rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.004, -0.2]} scale={[3.4, 2.4, 1]}>
         <planeGeometry />
       </mesh>
-      <mesh material={mats.wall} position={[-2.4, 1.6, 0]} rotation={[0, Math.PI / 2, 0]}>
-        <planeGeometry args={[7, 3.2]} />
-      </mesh>
-      <mesh material={mats.blinds} position={[-2.39, 1.75, -0.7]} rotation={[0, Math.PI / 2, 0]}>
-        <planeGeometry args={[0.9, 1.1]} />
-      </mesh>
 
-      {/* Bureau */}
-      <mesh material={mats.desk} position={[0, ROOM.deskTop - 0.02, -0.24]}>
-        <boxGeometry args={[1.9, 0.04, 0.78]} />
-      </mesh>
-      {[-0.92, 0.92].map((x) => (
-        <mesh key={x} material={mats.desk} position={[x, (ROOM.deskTop - 0.04) / 2, -0.24]}>
-          <boxGeometry args={[0.04, ROOM.deskTop - 0.04, 0.72]} />
-        </mesh>
-      ))}
-      <mesh material={mats.mat} position={[0.05, ROOM.deskTop + 0.002, -0.04]}>
-        <boxGeometry args={[0.95, 0.004, 0.38]} />
-      </mesh>
+      <Monitor position={[0, ROOM.screen.y, -0.48]} material={mats.main} frameMat={mats.frame} haloMat={mats.halo} />
+      <Monitor position={[-0.66, ROOM.screen.y, -0.37]} rotation={0.5} material={mats.left} frameMat={mats.frame} haloMat={mats.halo} />
+      <Monitor position={[0.66, ROOM.screen.y, -0.37]} rotation={-0.5} material={mats.right} frameMat={mats.frame} haloMat={mats.halo} />
 
-      <Monitor position={[0, ROOM.screen.y, -0.48]} material={mats.main} frameMat={mats.frame} />
-      <Monitor position={[-0.66, ROOM.screen.y, -0.37]} rotation={0.5} material={mats.left} frameMat={mats.frame} />
-      <Monitor position={[0.66, ROOM.screen.y, -0.37]} rotation={-0.5} material={mats.right} frameMat={mats.frame} />
-
-      {/* Clavier, souris, tasse */}
-      <mesh material={mats.frame} position={[0, ROOM.deskTop + 0.01, -0.04]}>
-        <boxGeometry args={[0.45, 0.018, 0.15]} />
-      </mesh>
-      <instancedMesh ref={keys} args={[undefined, undefined, 70]}>
-        <boxGeometry args={[0.025, 0.008, 0.023]} />
-        <meshStandardMaterial roughness={0.6} />
-      </instancedMesh>
-      <mesh material={mats.frame} position={[0.34, ROOM.deskTop + 0.014, -0.02]} scale={[0.03, 0.017, 0.05]}>
-        <sphereGeometry args={[1, 16, 12]} />
-      </mesh>
-      <group position={[-0.44, ROOM.deskTop, -0.06]}>
-        <mesh material={mats.mug} position={[0, 0.05, 0]}>
-          <cylinderGeometry args={[0.038, 0.034, 0.1, 20]} />
-        </mesh>
-        <mesh material={mats.mug} position={[0.045, 0.05, 0]} rotation={[0, 0, Math.PI / 2]}>
-          <torusGeometry args={[0.022, 0.006, 8, 16, Math.PI]} />
-        </mesh>
-      </group>
-
-      {/* Lampe de bureau */}
-      <group position={[-0.8, ROOM.deskTop, -0.3]}>
-        <mesh material={mats.frame} position={[0, 0.01, 0]}>
-          <cylinderGeometry args={[0.07, 0.08, 0.02, 20]} />
-        </mesh>
-        <mesh material={mats.frame} position={[0.02, 0.2, 0.0]} rotation={[0, 0, -0.15]}>
-          <cylinderGeometry args={[0.008, 0.008, 0.4, 8]} />
-        </mesh>
-        <mesh material={mats.frame} position={[0.09, 0.38, 0.1]} rotation={[0.9, 0, -0.5]}>
-          <cylinderGeometry args={[0.008, 0.008, 0.28, 8]} />
-        </mesh>
-        <mesh material={mats.frame} position={[0.14, 0.43, 0.2]} rotation={[0.6, 0, 0.3]}>
-          <coneGeometry args={[0.06, 0.09, 20, 1, true]} />
-        </mesh>
-        <mesh material={mats.lampGlow} position={[0.13, 0.405, 0.2]}>
-          <sphereGeometry args={[0.02, 12, 8]} />
-        </mesh>
-      </group>
-
-      {/* Tour serveur avec LED */}
-      <mesh material={mats.frame} position={[1.15, 0.26, -0.3]}>
-        <boxGeometry args={[0.22, 0.52, 0.48]} />
-      </mesh>
-      <instancedMesh ref={leds} args={[undefined, undefined, 8]}>
-        <boxGeometry args={[0.06, 0.008, 0.004]} />
-        <meshBasicMaterial toneMapped={false} />
-      </instancedMesh>
-
-      {/* Chaise */}
-      <group>
-        <mesh material={mats.chair} position={[0, 0.44, 0.48]}>
-          <boxGeometry args={[0.5, 0.08, 0.48]} />
-        </mesh>
-        <mesh material={mats.chair} position={[0, 0.88, 0.77]} rotation={[0.12, 0, 0]}>
-          <boxGeometry args={[0.48, 0.72, 0.07]} />
-        </mesh>
-        <mesh material={mats.frame} position={[0, 0.24, 0.48]}>
-          <cylinderGeometry args={[0.025, 0.03, 0.34, 12]} />
-        </mesh>
-        {Array.from({ length: 5 }, (_, i) => (
-          <mesh key={i} material={mats.frame} position={[Math.sin((i / 5) * Math.PI * 2) * 0.15, 0.06, 0.48 + Math.cos((i / 5) * Math.PI * 2) * 0.15]} rotation={[0, (i / 5) * Math.PI * 2, 0]}>
-            <boxGeometry args={[0.035, 0.03, 0.3]} />
-          </mesh>
-        ))}
-      </group>
-
-      <Operator />
+      <primitive object={particles} />
     </group>
   );
 }
