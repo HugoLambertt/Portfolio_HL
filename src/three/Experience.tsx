@@ -8,7 +8,7 @@ import Room from './Room';
 import Cyberspace from './Cyberspace';
 import { COLORS } from './layout';
 
-// Brouillard serré dans la pièce, plus profond dans le cyberespace ; reflets doux pour les métaux.
+// Brouillard serré autour des écrans, plus profond dans le cyberespace ; reflets doux pour les métaux.
 const Atmosphere = () => {
   const { gl, scene, camera } = useThree();
 
@@ -42,7 +42,7 @@ export default function Experience({ lowPower }: { lowPower: boolean }) {
       <Canvas
         dpr={lowPower ? [1, 1.25] : [1, 1.75]}
         gl={{ antialias: lowPower, powerPreference: 'high-performance', stencil: false }}
-        camera={{ fov: 42, near: 0.03, far: 140, position: [2.7, 1.75, 1.7] }}
+        camera={{ fov: 42, near: 0.03, far: 140, position: [2.1, 1.7, 2.3] }}
         onCreated={({ gl }) => {
           gl.toneMapping = ACESFilmicToneMapping;
           gl.toneMappingExposure = 1.05;

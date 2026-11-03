@@ -262,7 +262,7 @@ export const projects: Project[] = [
 export const projectSide = (index: number) => (index % 2 === 0 ? 1 : -1);
 
 export const socials = [
-  { id: 'github', label: 'GitHub', handle: 'DirTy2304', href: 'https://github.com/DirTy2304' },
+  { id: 'github', label: 'GitHub', handle: 'hugolambertt', href: 'https://github.com/hugolambertt' },
   { id: 'linkedin', label: 'LinkedIn', handle: 'hugoo-lambert', href: 'https://www.linkedin.com/in/hugoo-lambert' },
   { id: 'htb', label: 'HackTheBox', handle: 'Durrty', href: 'https://profile.hackthebox.com/profile/019c86c8-7c5c-7307-8cbc-55bfc2836639' },
 ];

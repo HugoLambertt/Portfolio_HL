@@ -1,7 +1,7 @@
 import { Vector3 } from 'three';
 import { projectSide, projects, timeline } from '@/data/portfolio';
 
-// Plan du monde 3D. La pièce est à l'origine, l'écran central fait face à +z ;
+// Plan du monde 3D. Le poste de l'intro est à l'origine, l'écran central fait face à +z ;
 // le « cyberespace » s'étend derrière l'écran, vers -z.
 
 export const COLORS = {
@@ -12,13 +12,9 @@ export const COLORS = {
   htb: '#9fef00',
   danger: '#ff5d5d',
   ok: '#5df2a6',
-  hoodie: '#1b1e23',
-  hair: '#d8b25a',
-  skin: '#dfac87',
 };
 
 export const ROOM = {
-  deskTop: 0.74,
   screen: { x: 0, y: 1.12, z: -0.47, w: 0.62, h: 0.36 },
 };
 
@@ -41,10 +37,10 @@ export type Shot = { pos: Vector3; focus: Vector3; side?: number; lateral?: numb
 const v = (x: number, y: number, z: number) => new Vector3(x, y, z);
 
 export const SHOTS: Record<string, Shot> = {
-  'hero-0': { portraitDrop: 0.22, pos: v(2.7, 1.75, 1.7), focus: v(-0.15, 0.95, -0.2), side: 1, lateral: 0.6 },
-  'hero-1': { portraitDrop: 0.22, pos: v(1.95, 1.45, 1.2), focus: v(-0.1, 1.05, -0.25), side: 1, lateral: 0.45 },
-  'hero-2': { portraitDrop: 0.22, pos: v(1.95, 1.45, 0.12), focus: v(0, 1.18, 0.28), side: 1, lateral: 0.45 },
-  'hero-3': { portraitDrop: 0.22, pos: v(1.7, 1.4, 0.02), focus: v(0, 1.2, 0.28), side: 1, lateral: 0.4 },
+  'hero-0': { portraitDrop: 0.18, pos: v(2.1, 1.7, 2.3), focus: v(0, 1.05, -0.45), side: 1, lateral: 0.7 },
+  'hero-1': { portraitDrop: 0.18, pos: v(1.45, 1.4, 1.55), focus: v(0, 1.1, -0.45), side: 1, lateral: 0.55 },
+  'hero-2': { portraitDrop: 0.18, pos: v(1.2, 1.3, 1.4), focus: v(0, 1.12, -0.45), side: 1, lateral: 0.62 },
+  'hero-3': { portraitDrop: 0.18, pos: v(0.85, 1.22, 1.0), focus: v(0, 1.12, -0.45), side: 1, lateral: 0.5 },
   'dive-0': { pos: v(0.26, 1.16, 0.0), focus: v(0, 1.12, -0.47) },
   'dive-1': { pos: v(0, 1.12, -0.28), focus: v(0, 1.12, -2) },
   'dive-2': { pos: v(0, 1.45, -3.4), focus: v(0, 1.55, -10) },
